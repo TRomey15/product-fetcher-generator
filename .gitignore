@@ -1,0 +1,24 @@
+# System
+.DS_Store
+
+# Logs
+logs
+*.log
+
+# Dependency directory
+node_modules
+
+# Users Environment Variables
+.lock-wscript
+
+# VS Code editor settings
+.vscode
+
+# Code build directory
+dist
+
+.idea
+
+# Kubernetes file is generated
+kubernetes.yml
+kubernetes.*.yml

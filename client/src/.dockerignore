@@ -1,0 +1,17 @@
+# Git
+.git
+.gitignore
+
+# Build step outputs
+dist
+
+# Docker configuration
+Dockerfile
+docker-compose.yml
+
+# NPM dependencies
+node_modules
+
+# Other
+.idea
+npm-debug

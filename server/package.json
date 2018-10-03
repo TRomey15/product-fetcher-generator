@@ -1,0 +1,33 @@
+{
+  "name": "@honeyscience/product-fetcher-generator-server",
+  "version": "1.0.0",
+  "author": "The Honey Team",
+  "description": "This is the server component of the Product Fetcher Generator tool.",
+  "license": "UNLICENSED",
+  "private": true,
+  "main": "./src/index.js",
+  "scripts": {
+    "start": "node ./src/bin/www",
+    "dev": "nodemon ./src/bin/www",
+    "lint": "npx honey-eslint --ext .js ./src; exit 0"
+  },
+  "dependencies": {
+    "compression": "^1.7.3",
+    "cookie-parser": "~1.4.3",
+    "csurf": "^1.9.0",
+    "debug": "~2.6.9",
+    "express": "^4.16.3",
+    "hbs": "~4.0.1",
+    "helmet": "^3.13.0",
+    "http-errors": "~1.6.2",
+    "morgan": "~1.9.0",
+    "prettier": "^1.14.3",
+    "winston": "^3.1.0"
+  },
+  "devDependencies": {
+    "@honeyscience/eslint-config": "^1.6.1",
+    "concurrently": "^4.0.1",
+    "eslint": "^5.6.1",
+    "nodemon": "^1.18.4 "
+  }
+}

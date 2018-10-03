@@ -1,0 +1,12 @@
+{
+  "env": {
+    "es6": true,
+    "browser": true
+  },
+  "extends": "@honeyscience/eslint-config/react",
+  "rules": {
+    "import/no-extraneous-dependencies": [
+      "error", { "devDependencies": true }
+    ]
+  }
+}
