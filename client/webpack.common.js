@@ -4,7 +4,7 @@ const HtmlWebPackPlugin = require('html-webpack-plugin');
 
 const config = {
   entry: {
-    main: `${path.resolve(__dirname, './src/client')}/index.jsx`,
+    main: `${path.resolve(__dirname, './src')}/index.jsx`,
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -51,7 +51,7 @@ const config = {
   ],
   resolve: {
     alias: {
-      React: path.resolve(__dirname, 'src/client/components'),
+      React: path.resolve(__dirname, 'src/components'),
     },
     extensions: ['.wasm', '.mjs', '.js', '.jsx', '.json'],
   },

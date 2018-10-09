@@ -1,10 +1,22 @@
 version: "3"
 services:
 
-  web:
-    image: product-fetcher-generator:1.0.0
-    build: .
-    ports:
-    - "3000:3000"
+  client:
+    build: ./client
+    image: product-fetcher-generator-client:1.0.0
     volumes:
-    - .:/app
+      - ./client:/app
+    ports:
+      - "8080:8080"
+    environment:
+      - HONEY_NPM_TOKEN
+
+  server:
+    build: ./server
+    image: product-fetcher-generator-server:1.0.0
+    volumes:
+      - ./server:/app
+    ports:
+     - "3000:3000"
+    environment:
+      - HONEY_NPM_TOKEN
