@@ -1,6 +1,6 @@
 # Product Fetcher Generator
 
-A tool to automatically generate product fetcher code based on mapping data to product observation fields.
+A tool to automatically generate Product Fetcher code based on data mapping.
 
 ## Getting Started
 
