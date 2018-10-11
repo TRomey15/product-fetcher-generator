@@ -17,11 +17,14 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
+If you haven't already, [install Docker](https://docs.docker.com/v17.12/docker-for-mac/install/).
+
 Grab a copy of this project:
 
 ```
 git clone https://github.com/honeyscience/product-fetcher-generator.git
 ```
+In both the `client` and `server` directories run `npm i`.
 
 ### Development
 
