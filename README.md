@@ -32,7 +32,7 @@ There are several ways to get the development environment up and running.
 
 To run both client and server, first build the Docker images from the Dockerfile. Because the linter uses the 
 *@honeyscience/eslint-config* private npm package, make sure that `HONEY_NPM_TOKEN` is set which can be found at 
-`~/.npmrc`
+`~/.npmrc`. You don't have to repeat this step every time you want to run the containers (only if you change something that requires a new build.
 
 ```
 docker-compose build --build-arg HONEY_NPM_TOKEN="$HONEY_NPM_TOKEN"
