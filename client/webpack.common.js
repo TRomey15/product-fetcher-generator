@@ -51,7 +51,7 @@ const config = {
   ],
   resolve: {
     alias: {
-      React: path.resolve(__dirname, 'src/components'),
+      React: path.resolve(__dirname, 'src/views'),
     },
     extensions: ['.wasm', '.mjs', '.js', '.jsx', '.json'],
   },
