@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
 
 const propTypes = {
-  children: PropTypes.node.isRequired,
+  // children: PropTypes.node.isRequired,
   header: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired,
 };
@@ -24,11 +24,11 @@ const styles = {
 
 class Container extends React.PureComponent {
   render() {
-    const { header, children, classes } = this.props;
+    const { header, classes } = this.props;
     return (
       <div className={classes.main}>
         <h1 className={classes.header}>{header}</h1>
-        {children}
+        {/* {this.props.children} */}
       </div>
     );
   }

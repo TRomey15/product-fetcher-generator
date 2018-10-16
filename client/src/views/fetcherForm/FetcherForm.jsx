@@ -6,7 +6,7 @@ import Container from '../shared/Container.jsx';
 
 const header = 'Product Fetcher Generator';
 
-class Detail extends React.component {
+class FetcherForm extends React.Component {
   render() {
     return (
       <Container header={header}>
@@ -16,4 +16,4 @@ class Detail extends React.component {
   }
 }
 
-export default Detail;
+export default FetcherForm;
