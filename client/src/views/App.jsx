@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
 
 import FetcherForm from './fetcherForm/FetcherForm.jsx';
-// import Detail from './detail/Detail.jsx';
+import Detail from './detail/Detail.jsx';
 import Modal from './shared/Modal.jsx';
 
 /* Mock_Data
@@ -38,65 +38,116 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      modal: {
-        showModal: false,
-        functionType: '',
+      showModal: false,
+      modalData: {
+        type: '',
         onClick: '',
       },
       data: '', // all the data in Mock_Data
-      // currentFieldName: '', // field for detail view
+      schemaField: '', // field for detail view
     };
 
+    this.saveChanges = this.saveChanges.bind(this);
+    this.submitForm = this.submitForm.bind(this);
+
+    // submit/onclick from fetcher generator view
+    this.formOnClick = this.formOnClick.bind(this);
+    this.githubOnClick = this.githubOnClick.bind(this);
+
+    // submit/onclick detail view
+    this.onSaveChanges = this.onSaveChanges.bind(this);
+    this.onDetailClose = this.onDetailClose.bind(this);
+
+    // submit/onclick from modal
     this.showModal = this.showModal.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
     this.closeModal = this.closeModal.bind(this);
-    // this.submitForm = this.submitForm.bind(this);
   }
 
-  // TODO: implement during backend integration
-  // submitForm() {
-  //   // make request
-  //
-  //   // then...
-  //   // const data = JSON.parse(res);
-  //   // this.setState({ schemaFields: data });
-  //
-  //   // if error: showModal('error');
-  // }
+  saveChanges(dataUpdates) {
+    this.setState({ data: dataUpdates });
+    this.submitForm();
+  }
 
-  showModal(funcKey) {
-    const actions = { submit: this.submitForm, error: this.closeModal };
-    const updatedModalState = {
-      onClick: actions[funcKey],
-      functionType: funcKey,
+  submitForm() {
+    console.log(this.state);
+    // make request
+    // then...
+    // const data = JSON.parse(res);
+    // this.setState({ schemaFields: data });
+    // if error: set state to show 'error' modal
+  }
+
+  // fetcher generator view
+  onSubmit() {
+    this.submitForm();
+  }
+
+  formOnClick() {
+    this.showModal('submit');
+  }
+
+  githubOnClick() {
+    // whatever is in data -> send to backend to send to github
+    console.log(this.state);
+  }
+
+  // detail view
+  onSaveChanges() {
+    this.showModal('save');
+  }
+
+  onDetailClose() {
+    this.setState({ currentFieldData: '' });
+  }
+
+  // modal
+  showModal(modalType) {
+    const actions = {
+      submit: this.submitForm,
+      error: this.closeModal,
+      save: this.saveChanges,
     };
-    this.setState({ modal: updatedModalState });
+
+    const updatedModalData = {
+      onClick: actions[modalType],
+      type: modalType,
+    };
+    this.setState({ showModal: true, modalData: updatedModalData });
   }
 
   closeModal() {
-    const showModal = this.state.modal.showModal;
-    this.setState({ modal: { showModal: !showModal } });
+    const showModal = this.state.showModal;
+    this.setState({ showModal: !showModal });
   }
+
 
   render() {
     const { classes } = this.props;
-    const { showModal, data } = this.state;
-    // const currentField = data ? data[currentFieldName] : {};
+    const { data, schemaField, modalData, showModal } = this.state;
+
+    const currentFieldData = data ? data[schemaField] : {};
+
     return (
       <div>
         <Modal
           className={showModal ? classes.show : classes.hide}
           closeModal={this.closeModal}
-          functionType={this.functionType}
+          functionTypeKey={modalData.type}
+          onClick={modalData.onClick}
         />
         <FetcherForm
-          className={classes.show}
-          showModal={this.showModal}
+          className={currentFieldData ? classes.hide : classes.show}
+          onClick={this.formOnClick}
+          onSaveToGitHub={this.githubOnClick}
           data={data}
         />
-        {/* <Detail
-          className={currentField ? classes.show : classes.hide}
-          currentField={currentField}
-        /> */}
+        <Detail
+          className={currentFieldData ? classes.show : classes.hide}
+          data={currentFieldData}
+          onSave={this.saveChanges}
+          onClose={this.onDetailClose}
+        />
       </div>
     );
   }
