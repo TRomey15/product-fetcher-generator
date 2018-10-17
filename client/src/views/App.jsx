@@ -124,30 +124,33 @@ class App extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const { data, schemaField, modalData, showModal } = this.state;
+    const { data, schemaField, showModal, modalData } = this.state;
 
-    const currentFieldData = data ? data[schemaField] : {};
+    const currentFieldData = data ? data[schemaField] : undefined;
 
     return (
       <div>
-        <Modal
-          className={showModal ? classes.show : classes.hide}
-          closeModal={this.closeModal}
-          functionTypeKey={modalData.type}
-          onClick={modalData.onClick}
-        />
-        <FetcherForm
-          className={currentFieldData ? classes.hide : classes.show}
-          onClick={this.formOnClick}
-          onSaveToGitHub={this.githubOnClick}
-          data={data}
-        />
-        <Detail
-          className={currentFieldData ? classes.show : classes.hide}
-          data={currentFieldData}
-          onSave={this.saveChanges}
-          onClose={this.onDetailClose}
-        />
+        <div className={showModal ? classes.show : classes.hide}>
+          <Modal
+            closeModal={this.closeModal}
+            functionTypeKey={modalData.type}
+            onClick={modalData.onClick}
+          />
+        </div>
+        <div className={currentFieldData ? classes.hide : classes.show}>
+          <FetcherForm
+            onClick={this.formOnClick}
+            onSaveToGitHub={this.githubOnClick}
+            data={data}
+          />
+        </div>
+        <div className={currentFieldData ? classes.show : classes.hide}>
+          <Detail
+            data={currentFieldData}
+            onSave={this.saveChanges}
+            onClose={this.onDetailClose}
+          />
+        </div>
       </div>
     );
   }
