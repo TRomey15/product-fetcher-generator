@@ -5,6 +5,7 @@ import injectSheet from 'react-jss';
 import FetcherForm from './fetcherForm/FetcherForm.jsx';
 import Detail from './detail/Detail.jsx';
 import Modal from './shared/Modal.jsx';
+// import Layout from './shared/Layout.jsx';
 
 /* Mock_Data
   {
@@ -155,6 +156,7 @@ class App extends React.Component {
             onClose={this.onDetailClose}
           />
         </div>
+        {/* <Layout buttonText="hello" buttonOnClick={ () => { console.log('hello world'); }} header="world" /> */}
       </div>
     );
   }

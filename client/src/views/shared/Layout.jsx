@@ -5,7 +5,8 @@ import Button from './Button.jsx';
 // import classNames from 'classnames';
 
 const propTypes = {
-  text: PropTypes.string.isRequired,
+  buttonText: PropTypes.string.isRequired,
+  buttonOnClick: PropTypes.func.isRequired,
   header: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired,
 };
@@ -34,12 +35,12 @@ const styles = {
   },
 };
 
-const Layout = ({ text, classes, header }) => {
+const Layout = ({ buttonText, buttonOnClick, classes, header }) => {
   return (
     <div className={classes.cardContainer}>
       <div className={ classes.card}>
         <h2 className={ classes.header }>{header}</h2>
-        <Button text={ text } />
+        <Button text={ buttonText } onClick={ buttonOnClick } />
       </div>
     </div>
   );
