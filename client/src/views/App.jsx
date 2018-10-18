@@ -1,4 +1,5 @@
 
+/* eslint-disable no-console */
 import React from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
@@ -132,16 +133,24 @@ class App extends React.Component {
     return (
       <div>
         <div>      <AutoCompleteModal
+          // suggestions={[
+          //   'Michael',
+          //   'Monica',
+          //   'Vincent',
+          //   'Thiemo',
+          //   'Janise',
+          //   'Mehrnaz',
+          //   'Tina',
+          //   'Gina',
+          //   'Michelle',
+          // ]}
+          title="AutoComplete Demo"
           suggestions={[
-            'Michael',
-            'Monica',
-            'Vincent',
-            'Thiemo',
-            'Janise',
-            'Mehrnaz',
-            'Tina',
-            'Gina',
-            'Michelle',
+            'cleanText',
+            'priceClean',
+            'priceUpdate',
+            'queryState',
+            'wonderfulThing',
           ]}
         /></div>
         <div className={showModal ? classes.show : classes.hide}>

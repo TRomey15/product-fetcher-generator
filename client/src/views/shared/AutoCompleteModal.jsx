@@ -1,6 +1,8 @@
+/* eslint-disable no-console */
 import React, { Fragment, Component } from 'react';
 import injectSheet from 'react-jss';
 import PropTypes from 'prop-types';
+import Input from './Input.jsx';
 
 // const propTypes = {
 //   onClick: PropTypes.func.isRequired,
@@ -11,10 +13,12 @@ import PropTypes from 'prop-types';
 
 const propTypes = {
   suggestions: PropTypes.instanceOf(Array),
+  title: PropTypes.string,
 };
 
 const defaultProps = {
   suggestions: [],
+  title: 'default title',
 };
 
 const styles = {};
@@ -76,19 +80,21 @@ class AutoCompleteModal extends Component {
 
   // Event fired when the user presses a key down
   onKeyDown(e) {
+    console.log(e.keyCode);
     const { activeSuggestion, filteredSuggestions } = this.state;
 
     // User pressed the enter key, update the input and close the
     // suggestions
     if (e.keyCode === 13) {
-      selectedItems.push(filteredSuggestions[activeSuggestion]);
-
-      this.setState({
-        activeSuggestion: 0,
-        showSuggestions: false,
-        userInput: '',
-        selected: selectedItems,
-      });
+      if (filteredSuggestions[activeSuggestion]) {
+        selectedItems.push(filteredSuggestions[activeSuggestion]);
+        this.setState({
+          activeSuggestion: 0,
+          showSuggestions: false,
+          userInput: '',
+          selected: selectedItems,
+        });
+      }
 
     // User pressed the up arrow, decrement the index
     } else if (e.keyCode === 38) {
@@ -103,7 +109,6 @@ class AutoCompleteModal extends Component {
       if (activeSuggestion - 1 === filteredSuggestions.length) {
         return;
       }
-
       this.setState({ activeSuggestion: activeSuggestion + 1 });
     }
   }
@@ -155,7 +160,7 @@ class AutoCompleteModal extends Component {
       } else {
         suggestionsListComponent = (
           <div className="no-suggestions">
-            <em>No suggestions, yore on your own!</em>
+            <em>No suggestions...</em>
           </div>
         );
       }
@@ -163,13 +168,22 @@ class AutoCompleteModal extends Component {
 
     return (
       <Fragment>
-        {this.state.selected.map((e, idx) => { return <button key={idx.toString()} onClick={() => this.onClearClick(idx)}>{e} + x</button>; })}
-        <input
+        <h3>Add Function:</h3>
+        {/* <input
           type="text"
           onChange={onChange}
           onKeyDown={onKeyDown}
           value={userInput}
+        /> */}
+        <Input
+          type="text"
+          // Title={props.title}
+          title={this.props.title}
+          onChange={onChange}
+          onKeyDown={onKeyDown}
+          value={userInput}
         />
+        {this.state.selected.map((e, idx) => { return <button key={idx.toString()} onClick={() => this.onClearClick(idx)}>{e} + x</button>; })}
         {suggestionsListComponent}
       </Fragment>
     );
