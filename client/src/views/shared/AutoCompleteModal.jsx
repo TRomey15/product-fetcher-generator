@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import React, { Fragment, Component } from 'react';
 import injectSheet from 'react-jss';
 import PropTypes from 'prop-types';
@@ -110,7 +109,8 @@ class AutoCompleteModal extends Component {
   }
 
   onClearClick(e) {
-    console.log(`${e}firing clear click`);
+    selectedItems.splice(e, 1);
+    this.setState({ selected: selectedItems });
   }
 
   render() {
@@ -163,7 +163,7 @@ class AutoCompleteModal extends Component {
 
     return (
       <Fragment>
-        {this.state.selected.map((e) => { return <button>{e} + x</button>; })}
+        {this.state.selected.map((e, idx) => { return <button key={idx.toString()} onClick={() => this.onClearClick(idx)}>{e} + x</button>; })}
         <input
           type="text"
           onChange={onChange}
