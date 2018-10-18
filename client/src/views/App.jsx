@@ -1,3 +1,4 @@
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
@@ -5,6 +6,7 @@ import injectSheet from 'react-jss';
 import FetcherForm from './fetcherForm/FetcherForm.jsx';
 import Detail from './detail/Detail.jsx';
 import Modal from './shared/Modal.jsx';
+import AutoCompleteModal from './shared/AutoCompleteModal.jsx';
 
 /* Mock_Data
   {
@@ -121,7 +123,6 @@ class App extends React.Component {
     this.setState({ showModal: !showModal });
   }
 
-
   render() {
     const { classes } = this.props;
     const { data, schemaField, showModal, modalData } = this.state;
@@ -130,6 +131,19 @@ class App extends React.Component {
 
     return (
       <div>
+        <div>      <AutoCompleteModal
+          suggestions={[
+            'Michael',
+            'Monica',
+            'Vincent',
+            'Thiemo',
+            'Janise',
+            'Mehrnaz',
+            'Tina',
+            'Gina',
+            'Michelle',
+          ]}
+        /></div>
         <div className={showModal ? classes.show : classes.hide}>
           <Modal
             closeModal={this.closeModal}
