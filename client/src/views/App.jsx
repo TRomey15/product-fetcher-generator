@@ -41,7 +41,7 @@ class App extends React.Component {
       showModal: false,
       modalData: {
         type: '',
-        onClick: '',
+        onClick: () => {},
       },
       data: '', // all the data in Mock_Data
       schemaField: '', // field for detail view
@@ -63,6 +63,10 @@ class App extends React.Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.closeModal = this.closeModal.bind(this);
   }
+
+  // componentDidMount() {
+  //   this.showModal('save'); // for testing buttons
+  // }
 
   saveChanges(dataUpdates) {
     this.setState({ data: dataUpdates });
