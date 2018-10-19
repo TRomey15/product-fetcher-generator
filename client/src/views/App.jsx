@@ -10,14 +10,18 @@ import Modal from './shared/Modal.jsx';
 /* Mock_Data
   {
     schema_field_name: {
-    value: '',
-    code: '',
-    sources: {
-      api: [{ url, path, object }],
-      script: [],
-      html: []
-    },
-    functions: [], // transformation function names/identifiers?
+      value: '',
+      code: '',
+      sources: {
+        api: [{
+          url,
+          path,
+          object,
+          functions,
+        }],
+        script: [{}],
+        html: []
+      },
     },
   }
 */
@@ -45,19 +49,25 @@ class App extends React.Component {
         onClick: () => {},
       },
       data: '', // all the data in Mock_Data
-      schemaField: '', // field for detail view
+      currentField: { // field for detail view
+        name: '',
+        data: {},
+      },
     };
 
+    this.getSchemaFieldData = this.getSchemaFieldData.bind(this);
     this.saveChanges = this.saveChanges.bind(this);
     this.submitForm = this.submitForm.bind(this);
 
     // submit/onclick from fetcher generator view
     this.formOnClick = this.formOnClick.bind(this);
     this.githubOnClick = this.githubOnClick.bind(this);
+    this.onSrcButtonClick = this.onSrcButtonClick.bind(this);
 
     // submit/onclick detail view
     this.onSaveChanges = this.onSaveChanges.bind(this);
     this.onDetailClose = this.onDetailClose.bind(this);
+    // this.restoreFieldData = this.restoreFieldData.bind(this);
 
     // submit/onclick from modal
     this.showModal = this.showModal.bind(this);
@@ -69,9 +79,14 @@ class App extends React.Component {
   //   this.showModal('save'); // for testing buttons
   // }
 
+  getSchemaFieldData(key) {
+    return this.state.data[key];
+  }
+
   saveChanges(dataUpdates) {
-    this.setState({ data: dataUpdates });
-    this.submitForm();
+    this.setState({ currentField: { name: '', data: {} } });
+    this.setState({ data: dataUpdates }); // should probably how data is updated
+    this.showModal('save');
   }
 
   submitForm() {
@@ -92,6 +107,12 @@ class App extends React.Component {
     this.showModal('submit');
   }
 
+  onSrcButtonClick(fieldKey) {
+    const name = fieldKey;
+    const data = this.getSchemaFieldData(fieldKey);
+    this.setState({ currentField: { name, data } });
+  }
+
   githubOnClick() {
     // whatever is in data -> send to backend to send to github
     console.log(this.state);
@@ -103,7 +124,12 @@ class App extends React.Component {
   }
 
   onDetailClose() {
-    this.setState({ currentFieldData: '' });
+    this.setState({ currentField: { name: '', data: {} } });
+  }
+
+  restoreSchemaFieldData(fieldKey) {
+    const originalData = this.getSchemaFieldData(fieldKey);
+    this.setState({ currentField: { data: originalData } });
   }
 
   // modal
@@ -129,9 +155,10 @@ class App extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const { data, schemaField, showModal, modalData } = this.state;
+    const { data, currentField, showModal, modalData } = this.state;
 
-    const currentFieldData = data ? data[schemaField] : undefined;
+    const formData = data && Object.assign({}, data);
+    const currentFieldData = data && Object.assign({}, currentField.data);
 
     return (
       <div>
@@ -144,15 +171,17 @@ class App extends React.Component {
         </div>
         <div className={currentFieldData ? classes.hide : classes.show}>
           <FetcherForm
+            onSrcButtonClick={this.onSrcButtonClick}
             onClick={this.formOnClick}
             onSaveToGitHub={this.githubOnClick}
-            data={data}
+            data={formData}
           />
         </div>
         <div className={currentFieldData ? classes.show : classes.hide}>
           <Detail
             data={currentFieldData}
-            onSave={this.saveChanges}
+            onRestore={this.restoreSchemaFieldData}
+            onSave={this.onSaveChanges}
             onClose={this.onDetailClose}
           />
         </div>
