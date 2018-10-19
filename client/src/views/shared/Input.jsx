@@ -1,5 +1,5 @@
 
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
 
@@ -28,13 +28,13 @@ const styles = {
   app: {
     // marginTop: '-8px',
     // marginLeft: '-8px',
-    fontFamily: '"Montserrat", sans-serif',
+    // fontFamily: '"Montserrat", sans-serif',
     // letterSpacing: '0.7px',
   },
   inputForm: {
     display: 'flex',
     flexDirection: 'column',
-    width: '430px',
+    width: '200px',
     marginLeft: '8px',
     backgroundColor: 'green',
   },
@@ -42,7 +42,7 @@ const styles = {
     border: '2px solid red',
   },
   input: {
-    width: '100px',
+    width: '150px',
     border: '1px solid rgb(220,220,220)',
     borderRadius: '3px',
     backgroundColor: 'orange',
@@ -65,14 +65,14 @@ const styles = {
 // tooltip enable disable / hover text passed in on props
 // button enable disable
 
-class Input extends PureComponent {
+class Input extends Component {
   render() {
     const { classes, toolText, hasToolText, onChange, value, title, onKeyDown, onClick } = this.props;
     return (
       <div className={classes.inputForm}>
         <span> {title} </span>
         {/* To Do Clean Up this Tooltip, use something better than alert */}
-        {hasToolText ? <span className={classes.showToolTip} onClick={() => alert(toolText)}>?</span> : <span />}
+        {hasToolText ? <span className={classes.showToolTip} onClick={() => console.log(toolText)}>?</span> : <span />}
         <input className={classes.input} value={value } onChange={ onChange } onKeyDown={onKeyDown} />
         <button className={ classes.button } onClick={ onClick }> run </button>
       </div>

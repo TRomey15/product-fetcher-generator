@@ -14,6 +14,7 @@ import Input from './Input.jsx';
 const propTypes = {
   suggestions: PropTypes.instanceOf(Array),
   title: PropTypes.string,
+  // classes: PropTypes.object.isRequired,
 };
 
 const defaultProps = {
@@ -21,8 +22,14 @@ const defaultProps = {
   title: 'default title',
 };
 
-const styles = {};
+const styles = {
+  activeSuggestion: {
+    backgroundColor: 'red',
+  },
+};
 const selectedItems = [];
+
+// ToDo Refactor to move state to app...
 
 class AutoCompleteModal extends Component {
   constructor(props) {
@@ -80,7 +87,6 @@ class AutoCompleteModal extends Component {
 
   // Event fired when the user presses a key down
   onKeyDown(e) {
-    console.log(e.keyCode);
     const { activeSuggestion, filteredSuggestions } = this.state;
 
     // User pressed the enter key, update the input and close the
@@ -123,6 +129,7 @@ class AutoCompleteModal extends Component {
       onChange,
       onClick,
       onKeyDown,
+      // classes,
       state: {
         activeSuggestion,
         filteredSuggestions,
@@ -142,17 +149,17 @@ class AutoCompleteModal extends Component {
 
               // Flag the active suggestion with a class
               if (index === activeSuggestion) {
-                className = 'suggestion-active';
+                className = 'activeSuggestion';
               }
 
               return (
-                <li
+                <span
                   className={className}
                   key={suggestion}
                   onClick={onClick}
                 >
-                  {suggestion}
-                </li>
+                  {suggestion}<br />
+                </span>
               );
             })}
           </ul>
@@ -168,7 +175,8 @@ class AutoCompleteModal extends Component {
 
     return (
       <Fragment>
-        <h3>Add Function:</h3>
+        <span>{suggestionsListComponent}</span>
+        {this.state.selected.map((e, idx) => { return <button key={idx.toString()} onClick={() => this.onClearClick(idx)}>{e} + x</button>; })}
         <Input
           // type="text"
           title={this.props.title}
@@ -178,8 +186,6 @@ class AutoCompleteModal extends Component {
           hasToolText
           toolText="Tool Text Goes Here"
         />
-        {this.state.selected.map((e, idx) => { return <button key={idx.toString()} onClick={() => this.onClearClick(idx)}>{e} + x</button>; })}
-        {suggestionsListComponent}
       </Fragment>
     );
   }
