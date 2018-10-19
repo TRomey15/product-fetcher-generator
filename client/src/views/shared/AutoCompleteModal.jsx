@@ -169,19 +169,14 @@ class AutoCompleteModal extends Component {
     return (
       <Fragment>
         <h3>Add Function:</h3>
-        {/* <input
-          type="text"
-          onChange={onChange}
-          onKeyDown={onKeyDown}
-          value={userInput}
-        /> */}
         <Input
-          type="text"
-          // Title={props.title}
+          // type="text"
           title={this.props.title}
           onChange={onChange}
           onKeyDown={onKeyDown}
           value={userInput}
+          hasToolText
+          toolText="Tool Text Goes Here"
         />
         {this.state.selected.map((e, idx) => { return <button key={idx.toString()} onClick={() => this.onClearClick(idx)}>{e} + x</button>; })}
         {suggestionsListComponent}

@@ -1,6 +1,7 @@
 
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import injectSheet from 'react-jss';
 
 const propTypes = {
   value: PropTypes.string,
@@ -8,14 +9,19 @@ const propTypes = {
   onKeyDown: PropTypes.func,
   onClick: PropTypes.func,
   title: PropTypes.string,
+  toolText: PropTypes.string,
+  hasToolText: PropTypes.bool,
+  classes: PropTypes.object.isRequired,
 };
 
 const defaultProps = {
   value: '',
+  title: '',
+  toolText: '',
+  hasToolText: false,
   onChange: () => {},
   onKeyDown: () => {},
   onClick: () => {},
-  title: '',
 };
 
 const styles = {
@@ -30,11 +36,16 @@ const styles = {
     flexDirection: 'column',
     width: '430px',
     marginLeft: '8px',
+    backgroundColor: 'green',
+  },
+  isMismatch: {
+    border: '2px solid red',
   },
   input: {
     width: '100px',
     border: '1px solid rgb(220,220,220)',
     borderRadius: '3px',
+    backgroundColor: 'orange',
   },
   button: {
     width: '50px',
@@ -46,19 +57,29 @@ const styles = {
     backgroundColor: 'gray',
     height: '3000px',
   },
+  showToolTip: {
+    backrgroundColor: 'yellow',
+    color: 'red',
+  },
 };
+// tooltip enable disable / hover text passed in on props
+// button enable disable
 
-const Input = (props) => {
-  return (
-
-    <div style={ styles.Input }>
-      <span> {props.title} </span>
-      <input style={ styles.input } value={ props.value } onChange={ props.onChange } onKeyDown={props.onKeyDown} />
-      <button style={ styles.button } onClick={ props.onClick }> run </button>
-    </div>
-  );
-};
+class Input extends PureComponent {
+  render() {
+    const { classes, toolText, hasToolText, onChange, value, title, onKeyDown, onClick } = this.props;
+    return (
+      <div className={classes.inputForm}>
+        <span> {title} </span>
+        {/* To Do Clean Up this Tooltip, use something better than alert */}
+        {hasToolText ? <span className={classes.showToolTip} onClick={() => alert(toolText)}>?</span> : <span />}
+        <input className={classes.input} value={value } onChange={ onChange } onKeyDown={onKeyDown} />
+        <button className={ classes.button } onClick={ onClick }> run </button>
+      </div>
+    );
+  }
+}
 
 Input.propTypes = propTypes;
 Input.defaultProps = defaultProps;
-export default Input;
+export default injectSheet(styles)(Input);
