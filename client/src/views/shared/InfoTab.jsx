@@ -17,11 +17,14 @@ const defaultProps = {
 const styles = {
   infoTabTitle: {
     backgroundColor: 'red',
-    width: '30%',
+    width: '200px',
+    marginLeft: '5px',
   },
   infoTabContent: {
     backgroundColor: 'yellow',
-    width: '30%',
+    width: '200px',
+    marginLeft: '5px',
+    fontSize: '10px',
   },
 };
 

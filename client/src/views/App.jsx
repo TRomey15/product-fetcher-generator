@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
@@ -28,6 +29,29 @@ import Modal from './shared/Modal.jsx';
   }
 */
 
+// /* Mock_Data
+const mockData = {
+  primary_image: {
+    value: '',
+    code: '',
+    sources: {
+      api: [{
+        url: 'https://images.lululemon.com/is/image/lululemon/LW1BE.jpg',
+        path: 'data.product-attribute.product-carousel["0"].image-info["4"]',
+        object: { foo: 'bar' },
+        functions: ['cleanText',
+          'priceClean',
+          'priceUpdate',
+          'queryState',
+          'wonderfulThing'],
+      }],
+      script: [{}],
+      html: [{}],
+    },
+  },
+};
+
+
 const propTypes = {
   classes: PropTypes.object.isRequired,
 };
@@ -52,7 +76,7 @@ class App extends React.Component {
       },
       data: '', // all the data in Mock_Data
       currentField: { // field for detail view
-        name: '',
+        name: 'api',
         data: {},
       },
     };
@@ -75,6 +99,9 @@ class App extends React.Component {
     this.showModal = this.showModal.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.closeModal = this.closeModal.bind(this);
+
+    // handle DisplayField (api/script/html) changes
+    this.handleDisplayFieldChange = this.handleDisplayFieldChange.bind(this);
   }
 
   // componentDidMount() {
@@ -154,6 +181,10 @@ class App extends React.Component {
     this.setState({ showModal: !showModal });
   }
 
+  handleDisplayFieldChange(val) {
+    this.setState({ currentField: { name: val } });
+  }
+
 
   render() {
     const { classes } = this.props;
@@ -191,11 +222,12 @@ class App extends React.Component {
         </div>
         <div className={currentFieldData ? classes.show : classes.show}>
           <Detail
-            data={currentFieldData}
+            data={mockData}
+            handleDisplayFieldChange={this.handleDisplayFieldChange}
             onRestore={this.restoreSchemaFieldData}
             onSave={this.onSaveChanges}
             onClose={this.onDetailClose}
-            header="test header"
+            currentField={currentField}
           />
         </div>
         {/* <Layout buttonText="hello" buttonOnClick={ () => { console.log('hello world'); }} header="world" /> */}

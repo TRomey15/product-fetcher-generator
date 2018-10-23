@@ -1,7 +1,9 @@
 
+/* eslint-disable no-console */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
+import Button from './Button.jsx';
 
 const propTypes = {
   value: PropTypes.string,
@@ -11,6 +13,7 @@ const propTypes = {
   title: PropTypes.string,
   toolText: PropTypes.string,
   hasToolText: PropTypes.bool,
+  isMismatch: PropTypes.bool,
   classes: PropTypes.object.isRequired,
 };
 
@@ -19,6 +22,7 @@ const defaultProps = {
   title: '',
   toolText: '',
   hasToolText: false,
+  isMismatch: false,
   onChange: () => {},
   onKeyDown: () => {},
   onClick: () => {},
@@ -35,23 +39,22 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
     width: '200px',
-    marginLeft: '8px',
+    margin: '5px',
     backgroundColor: 'green',
   },
-  isMismatch: {
+  inputFormMismatch: {
     border: '2px solid red',
+    display: 'flex',
+    flexDirection: 'column',
+    width: '200px',
+    margin: '5px',
+    backgroundColor: 'green',
   },
   input: {
     width: '150px',
     border: '1px solid rgb(220,220,220)',
     borderRadius: '3px',
     backgroundColor: 'orange',
-  },
-  button: {
-    width: '50px',
-    margin: '10px 0px',
-    backgroundColor: 'black',
-    color: 'white',
   },
   spacer: {
     backgroundColor: 'gray',
@@ -67,14 +70,15 @@ const styles = {
 
 class Input extends Component {
   render() {
-    const { classes, toolText, hasToolText, onChange, value, title, onKeyDown, onClick } = this.props;
+    const { classes, isMismatch, toolText, hasToolText, onChange, value, title, onKeyDown, onClick } = this.props;
+    const showMismatch = isMismatch ? 'inputFormMismatch' : 'inputForm';
     return (
-      <div className={classes.inputForm}>
+      <div className={classes[showMismatch]}>
         <span> {title} </span>
         {/* To Do Clean Up this Tooltip, use something better than alert */}
         {hasToolText ? <span className={classes.showToolTip} onClick={() => console.log(toolText)}>?</span> : <span />}
         <input className={classes.input} value={value } onChange={ onChange } onKeyDown={onKeyDown} />
-        <button className={ classes.button } onClick={ onClick }> run </button>
+        <Button text="Submit" className={classes.submit} onClick={ onClick }> run </Button>
       </div>
     );
   }

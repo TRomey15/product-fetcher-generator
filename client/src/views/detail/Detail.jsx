@@ -9,13 +9,19 @@ import AutoCompleteModal from '../shared/AutoCompleteModal.jsx';
 
 const propTypes = {
   classes: PropTypes.object.isRequired,
-  header: PropTypes.string.isRequired,
+  currentField: PropTypes.string.isRequired,
+  handleDisplayFieldChange: PropTypes.function,
+  data: PropTypes.object.isRequired,
 };
 
 // const defaultProps = {
 //   // classes: {},
 //   header: '',
 // };
+
+const defaultProps = {
+  handleDisplayFieldChange: () => {},
+};
 
 // const header = 'Product Fetcher Detail';
 
@@ -33,29 +39,29 @@ const styles = {
 
 class Detail extends Component {
   render() {
-    const { classes, header } = this.props;
+    const { classes, handleDisplayFieldChange, data, currentField } = this.props;
+    const viewTitle = Object.keys(data)[0];
+    const tabsForRender = Object.keys(data[viewTitle].sources.api[0]);
+    const currentTab = currentField.name;
+    const sources = data[viewTitle].sources;
+    const tabs = tabsForRender.map(e => <InfoTab title={e} content={JSON.stringify(sources[currentTab][0][e])} />);
     return (
-
-      <div className={classes.blue}>
+      <div>
         {/* <Container
-          header={header}
+          header={currentField.name}
         > */}
-        <h3>Here will Live a Detail View</h3>
-        <p>{header}</p>
-        <InfoTab title="infoDemoTitle" content="some content for InfoTab / www.gibberish.org" />
-        <InfoTab title="some other Info" content="some additional content" />
-        <Input hasToolText title="Script Regex:">input</Input>
+        <h3 className={classes.blue}>{viewTitle}</h3>
+        <p>{currentField.name}</p>
+        <select onChange={e => handleDisplayFieldChange(e.target.value)}>
+          {Object.keys(sources).map(e => <option key={e.toString()} value={e}>{e}</option>)}
+        </select>
+        {tabs}
+        <Input isMismatch hasToolText title="Script Regex:">input</Input>
         <Input title="Property Path: ">input</Input>
-        <div><AutoCompleteModal
+        <AutoCompleteModal
           title="Transformation"
-          suggestions={[
-            'cleanText',
-            'priceClean',
-            'priceUpdate',
-            'queryState',
-            'wonderfulThing',
-          ]}
-        /></div>
+          suggestions={sources[currentTab][0].functions}
+        />
         {/* </Container> */}
       </div>
     );
@@ -63,6 +69,6 @@ class Detail extends Component {
 }
 
 Detail.propTypes = propTypes;
-// Detail.defaultProps = defaultProps;
+Detail.defaultProps = defaultProps;
 // export default Detail;
 export default injectSheet(styles)(Detail);
