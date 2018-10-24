@@ -19,3 +19,5 @@ COPY . /app
 EXPOSE 3000
 
 CMD [ "npx", "nodemon", "./src/bin/www" ]
+
+USER app

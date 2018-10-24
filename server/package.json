@@ -8,7 +8,7 @@
   "main": "./src/index.js",
   "scripts": {
     "start": "node ./src/bin/www",
-    "dev": "nodemon ./src/bin/www",
+    "dev": "NODE_ENV=development nodemon ./src/bin/www",
     "lint": "npx honey-eslint --ext .js ./src; exit 0"
   },
   "dependencies": {

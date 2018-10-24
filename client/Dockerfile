@@ -19,3 +19,5 @@ COPY . /app
 EXPOSE 8080
 
 CMD [ "npx", "webpack-dev-server", "--config", "webpack.dev.js", "--hot", "--inline", "--host", "0.0.0.0" ]
+
+USER app

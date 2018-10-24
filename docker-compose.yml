@@ -6,6 +6,7 @@ services:
     image: product-fetcher-generator-client:1.0.0
     volumes:
       - ./client:/app
+      - /app/node_modules
     ports:
       - "8080:8080"
     environment:
@@ -16,10 +17,12 @@ services:
     image: product-fetcher-generator-server:1.0.0
     volumes:
       - ./server:/app
+      - /app/node_modules
     ports:
       - "3000:3000"
     environment:
       - HONEY_NPM_TOKEN
+      - NODE_ENV=${NODE_ENV}
     depends_on:
       - mysql
 
@@ -30,9 +33,9 @@ services:
     environment:
       MYSQL_USER: app
       MYSQL_PASSWORD: app
-      MYSQL_DATABASE: vim_tools
+      MYSQL_DATABASE: vim_generator
       MYSQL_ROOT_PASSWORD: root
     ports:
       - "3306:3306"
     volumes:
-      - ./data/mysql:/var/lib/mysql
+      - ./db/mysql:/var/lib/mysql
