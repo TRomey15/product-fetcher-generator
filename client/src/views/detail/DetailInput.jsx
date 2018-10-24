@@ -43,7 +43,7 @@ const styles = {
   },
   detailText: {
     fontSize: '10px',
-  }
+  },
 };
 
 class DetailInput extends Component {
@@ -66,8 +66,8 @@ class DetailInput extends Component {
   render() {
     const { selectedResponse, activeSource, i, classes, handleDetailFormClick } = this.props;
     return (
-
       <div>
+        <p />
         <ListGroup key={i}>
           <h6>{i}:</h6>
           <ListGroupItem className={classes.detailText}>{activeSource[i]}</ListGroupItem>

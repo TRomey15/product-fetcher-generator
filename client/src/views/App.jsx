@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-/* eslint-disable no-unused-vars */
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
@@ -79,47 +79,6 @@ const mockData = {
 };
 
 const workingData = { ...mockData };
-
-// const mockData = {
-//   observation: {
-//     brand: 'Zara',
-//     canonical_url: 'https://www.zara.com/us/en/velvet-blazer-p08245350.html',
-//     categories: ['Man', 'Blazers', 'Evening'],
-//     currency: 'USD',
-//     description: 'Blazer with tuxedo collar in contrasting satin fabric. Front flap pockets and chest pocket.',
-//     image_url_primary: 'https://static.zara.net/photos//2018/I/0/2/p/8245/350/401/2/w/2048/8245350401_1_1_1.jpg?ts=1539253739007',
-//     image_url_secondaries: [
-//       'https://static.zara.net/photos//2018/I/0/2/p/8245/…01/2/w/2048/8245350401_2_1_1.jpg?ts=1539600959855',
-//       'https://static.zara.net/photos//2018/I/0/2/p/8245/…01/2/w/2048/8245350401_3_1_1.jpg?ts=1539253757852'],
-//     imprint: true,
-//     in_stock: true,
-//     is_canonical: true,
-//     parent_id: '7145544',
-//     price_current: 149,
-//     price_guessed: 0,
-//     price_list: 149,
-//     product_details: { color: 'Navy blue', size: '36', material: 'OUTER SHELL: polyester, LINING: polyester' },
-//     product_source: 'vim',
-//     related_products: [],
-//     schema_version: '4.0.0',
-//     store: { id: '7357416199573265452', sessionId: 1540319388477 },
-//     store_extra_info: { parentId: '7145544', sku: 7144754 },
-//     title: 'VELVET BLAZER',
-//     variant_id: '7144754',
-//     vim_version: '1.0.5',
-//   },
-//   meta: {
-//     functions: ['priceClean', 'cleanText'], // transformation functions
-//   },
-//   ui: {
-//     activeDisplay: 'api', // or api, or html
-//     contentTypes: ['api', 'script', 'html'],
-//   },
-//   apiContent: { content: 'someContent - api' },
-//   htmlContent: { content: 'someContent - html' },
-//   scriptContent: { content: 'soemContent - script' },
-// };
-
 
 const propTypes = {
   classes: PropTypes.object.isRequired,
@@ -264,7 +223,7 @@ class App extends React.Component {
   handleDisplayFieldChange(field, e) {
     const newState = { ...this.state };
     newState.currentField[field] = e.target.value;
-    this.setState(state => Object.assign({}, newState));
+    this.setState(() => Object.assign({}, newState));
   }
 
   handleChange(field, e) {
@@ -277,16 +236,15 @@ class App extends React.Component {
     if (e.length) {
       const newState = { ...this.state };
       newState.data[this.state.activeForm].sources[this.state.currentField.name][index][field] = e;
-      this.setState(state => Object.assign({}, newState));
+      this.setState(() => Object.assign({}, newState));
     }
   }
 
   render() {
     const { classes } = this.props;
-    const { top, data, currentField, showModal, modalData, message, messageTwo } = this.state;
+    const { data, currentField, showModal, modalData, message, messageTwo } = this.state;
     const formData = data && Object.assign({}, data);
     const currentFieldData = data && Object.assign({}, currentField.data);
-
 
     return (
       <div>

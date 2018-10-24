@@ -1,7 +1,7 @@
 import React from 'react';
 import injectSheet from 'react-jss';
 import PropTypes from 'prop-types';
-import Button from './Button.jsx';
+import { Button, ButtonGroup } from 'reactstrap';
 
 const propTypes = {
   classes: PropTypes.object.isRequired,
@@ -12,6 +12,7 @@ const propTypes = {
 
 const styles = {
   modalContainer: {
+    zIndex: 100,
     position: 'fixed',
     top: '0',
     left: '0',
@@ -84,8 +85,10 @@ class Modal extends React.PureComponent {
           <h3 className={ classes.modalHeader }>{ title }</h3>
           <p className={ classes.alignText }>{ description }</p>
           <div className={ classes.buttonRow }>
-            <Button text="Cancel" onClick={ closeModal } />
-            <Button text="Submit" onClick={ onClick } />
+            <ButtonGroup>
+              <Button color="danger" text="Cancel" onClick={ closeModal }>Cancel</Button>
+              <Button color="primary" text="Submit" onClick={ onClick }>Submit</Button>
+            </ButtonGroup>
           </div>
 
         </div>

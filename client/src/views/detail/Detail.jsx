@@ -1,11 +1,11 @@
 // TODO: implement Layout
-/* eslint-disable no-unused-vars */
+
 /* eslint-disable no-console */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
-import { Button, ButtonGroup, Card, CardTitle, CardText, Row, Col, Container, Input, InputGroup,
-  InputGroupAddon, ListGroup, ListGroupItem, ButtonDropdown, DropdownItem, DropdownToggle, DropdownMenu } from 'reactstrap';
+import { Button, ButtonGroup, Card, Row, Col, Container,
+  ButtonDropdown, DropdownItem, DropdownToggle, DropdownMenu } from 'reactstrap';
 import ObjectInspector from 'react-object-inspector';
 
 import DetailInput from './DetailInput.jsx';
@@ -16,10 +16,7 @@ const propTypes = {
   classes: PropTypes.object.isRequired,
   currentField: PropTypes.object.isRequired,
   handleDisplayFieldChange: PropTypes.func,
-  handleChange: PropTypes.func,
   data: PropTypes.object.isRequired,
-  message: PropTypes.string.isRequired,
-  messageTwo: PropTypes.string.isRequired,
   handleDetailFormClick: PropTypes.func,
   saveClick: PropTypes.func,
 };
@@ -33,7 +30,6 @@ const defaultProps = {
   saveClick: () => {},
   handleDetailFormClick: () => {},
   handleDisplayFieldChange: () => {},
-  handleChange: () => {},
 };
 
 const styles = {
@@ -81,7 +77,7 @@ class Detail extends Component {
   }
 
   render() {
-    const { classes, handleChange, handleDisplayFieldChange, handleDetailFormClick, saveClick, data, message, messageTwo, currentField } = this.props;
+    const { classes, handleDisplayFieldChange, handleDetailFormClick, saveClick, data, currentField } = this.props;
     const activeField = 'primary_image';
     const selectedResponse = 0; // temporarily hardcoding...
     const tabSources = Object.keys(data[activeField].sources);
@@ -106,9 +102,9 @@ class Detail extends Component {
     });
     return (
       <Container>
-        <h5>{data.primary_image.name}</h5>
         <Row>
           <Col xs="6">
+            <h5>{data.primary_image.name}</h5>
             {inputFields}
             <AutoCompleteModal
               title="Transformation"
@@ -116,6 +112,7 @@ class Detail extends Component {
             />
           </Col>
           <Col className={classes.devBorder} xs="6">
+            <p />
             <ButtonGroup>
               <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggle} name="name">
                 <DropdownToggle caret color="primary">
@@ -129,7 +126,7 @@ class Detail extends Component {
                 </DropdownMenu>
               </ButtonDropdown>
               <Button>restore</Button>
-              <Button onClick={e => saveClick('save')} color="danger">save</Button>
+              <Button onClick={() => saveClick('save')} color="danger">save</Button>
             </ButtonGroup>
             <Card className={classes.objectRender}>
               <ObjectInspector className={classes.objectRender} initialExpandedPaths={['root', 'root.*']} data={activeSource.object} />
