@@ -22,7 +22,7 @@ const StoresList = (props) => {
       <select onChange={ e => props.handleFill(e.target.value) }>
         {
           (Object.keys(props.options) || []).sort().map((store) => {
-            const objStringifiedRegex = Object.assign({}, props.stores[store], { regex: props.stores[store].regex.toString() });
+            // const objStringifiedRegex = Object.assign({}, props.stores[store], { regex: props.stores[store].regex.toString() });
             return <option key={ props.stores[store].id } value={ JSON.stringify(objStringifiedRegex) }> { props.stores[store].name } </option>;
           })
         }

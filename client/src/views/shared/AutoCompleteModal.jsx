@@ -1,8 +1,9 @@
 /* eslint-disable no-console */
+/* eslint-disable no-unused-vars */
 import React, { Fragment, Component } from 'react';
 import injectSheet from 'react-jss';
 import PropTypes from 'prop-types';
-import Input from './Input.jsx';
+import { Button, Input } from 'reactstrap';
 
 // const propTypes = {
 //   onClick: PropTypes.func.isRequired,
@@ -151,14 +152,13 @@ class AutoCompleteModal extends Component {
               if (index === activeSuggestion) {
                 className = 'activeSuggestion';
               }
-
               return (
                 <span
                   className={className}
                   key={suggestion}
                   onClick={onClick}
                 >
-                  {suggestion}<br />
+                  {suggestion}
                 </span>
               );
             })}
@@ -166,16 +166,16 @@ class AutoCompleteModal extends Component {
         );
       } else {
         suggestionsListComponent = (
-          <div className="no-suggestions">
+          <span className="no-suggestions">
             <em>No suggestions...</em>
-          </div>
+          </span>
         );
       }
     }
 
     return (
       <Fragment>
-        <span>{suggestionsListComponent}</span>
+        <span>{this.props.title} : {suggestionsListComponent}</span>
         {this.state.selected.map((e, idx) => { return <button key={idx.toString()} onClick={() => this.onClearClick(idx)}>{e} + x</button>; })}
         <Input
           // type="text"
@@ -183,8 +183,8 @@ class AutoCompleteModal extends Component {
           onChange={onChange}
           onKeyDown={onKeyDown}
           value={userInput}
-          hasToolText
-          toolText="Tool Text Goes Here"
+          // hasToolText
+          // toolText="Tool Text Goes Here"
         />
       </Fragment>
     );

@@ -19,6 +19,7 @@ const styles = {
     backgroundColor: 'red',
     width: '200px',
     marginLeft: '5px',
+    marginTop: '10px',
   },
   infoTabContent: {
     backgroundColor: 'yellow',

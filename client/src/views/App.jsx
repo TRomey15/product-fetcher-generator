@@ -3,6 +3,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
+import { Navbar, NavbarBrand } from 'reactstrap';
 
 // import AutoCompleteModal from './shared/AutoCompleteModal.jsx';
 import FetcherForm from './fetcherForm/FetcherForm.jsx';
@@ -10,46 +11,114 @@ import Detail from './detail/Detail.jsx';
 import Modal from './shared/Modal.jsx';
 // import Layout from './shared/Layout.jsx';
 
-/* Mock_Data
-  {
-    schema_field_name: {
-      value: '',
-      code: '',
-      sources: {
-        api: [{
-          url,
-          path,
-          object,
-          functions,
-        }],
-        script: [{}],
-        html: []
-      },
+const testObject = {
+  '@context': 'http:schema.org',
+  '@type': 'Product',
+  name: 'Solid Pique Polo',
+  description: 'Joe Fresh - Solid Pique Polo is now 33-38% off. Free Shipping on orders over $100.',
+  brand: 'Joe Fresh',
+  image: [
+    'www.hautelookcdn.com/products/MC8K190003/large/8047587.jpg',
+  ],
+  offers: [
+    {
+      '@type': 'Offer',
+      priceCurrency: 'USD',
+      availability: 'http:schema.org/InStock',
+      price: 9.96,
     },
-  }
-*/
-
+    {
+      '@type': 'Offer',
+      priceCurrency: 'USD',
+      availability: 'http:schema.org./inStock',
+      price: 10.7,
+    },
+  ],
+};
+// placeholder for functions returned by backend...
+const dummyFunctions = ['cleanText', 'priceClean', 'makeDelicious'];
 // /* Mock_Data
 const mockData = {
   primary_image: {
-    value: '',
-    code: '',
+    activeKey: 'api',
+    value: '', // were this 'brand' it would be zara...
+    code: 'stringified function',
+    name: 'primary_image',
     sources: {
       api: [{
+        selected: true,
         url: 'https://images.lululemon.com/is/image/lululemon/LW1BE.jpg',
-        path: 'data.product-attribute.product-carousel["0"].image-info["4"]',
-        object: { foo: 'bar' },
-        functions: ['cleanText',
-          'priceClean',
-          'priceUpdate',
-          'queryState',
-          'wonderfulThing'],
+        path: 'data.product-attribute.product-carousel["0"].image-info["4"]', // input
+        object: testObject,
+        functions: dummyFunctions,
+      },
+      {
+        selected: false,
+        url: 'a totally different url',
+        path: 'a totally different path', // input
+        object: { funnyObject: 'output to editor' },
+        functions: dummyFunctions,
+      },
+      ],
+      script: [{
+        scriptRegex: 'regex',
+        selected: true,
+        path: 'data.product-attribute.product-carousel["0"].image-info["4"]', // input
+        object: { funnyObject: 'output to editor' },
+        functions: dummyFunctions,
       }],
-      script: [{}],
-      html: [{}],
+      html: [{
+        selector: 'selector',
+        selected: true,
+        path: 'data.product-attribute.product-carousel["0"].image-info["4"]', // input
+        object: { funnyObject: 'output to editor' },
+        functions: dummyFunctions,
+      }],
     },
   },
 };
+
+const workingData = { ...mockData };
+
+// const mockData = {
+//   observation: {
+//     brand: 'Zara',
+//     canonical_url: 'https://www.zara.com/us/en/velvet-blazer-p08245350.html',
+//     categories: ['Man', 'Blazers', 'Evening'],
+//     currency: 'USD',
+//     description: 'Blazer with tuxedo collar in contrasting satin fabric. Front flap pockets and chest pocket.',
+//     image_url_primary: 'https://static.zara.net/photos//2018/I/0/2/p/8245/350/401/2/w/2048/8245350401_1_1_1.jpg?ts=1539253739007',
+//     image_url_secondaries: [
+//       'https://static.zara.net/photos//2018/I/0/2/p/8245/…01/2/w/2048/8245350401_2_1_1.jpg?ts=1539600959855',
+//       'https://static.zara.net/photos//2018/I/0/2/p/8245/…01/2/w/2048/8245350401_3_1_1.jpg?ts=1539253757852'],
+//     imprint: true,
+//     in_stock: true,
+//     is_canonical: true,
+//     parent_id: '7145544',
+//     price_current: 149,
+//     price_guessed: 0,
+//     price_list: 149,
+//     product_details: { color: 'Navy blue', size: '36', material: 'OUTER SHELL: polyester, LINING: polyester' },
+//     product_source: 'vim',
+//     related_products: [],
+//     schema_version: '4.0.0',
+//     store: { id: '7357416199573265452', sessionId: 1540319388477 },
+//     store_extra_info: { parentId: '7145544', sku: 7144754 },
+//     title: 'VELVET BLAZER',
+//     variant_id: '7144754',
+//     vim_version: '1.0.5',
+//   },
+//   meta: {
+//     functions: ['priceClean', 'cleanText'], // transformation functions
+//   },
+//   ui: {
+//     activeDisplay: 'api', // or api, or html
+//     contentTypes: ['api', 'script', 'html'],
+//   },
+//   apiContent: { content: 'someContent - api' },
+//   htmlContent: { content: 'someContent - html' },
+//   scriptContent: { content: 'soemContent - script' },
+// };
 
 
 const propTypes = {
@@ -63,18 +132,27 @@ const styles = {
   show: {
     display: 'block',
   },
+  headerBrand: {
+    fontFamily: 'Fjalla One, sans-serif',
+    fontSize: '25px',
+    // marginTop: '4%',
+  },
 };
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      top: 'topline message',
+      message: 'placeholder', // DummyPlaceholder for testing ui
+      messageTwo: 'placeholder message 2', // Same...
       showModal: false,
+      activeForm: 'primary_image',
       modalData: {
         type: '',
         onClick: () => {},
       },
-      data: '', // all the data in Mock_Data
+      data: workingData, // all the data in Mock_Data
       currentField: { // field for detail view
         name: 'api',
         data: {},
@@ -101,7 +179,9 @@ class App extends React.Component {
     this.closeModal = this.closeModal.bind(this);
 
     // handle DisplayField (api/script/html) changes
+    this.handleChange = this.handleChange.bind(this);
     this.handleDisplayFieldChange = this.handleDisplayFieldChange.bind(this);
+    this.handleDetailFormClick = this.handleDetailFormClick.bind(this);
   }
 
   // componentDidMount() {
@@ -181,37 +261,49 @@ class App extends React.Component {
     this.setState({ showModal: !showModal });
   }
 
-  handleDisplayFieldChange(val) {
-    this.setState({ currentField: { name: val } });
+  // handleDisplayFieldChange(val) {
+  //   this.setState({ currentField: { name: val } });
+  // }
+
+  // handleDisplayFieldChange = (field, val) => {
+  //   // this.setState(state => Object.assign({}, state.currentField, { [field]: val }));
+  //   this.setState({ currentField: { [field]: val } });
+  // }
+
+  handleDisplayFieldChange(field, e) {
+    const newState = { ...this.state };
+    newState.currentField[field] = e.target.value;
+    this.setState(state => Object.assign({}, newState));
+  }
+
+  handleChange(field, e) {
+    this.setState({
+      [field]: e.target.value,
+    });
+  }
+
+  handleDetailFormClick(field, index, e) {
+    this.showModal('save');
+    const newState = { ...this.state };
+    newState.data[this.state.activeForm].sources[this.state.currentField.name][index][field] = e;
+    this.setState(state => Object.assign({}, newState));
   }
 
 
   render() {
     const { classes } = this.props;
-    const { data, currentField, showModal, modalData } = this.state;
-
+    const { top, data, currentField, showModal, modalData, message, messageTwo } = this.state;
     const formData = data && Object.assign({}, data);
     const currentFieldData = data && Object.assign({}, currentField.data);
 
+
     return (
       <div>
-        {/* <div><AutoCompleteModal
-          title="AutoComplete Demo"
-          suggestions={[
-            'cleanText',
-            'priceClean',
-            'priceUpdate',
-            'queryState',
-            'wonderfulThing',
-          ]}
-        /></div> */}
-        <div className={showModal ? classes.show : classes.hide}>
-          <Modal
-            closeModal={this.closeModal}
-            functionTypeKey={modalData.type}
-            onClick={modalData.onClick}
-          />
-        </div>
+        <Navbar>
+          <NavbarBrand className={classes.headerBrand}> {/* temporarily holding topline */}
+          Product Fetcher Generator
+          </NavbarBrand>
+        </Navbar>
         <div className={currentFieldData ? classes.hide : classes.show}>
           <FetcherForm
             onSrcButtonClick={this.onSrcButtonClick}
@@ -222,12 +314,25 @@ class App extends React.Component {
         </div>
         <div className={currentFieldData ? classes.show : classes.show}>
           <Detail
-            data={mockData}
+            data={this.state.data}
             handleDisplayFieldChange={this.handleDisplayFieldChange}
+            handleChange={this.handleChange}
             onRestore={this.restoreSchemaFieldData}
             onSave={this.onSaveChanges}
             onClose={this.onDetailClose}
+            handleDetailFormClick={this.handleDetailFormClick}
             currentField={currentField}
+            message={message}
+            messageTwo={messageTwo}
+            testObject={testObject}
+            saveClick={this.showModal}
+          />
+        </div>
+        <div className={showModal ? classes.show : classes.hide}>
+          <Modal
+            closeModal={this.closeModal}
+            functionTypeKey={modalData.type}
+            onClick={modalData.onClick}
           />
         </div>
         {/* <Layout buttonText="hello" buttonOnClick={ () => { console.log('hello world'); }} header="world" /> */}
