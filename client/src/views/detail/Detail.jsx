@@ -8,9 +8,9 @@ import { Button, ButtonGroup, Card, CardTitle, CardText, Row, Col, Container, In
   InputGroupAddon, ListGroup, ListGroupItem, ButtonDropdown, DropdownItem, DropdownToggle, DropdownMenu } from 'reactstrap';
 import ObjectInspector from 'react-object-inspector';
 
-import InfoTab from '../shared/InfoTab.jsx';
+import DetailInput from './DetailInput.jsx';
+// import InfoTab from '../shared/InfoTab.jsx';
 import AutoCompleteModal from '../shared/AutoCompleteModal.jsx';
-import ApiFieldRender from './ApiFieldRender';
 
 const propTypes = {
   classes: PropTypes.object.isRequired,
@@ -21,6 +21,7 @@ const propTypes = {
   message: PropTypes.string.isRequired,
   messageTwo: PropTypes.string.isRequired,
   handleDetailFormClick: PropTypes.func,
+  saveClick: PropTypes.func,
 };
 
 // const defaultProps = {
@@ -29,6 +30,7 @@ const propTypes = {
 // };
 
 const defaultProps = {
+  saveClick: () => {},
   handleDetailFormClick: () => {},
   handleDisplayFieldChange: () => {},
   handleChange: () => {},
@@ -81,9 +83,7 @@ class Detail extends Component {
   render() {
     const { classes, handleChange, handleDisplayFieldChange, handleDetailFormClick, saveClick, data, message, messageTwo, currentField } = this.props;
     const activeField = 'primary_image';
-    const selectedResponse = 0 // temporarily hardcoding...
-    console.log('dataz');
-    console.log(data);
+    const selectedResponse = 0; // temporarily hardcoding...
     const tabSources = Object.keys(data[activeField].sources);
     const activeSource = data[activeField].sources[currentField.name][selectedResponse];
     const inputFields = Object.keys(activeSource)
@@ -93,19 +93,17 @@ class Detail extends Component {
     }).map((i) => {
       console.log(i);
       console.log(activeSource[i]);
-      const holder = '';
-      return (<ListGroup key={i} className={classes.detailInput}>
-        <h6>{i}:</h6>
-        <ListGroupItem>{JSON.stringify(activeSource[i])}</ListGroupItem>
-        <InputGroup size="sm" className={classes.DetailInput}>
-          <Input onChange={e => handleChange('message', e)} placeholder={activeSource[i]} />
-          <InputGroupAddon addonType="append">
-            <Button onClick={() => handleDetailFormClick(i, selectedResponse, message)} size="sm" color="warning">Set</Button>
-          </InputGroupAddon>
-        </InputGroup>
-      </ListGroup>);
+      return (
+        <div key={i}>
+          <DetailInput
+            handleDetailFormClick={handleDetailFormClick}
+            activeSource={activeSource}
+            i={i}
+            selectedResponse={selectedResponse}
+          />
+        </div>
+      );
     });
-    // const tabs = tabSources.map(e => <InfoTab className={classes.DetailInput} key={e} title={e} content={JSON.stringify(e)} />);
     return (
       <Container>
         <h5>{data.primary_image.name}</h5>
@@ -130,8 +128,8 @@ class Detail extends Component {
                     </DropdownItem>))}
                 </DropdownMenu>
               </ButtonDropdown>
-              <Button>load</Button>
-              <Button onClick={e=>saveClick('save')}color="danger">save</Button>
+              <Button>restore</Button>
+              <Button onClick={e => saveClick('save')} color="danger">save</Button>
             </ButtonGroup>
             <Card className={classes.objectRender}>
               <ObjectInspector className={classes.objectRender} initialExpandedPaths={['root', 'root.*']} data={activeSource.object} />

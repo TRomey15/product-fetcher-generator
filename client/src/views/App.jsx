@@ -147,7 +147,7 @@ class App extends React.Component {
       message: 'placeholder', // DummyPlaceholder for testing ui
       messageTwo: 'placeholder message 2', // Same...
       showModal: false,
-      activeForm: 'primary_image',
+      activeForm: 'primary_image', // hardcoded for now - to build out...
       modalData: {
         type: '',
         onClick: () => {},
@@ -261,15 +261,6 @@ class App extends React.Component {
     this.setState({ showModal: !showModal });
   }
 
-  // handleDisplayFieldChange(val) {
-  //   this.setState({ currentField: { name: val } });
-  // }
-
-  // handleDisplayFieldChange = (field, val) => {
-  //   // this.setState(state => Object.assign({}, state.currentField, { [field]: val }));
-  //   this.setState({ currentField: { [field]: val } });
-  // }
-
   handleDisplayFieldChange(field, e) {
     const newState = { ...this.state };
     newState.currentField[field] = e.target.value;
@@ -283,12 +274,12 @@ class App extends React.Component {
   }
 
   handleDetailFormClick(field, index, e) {
-    this.showModal('save');
-    const newState = { ...this.state };
-    newState.data[this.state.activeForm].sources[this.state.currentField.name][index][field] = e;
-    this.setState(state => Object.assign({}, newState));
+    if (e.length) {
+      const newState = { ...this.state };
+      newState.data[this.state.activeForm].sources[this.state.currentField.name][index][field] = e;
+      this.setState(state => Object.assign({}, newState));
+    }
   }
-
 
   render() {
     const { classes } = this.props;
