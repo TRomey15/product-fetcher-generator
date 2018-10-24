@@ -46,6 +46,13 @@ docker-compose up
 
 The Express server is now running under *http://localhost:3000* and the React client under *http://localhost:8080*
 
+It's also possible to run just the client or the server either with Docker or just the NPM scripts defined in the 
+package.json file
+
+### Production
+
+TBD
+
 ## Built With
 
 * [React](https://reactjs.org/)

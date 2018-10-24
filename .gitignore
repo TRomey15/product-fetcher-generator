@@ -22,3 +22,6 @@ dist
 # Kubernetes file is generated
 kubernetes.yml
 kubernetes.*.yml
+
+# local DB files
+db/
