@@ -1,31 +1,22 @@
-/* eslint-disable no-console */
-/* eslint-disable no-unused-vars */
+// TODO: potentially replace w. react-bootstrap-typeahead...
+
 import React, { Fragment, Component } from 'react';
 import injectSheet from 'react-jss';
 import PropTypes from 'prop-types';
-import { Button, Input } from 'reactstrap';
-
-// const propTypes = {
-//   onClick: PropTypes.func.isRequired,
-//   closeModal: PropTypes.func.isRequired,
-//   functionTypeKey: PropTypes.string.isRequired,
-//   classes: PropTypes.object.isRequired,
-// };
+import { Button, ButtonGroup, Input, ListGroup, ListGroupItem } from 'reactstrap';
 
 const propTypes = {
-  suggestions: PropTypes.instanceOf(Array),
-  title: PropTypes.string,
-  // classes: PropTypes.object.isRequired,
-};
-
-const defaultProps = {
-  suggestions: [],
-  title: 'default title',
+  classes: PropTypes.object.isRequired,
+  suggestions: PropTypes.array.isRequired,
+  title: PropTypes.string.isRequired,
 };
 
 const styles = {
   activeSuggestion: {
     backgroundColor: 'red',
+  },
+  suggestList: {
+    fontSize: '10px',
   },
 };
 const selectedItems = [];
@@ -132,7 +123,6 @@ class AutoCompleteModal extends Component {
       onKeyDown,
       // classes,
       state: {
-        activeSuggestion,
         filteredSuggestions,
         showSuggestions,
         userInput,
@@ -144,25 +134,19 @@ class AutoCompleteModal extends Component {
     if (showSuggestions && userInput) {
       if (filteredSuggestions.length) {
         suggestionsListComponent = (
-          <ul className="suggestions">
-            {filteredSuggestions.map((suggestion, index) => {
-              let className;
-
-              // Flag the active suggestion with a class
-              if (index === activeSuggestion) {
-                className = 'activeSuggestion';
-              }
+          <ListGroup className="suggestions">
+            {filteredSuggestions.map((suggestion) => {
               return (
-                <span
-                  className={className}
+                <ListGroupItem
+                  className={this.props.classes.suggestList}
                   key={suggestion}
                   onClick={onClick}
                 >
-                  {suggestion}
-                </span>
+                  {suggestion} :
+                </ListGroupItem>
               );
             })}
-          </ul>
+          </ListGroup>
         );
       } else {
         suggestionsListComponent = (
@@ -175,22 +159,31 @@ class AutoCompleteModal extends Component {
 
     return (
       <Fragment>
-        <span>{this.props.title} : {suggestionsListComponent}</span>
-        {this.state.selected.map((e, idx) => { return <button key={idx.toString()} onClick={() => this.onClearClick(idx)}>{e} + x</button>; })}
-        <Input
-          // type="text"
-          title={this.props.title}
-          onChange={onChange}
-          onKeyDown={onKeyDown}
-          value={userInput}
-          // hasToolText
-          // toolText="Tool Text Goes Here"
-        />
+        <h6>
+
+          {this.props.title} : {suggestionsListComponent}
+        </h6>
+        <ListGroup>
+          <ListGroupItem>
+            <Input
+              // type="text"
+              title={this.props.title}
+              onChange={onChange}
+              onKeyDown={onKeyDown}
+              value={userInput}
+            />
+          </ListGroupItem>
+          <ListGroupItem>
+            <ButtonGroup>
+              {this.state.selected.map((e, idx) => { return <Button size="sm" key={idx.toString()} onClick={() => this.onClearClick(idx)}>{e} + x</Button>; })}
+            </ButtonGroup>
+          </ListGroupItem>
+        </ListGroup>
       </Fragment>
     );
   }
 }
 
 AutoCompleteModal.propTypes = propTypes;
-AutoCompleteModal.defaultProps = defaultProps;
+// AutoCompleteModal.defaultProps = defaultProps;
 export default injectSheet(styles)(AutoCompleteModal);

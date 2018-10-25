@@ -1,15 +1,10 @@
-// TODO: implement Layout
-
-/* eslint-disable no-console */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
 import { Button, ButtonGroup, Card, Row, Col, Container,
   ButtonDropdown, DropdownItem, DropdownToggle, DropdownMenu } from 'reactstrap';
 import ObjectInspector from 'react-object-inspector';
-
 import DetailInput from './DetailInput.jsx';
-// import InfoTab from '../shared/InfoTab.jsx';
 import AutoCompleteModal from '../shared/AutoCompleteModal.jsx';
 
 const propTypes = {
@@ -19,12 +14,8 @@ const propTypes = {
   data: PropTypes.object.isRequired,
   handleDetailFormClick: PropTypes.func,
   saveClick: PropTypes.func,
+  transformFunctions: PropTypes.array.isRequired,
 };
-
-// const defaultProps = {
-//   // classes: {},
-//   header: '',
-// };
 
 const defaultProps = {
   saveClick: () => {},
@@ -77,7 +68,16 @@ class Detail extends Component {
   }
 
   render() {
-    const { classes, handleDisplayFieldChange, handleDetailFormClick, saveClick, data, currentField } = this.props;
+    const {
+      classes,
+      currentField,
+      data,
+      handleDisplayFieldChange,
+      handleDetailFormClick,
+      saveClick,
+      transformFunctions,
+    } = this.props;
+
     const activeField = 'primary_image';
     const selectedResponse = 0; // temporarily hardcoding...
     const tabSources = Object.keys(data[activeField].sources);
@@ -87,8 +87,6 @@ class Detail extends Component {
       return !['selected', 'functions', 'object']
       .includes(x);
     }).map((i) => {
-      console.log(i);
-      console.log(activeSource[i]);
       return (
         <div key={i}>
           <DetailInput
@@ -108,7 +106,7 @@ class Detail extends Component {
             {inputFields}
             <AutoCompleteModal
               title="Transformation"
-              suggestions={['function1', 'anotherFunction']}
+              suggestions={transformFunctions}
             />
           </Col>
           <Col className={classes.devBorder} xs="6">

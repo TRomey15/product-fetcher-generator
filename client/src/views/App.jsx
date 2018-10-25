@@ -1,17 +1,14 @@
 /* eslint-disable no-console */
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
 import { Navbar, NavbarBrand } from 'reactstrap';
-
-// import AutoCompleteModal from './shared/AutoCompleteModal.jsx';
 import FetcherForm from './fetcherForm/FetcherForm.jsx';
 import Detail from './detail/Detail.jsx';
 import Modal from './shared/Modal.jsx';
 // import Layout from './shared/Layout.jsx';
 
-const testObject = {
+const testObject = { // For Demoing rendering of R hand side of detail View
   '@context': 'http:schema.org',
   '@type': 'Product',
   name: 'Solid Pique Polo',
@@ -36,9 +33,9 @@ const testObject = {
   ],
 };
 // placeholder for functions returned by backend...
-const dummyFunctions = ['cleanText', 'priceClean', 'makeDelicious'];
+const dummyFunctions = ['cleanText', 'priceClean', 'makeDelicious']; // dummy helpers for transform
 // /* Mock_Data
-const mockData = {
+const mockData = { // simulating Data provided by Backend...
   primary_image: {
     activeKey: 'api',
     value: '', // were this 'brand' it would be zara...
@@ -275,6 +272,7 @@ class App extends React.Component {
             messageTwo={messageTwo}
             testObject={testObject}
             saveClick={this.showModal}
+            transformFunctions={dummyFunctions}
           />
         </div>
         <div className={showModal ? classes.show : classes.hide}>
