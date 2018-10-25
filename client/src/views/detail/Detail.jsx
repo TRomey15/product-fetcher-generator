@@ -24,17 +24,6 @@ const defaultProps = {
 };
 
 const styles = {
-  red: {
-    backgroundColor: 'red',
-  },
-  blue: {
-    backgroundColor: 'blue',
-    width: '200px',
-    color: 'white',
-  },
-  violet: {
-    backgroundColor: 'purple',
-  },
   detailInput: {
     // width: '400px',
     fontSize: '10px',
@@ -47,10 +36,6 @@ const styles = {
   },
   objectRender: {
     marginTop: '10px',
-  },
-  devBorder: {
-    // border: '2px solid black',
-    // paddiing: '5px',
   },
 };
 

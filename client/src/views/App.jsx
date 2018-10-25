@@ -3,6 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
 import { Navbar, NavbarBrand } from 'reactstrap';
+
 import FetcherForm from './fetcherForm/FetcherForm.jsx';
 import Detail from './detail/Detail.jsx';
 import Modal from './shared/Modal.jsx';

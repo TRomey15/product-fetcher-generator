@@ -13,32 +13,9 @@ const propTypes = {
 };
 
 const styles = {
-  red: {
-    backgroundColor: 'red',
-  },
-  blue: {
-    backgroundColor: 'blue',
-    width: '200px',
-    color: 'white',
-  },
-  violet: {
-    backgroundColor: 'purple',
-  },
   detailInput: {
     fontSize: '10px',
     margin: '10px',
-  },
-  codeWindow: {
-    backgroundColor: '#333',
-    borderColor: '#333',
-    color: 'white',
-  },
-  objectRender: {
-    marginTop: '10px',
-  },
-  devBorder: {
-    // border: '2px solid black',
-    // paddiing: '5px',
   },
   detailText: {
     fontSize: '10px',
