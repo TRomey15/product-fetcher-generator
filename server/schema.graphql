@@ -1,0 +1,14 @@
+# import Store from "./src/generated/prisma.graphql"
+# import { ProductObservation, Transformation } from "./src/generated/prisma.graphql"
+
+type Query {
+    store(id: ID!): Store
+    stores: [Store!]!
+    productObservation(id: ID!): ProductObservation
+    availableTransformations(filter: String): [Transformation!]!
+}
+
+type Mutation {
+    createProductObservation(data: ProductObservationCreateInput!): ProductObservation!
+    updateProductObservation(id: ID!, data: ProductObservationCreateInput!): ProductObservation
+}

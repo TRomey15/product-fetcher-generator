@@ -7,8 +7,8 @@
   "private": true,
   "main": "./src/index.js",
   "scripts": {
-    "start": "node ./src/bin/www",
-    "dev": "NODE_ENV=development nodemon ./src/bin/www",
+    "start": "node ./src/app.js",
+    "dev": "NODE_ENV=development nodemon ./src/app.js",
     "lint": "npx honey-eslint --ext .js ./src; exit 0"
   },
   "dependencies": {
@@ -17,17 +17,18 @@
     "csurf": "^1.9.0",
     "debug": "~2.6.9",
     "express": "^4.16.3",
+    "graphql-yoga": "^1.16.7",
     "hbs": "~4.0.1",
     "helmet": "^3.13.0",
     "http-errors": "~1.6.2",
     "morgan": "~1.9.0",
     "mysql": "^2.16.0",
     "prettier": "^1.14.3",
-    "winston": "^3.1.0"
+    "prisma-binding": "^2.1.6",
+    "prisma-client-lib": "^1.19.1"
   },
   "devDependencies": {
     "@honeyscience/eslint-config": "^1.6.1",
-    "concurrently": "^4.0.1",
     "eslint": "^5.6.1",
     "nodemon": "^1.18.4 "
   }

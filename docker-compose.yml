@@ -19,23 +19,40 @@ services:
       - ./server:/app
       - /app/node_modules
     ports:
-      - "3000:3000"
+      - "4000:4000"
     environment:
       - HONEY_NPM_TOKEN
       - NODE_ENV=${NODE_ENV}
     depends_on:
+      - prisma
       - mysql
 
+  prisma:
+    image: prismagraphql/prisma:1.19
+    restart: always
+    ports:
+      - "4466:4466"
+    environment:
+      PRISMA_CONFIG: |
+        port: 4466
+        databases:
+          default:
+            connector: mysql
+            host: mysql
+            port: 3306
+            user: root
+            password: prisma
+            migrations: true
+
   mysql:
-    image: mysql:5.7.23
-    container_name: mysql57
+    image: mysql:5.7
     restart: always
     environment:
-      MYSQL_USER: app
-      MYSQL_PASSWORD: app
-      MYSQL_DATABASE: vim_generator
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: prisma
     ports:
       - "3306:3306"
     volumes:
-      - ./db/mysql:/var/lib/mysql
+      - mysql:/var/lib/mysql
+
+volumes:
+  mysql:

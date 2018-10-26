@@ -16,8 +16,6 @@ RUN echo "//registry.npmjs.org/:_authToken=${HONEY_NPM_TOKEN}" > ~/.npmrc && npm
 
 COPY . /app
 
-EXPOSE 3000
+EXPOSE 4000
 
-CMD [ "npx", "nodemon", "./src/bin/www" ]
-
-USER app
+CMD [ "npx", "nodemon", "./src/app.js" ]
