@@ -32,7 +32,7 @@ class Container extends React.PureComponent {
       <div className={classes.main}>
         <h1 className={classes.header}>{header}</h1>
         <div className={classes.cardContainer}>
-          {this.props.children}
+          {/* {this.props.children} */}
         </div>
       </div>
     );

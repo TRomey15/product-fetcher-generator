@@ -56,6 +56,14 @@ class App extends React.Component {
     return this.state.data[key];
   }
 
+  // componentDidMount() {
+  //   this.showModal('save'); // for testing buttons
+  // }
+
+  getSchemaFieldData(key) {
+    return this.state.data[key];
+  }
+
   saveChanges(dataUpdates) {
     this.setState({ currentField: { name: '', data: {} } });
     this.setState({ data: dataUpdates }); // should probably how data is updated
@@ -150,7 +158,13 @@ class App extends React.Component {
 
   render() {
     const { classes } = this.props;
+<<<<<<< HEAD
     const { data, currentField, showModal, modalData } = this.state;
+=======
+
+    const { data, currentField, showModal, modalData, message, messageTwo } = this.state;
+
+>>>>>>> 17af60700baaa444ffc2221a151252eacb55b007
     const formData = data && Object.assign({}, data);
     const currentFieldData = data && Object.assign({}, currentField.data);
 
