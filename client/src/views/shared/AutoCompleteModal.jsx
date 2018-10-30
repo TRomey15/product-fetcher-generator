@@ -1,15 +1,15 @@
 // TODO: potentially replace w. react-bootstrap-typeahead...
-
 import React, { Fragment, Component } from 'react';
 import injectSheet from 'react-jss';
 import PropTypes from 'prop-types';
-import { Button, ButtonGroup, Input, ListGroup, ListGroupItem } from 'reactstrap';
+import { Badge, Input, Label } from 'reactstrap';
 
-const propTypes = {
-  classes: PropTypes.object.isRequired,
-  suggestions: PropTypes.array.isRequired,
-  title: PropTypes.string.isRequired,
-};
+const ENTER_KEY = 13;
+const UP_ARROW = 38;
+const DOWN_ARROW = 40;
+const COLORS = { 1: 'primary', 2: 'secondary', 3: 'success', 4: 'danger', 5: 'warning', 6: 'info', 7: 'dark' };
+
+const selectedItems = [];
 
 const styles = {
   activeSuggestion: {
@@ -18,10 +18,11 @@ const styles = {
   suggestList: {
     fontSize: '10px',
   },
+  methodBadge: {
+    margin: '10px 2px 0',
+  },
 };
-const selectedItems = [];
 
-// ToDo Refactor to move state to app...
 
 class AutoCompleteModal extends Component {
   constructor(props) {
@@ -77,13 +78,9 @@ class AutoCompleteModal extends Component {
     });
   }
 
-  // Event fired when the user presses a key down
   onKeyDown(e) {
     const { activeSuggestion, filteredSuggestions } = this.state;
-
-    // User pressed the enter key, update the input and close the
-    // suggestions
-    if (e.keyCode === 13) {
+    if (e.keyCode === ENTER_KEY) {
       if (filteredSuggestions[activeSuggestion]) {
         selectedItems.push(filteredSuggestions[activeSuggestion]);
         this.setState({
@@ -93,17 +90,12 @@ class AutoCompleteModal extends Component {
           selected: selectedItems,
         });
       }
-
-    // User pressed the up arrow, decrement the index
-    } else if (e.keyCode === 38) {
+    } else if (e.keyCode === UP_ARROW) {
       if (activeSuggestion === 0) {
         return;
       }
-
       this.setState({ activeSuggestion: activeSuggestion - 1 });
-
-    // User pressed the down arrow, increment the index
-    } else if (e.keyCode === 40) {
+    } else if (e.keyCode === DOWN_ARROW) {
       if (activeSuggestion - 1 === filteredSuggestions.length) {
         return;
       }
@@ -134,24 +126,24 @@ class AutoCompleteModal extends Component {
     if (showSuggestions && userInput) {
       if (filteredSuggestions.length) {
         suggestionsListComponent = (
-          <ListGroup className="suggestions">
+          <span className="suggestions">
             {filteredSuggestions.map((suggestion) => {
               return (
-                <ListGroupItem
+                <span
                   className={this.props.classes.suggestList}
                   key={suggestion}
                   onClick={onClick}
                 >
-                  {suggestion} :
-                </ListGroupItem>
+                  {`${suggestion} `}
+                </span>
               );
             })}
-          </ListGroup>
+          </span>
         );
       } else {
         suggestionsListComponent = (
-          <span className="no-suggestions">
-            <em>No suggestions...</em>
+          <span className={this.props.classes.suggestList}>
+           No suggestions...
           </span>
         );
       }
@@ -159,31 +151,37 @@ class AutoCompleteModal extends Component {
 
     return (
       <Fragment>
-        <h6>
-
-          {this.props.title} : {suggestionsListComponent}
-        </h6>
-        <ListGroup>
-          <ListGroupItem>
-            <Input
-              // type="text"
-              title={this.props.title}
-              onChange={onChange}
-              onKeyDown={onKeyDown}
-              value={userInput}
-            />
-          </ListGroupItem>
-          <ListGroupItem>
-            <ButtonGroup>
-              {this.state.selected.map((e, idx) => { return <Button size="sm" key={idx.toString()} onClick={() => this.onClearClick(idx)}>{e} + x</Button>; })}
-            </ButtonGroup>
-          </ListGroupItem>
-        </ListGroup>
+        <Label>{this.props.title} : {suggestionsListComponent}</Label>
+        <Input
+          placeholder="type to insert methods..."
+          bsSize="sm"
+          // type="text"
+          title={this.props.title}
+          onChange={onChange}
+          onKeyDown={onKeyDown}
+          value={userInput}
+        />
+        {this.state.selected.map((e, idx) => {
+          return (
+            <Badge
+              className={this.props.classes.methodBadge}
+              pill
+              color={COLORS[(idx + 1) % 7]}
+              size="xs"
+              key={idx.toString()}
+              onClick={() => this.onClearClick(idx)}
+            >{e}
+            </Badge>);
+        })}
       </Fragment>
     );
   }
 }
 
-AutoCompleteModal.propTypes = propTypes;
-// AutoCompleteModal.defaultProps = defaultProps;
+AutoCompleteModal.propTypes = {
+  classes: PropTypes.object.isRequired,
+  suggestions: PropTypes.array.isRequired,
+  title: PropTypes.string.isRequired,
+};
+
 export default injectSheet(styles)(AutoCompleteModal);

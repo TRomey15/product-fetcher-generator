@@ -1,86 +1,14 @@
-/* eslint-disable no-console */
 import React from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
+import autoBind from 'react-autobind';
 import { Navbar, NavbarBrand } from 'reactstrap';
 
-import FetcherForm from './fetcherForm/FetcherForm.jsx';
-import Detail from './detail/Detail.jsx';
-import Modal from './shared/Modal.jsx';
+import mock from './mock.js';
+import Detail from './detail/Detail';
+import FetcherForm from './fetcherForm/FetcherForm';
+import AlertModal from './shared/AlertModal';
 // import Layout from './shared/Layout.jsx';
-
-const testObject = { // For Demoing rendering of R hand side of detail View
-  '@context': 'http:schema.org',
-  '@type': 'Product',
-  name: 'Solid Pique Polo',
-  description: 'Joe Fresh - Solid Pique Polo is now 33-38% off. Free Shipping on orders over $100.',
-  brand: 'Joe Fresh',
-  image: [
-    'www.hautelookcdn.com/products/MC8K190003/large/8047587.jpg',
-  ],
-  offers: [
-    {
-      '@type': 'Offer',
-      priceCurrency: 'USD',
-      availability: 'http:schema.org/InStock',
-      price: 9.96,
-    },
-    {
-      '@type': 'Offer',
-      priceCurrency: 'USD',
-      availability: 'http:schema.org./inStock',
-      price: 10.7,
-    },
-  ],
-};
-// placeholder for functions returned by backend...
-const dummyFunctions = ['cleanText', 'priceClean', 'makeDelicious']; // dummy helpers for transform
-// /* Mock_Data
-const mockData = { // simulating Data provided by Backend...
-  primary_image: {
-    activeKey: 'api',
-    value: '', // were this 'brand' it would be zara...
-    code: 'stringified function',
-    name: 'primary_image',
-    sources: {
-      api: [{
-        selected: true,
-        url: 'https://images.lululemon.com/is/image/lululemon/LW1BE.jpg',
-        path: 'data.product-attribute.product-carousel["0"].image-info["4"]', // input
-        object: testObject,
-        functions: dummyFunctions,
-      },
-      {
-        selected: false,
-        url: 'a totally different url',
-        path: 'a totally different path', // input
-        object: { funnyObject: 'output to editor' },
-        functions: dummyFunctions,
-      },
-      ],
-      script: [{
-        scriptRegex: 'regex',
-        selected: true,
-        path: 'data.product-attribute.product-carousel["0"].image-info["4"]', // input
-        object: { funnyObject: 'output to editor' },
-        functions: dummyFunctions,
-      }],
-      html: [{
-        selector: 'selector',
-        selected: true,
-        path: 'data.product-attribute.product-carousel["0"].image-info["4"]', // input
-        object: { funnyObject: 'output to editor' },
-        functions: dummyFunctions,
-      }],
-    },
-  },
-};
-
-const workingData = { ...mockData };
-
-const propTypes = {
-  classes: PropTypes.object.isRequired,
-};
 
 const styles = {
   hide: {
@@ -90,15 +18,18 @@ const styles = {
     display: 'block',
   },
   headerBrand: {
-    fontFamily: 'Fjalla One, sans-serif',
-    fontSize: '25px',
-    // marginTop: '4%',
+    fontSize: '18px',
+    color: 'white',
   },
 };
+
+// consider Lodash implementation for this deep copy...
+const workingData = JSON.parse(JSON.stringify(mock.mockData));
 
 class App extends React.Component {
   constructor(props) {
     super(props);
+    autoBind(this);
     this.state = {
       top: 'topline message',
       message: 'placeholder', // DummyPlaceholder for testing ui
@@ -115,34 +46,10 @@ class App extends React.Component {
         data: {},
       },
     };
-
-    this.getSchemaFieldData = this.getSchemaFieldData.bind(this);
-    this.saveChanges = this.saveChanges.bind(this);
-    this.submitForm = this.submitForm.bind(this);
-
-    // submit/onclick from fetcher generator view
-    this.formOnClick = this.formOnClick.bind(this);
-    this.githubOnClick = this.githubOnClick.bind(this);
-    this.onSrcButtonClick = this.onSrcButtonClick.bind(this);
-
-    // submit/onclick detail view
-    this.onSaveChanges = this.onSaveChanges.bind(this);
-    this.onDetailClose = this.onDetailClose.bind(this);
-    // this.restoreFieldData = this.restoreFieldData.bind(this);
-
-    // submit/onclick from modal
-    this.showModal = this.showModal.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
-    this.closeModal = this.closeModal.bind(this);
-
-    // handle DisplayField (api/script/html) changes
-    this.handleChange = this.handleChange.bind(this);
-    this.handleDisplayFieldChange = this.handleDisplayFieldChange.bind(this);
-    this.handleDetailFormClick = this.handleDetailFormClick.bind(this);
   }
 
   // componentDidMount() {
-  //   this.showModal('save'); // for testing buttons
+  //   this.showModal('submit'); // for testing buttons
   // }
 
   getSchemaFieldData(key) {
@@ -155,14 +62,13 @@ class App extends React.Component {
     this.showModal('save');
   }
 
-  submitForm() {
-    console.log(this.state);
-    // make request
-    // then...
-    // const data = JSON.parse(res);
-    // this.setState({ schemaFields: data });
-    // if error: set state to show 'error' modal
-  }
+  // submitForm() {
+  //   // make request
+  //   // then...
+  //   // const data = JSON.parse(res);
+  //   // this.setState({ schemaFields: data });
+  //   // if error: set state to show 'error' modal
+  // }
 
   // fetcher generator view
   onSubmit() {
@@ -179,10 +85,9 @@ class App extends React.Component {
     this.setState({ currentField: { name, data } });
   }
 
-  githubOnClick() {
-    // whatever is in data -> send to backend to send to github
-    console.log(this.state);
-  }
+  // githubOnClick() {
+  //   // whatever is in data -> send to backend to send to github
+  // }
 
   // detail view
   onSaveChanges() {
@@ -218,6 +123,11 @@ class App extends React.Component {
     this.setState({ showModal: !showModal });
   }
 
+  handleUndo() {
+    const undoData = JSON.parse(JSON.stringify(mock.mockData));
+    this.setState({ data: undoData });
+  }
+
   handleDisplayFieldChange(field, e) {
     const newState = { ...this.state };
     newState.currentField[field] = e.target.value;
@@ -240,15 +150,15 @@ class App extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const { data, currentField, showModal, modalData, message, messageTwo } = this.state;
+    const { data, currentField, showModal, modalData } = this.state;
     const formData = data && Object.assign({}, data);
     const currentFieldData = data && Object.assign({}, currentField.data);
 
     return (
       <div>
-        <Navbar>
+        <Navbar className={classes.headerBrand} color="secondary">
           <NavbarBrand className={classes.headerBrand}> {/* temporarily holding topline */}
-          Product Fetcher Generator
+            <img src="https://cdn.joinhoney.com/images/header/honey-logo-orange.svg" alt="Honey" data-reactid="20" /> &nbsp;product fetcher generator
           </NavbarBrand>
         </Navbar>
         <div className={currentFieldData ? classes.hide : classes.show}>
@@ -261,26 +171,24 @@ class App extends React.Component {
         </div>
         <div className={currentFieldData ? classes.show : classes.show}>
           <Detail
+            currentField={currentField}
             data={this.state.data}
             handleDisplayFieldChange={this.handleDisplayFieldChange}
-            handleChange={this.handleChange}
-            onRestore={this.restoreSchemaFieldData}
-            onSave={this.onSaveChanges}
-            onClose={this.onDetailClose}
             handleDetailFormClick={this.handleDetailFormClick}
-            currentField={currentField}
-            message={message}
-            messageTwo={messageTwo}
-            testObject={testObject}
+            handleUndo={this.handleUndo}
+            onClose={this.onDetailClose}
+            // onRestore={this.restoreSchemaFieldData}
+            onSave={this.onSaveChanges}
             saveClick={this.showModal}
-            transformFunctions={dummyFunctions}
+            transformFunctions={mock.dummyFunctions}
           />
         </div>
         <div className={showModal ? classes.show : classes.hide}>
-          <Modal
+          <AlertModal
+            showModal={this.state.showModal}
             closeModal={this.closeModal}
             functionTypeKey={modalData.type}
-            onClick={modalData.onClick}
+            saveChanges={this.onSaveChanges}
           />
         </div>
         {/* <Layout buttonText="hello" buttonOnClick={ () => { console.log('hello world'); }} header="world" /> */}
@@ -289,5 +197,7 @@ class App extends React.Component {
   }
 }
 
-App.propTypes = propTypes;
+App.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
 export default injectSheet(styles)(App);

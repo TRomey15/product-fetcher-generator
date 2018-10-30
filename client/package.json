@@ -22,10 +22,11 @@
     "classnames": "^2.2.6",
     "prop-types": "^15.6.2",
     "react": "^16.5.2",
+    "react-autobind": "^1.0.6",
     "react-bootstrap-typeahead": "^3.2.4",
     "react-dom": "^16.5.2",
+    "react-inspector": "^2.3.0",
     "react-jss": "^8.6.1",
-    "react-object-inspector": "^0.2.1",
     "reactstrap": "^6.5.0"
   },
   "devDependencies": {

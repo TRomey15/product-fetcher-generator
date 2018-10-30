@@ -3,12 +3,6 @@ import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
 // import classNames from 'classnames';
 
-const propTypes = {
-  children: PropTypes.node.isRequired,
-  header: PropTypes.string.isRequired,
-  classes: PropTypes.object.isRequired,
-};
-
 const styles = {
   main: {
     margin: '1%',
@@ -46,5 +40,9 @@ class Container extends React.PureComponent {
 }
 
 
-Container.propTypes = propTypes;
+Container.propTypes = {
+  children: PropTypes.node.isRequired,
+  header: PropTypes.string.isRequired,
+  classes: PropTypes.object.isRequired,
+};
 export default injectSheet(styles)(Container);

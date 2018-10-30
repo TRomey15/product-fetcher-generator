@@ -4,13 +4,6 @@ import PropTypes from 'prop-types';
 import { Button } from 'reactstrap';
 // import classNames from 'classnames';
 
-const propTypes = {
-  buttonText: PropTypes.string.isRequired,
-  buttonOnClick: PropTypes.func.isRequired,
-  header: PropTypes.string.isRequired,
-  classes: PropTypes.object.isRequired,
-};
-
 const styles = {
   cardDiv: {
     width: '45vw',
@@ -46,5 +39,10 @@ const Layout = ({ buttonText, buttonOnClick, classes, header }) => {
   );
 };
 
-Layout.propTypes = propTypes;
+Layout.propTypes = {
+  buttonText: PropTypes.string.isRequired,
+  buttonOnClick: PropTypes.func.isRequired,
+  header: PropTypes.string.isRequired,
+  classes: PropTypes.object.isRequired,
+};
 export default injectSheet(styles)(Layout);
