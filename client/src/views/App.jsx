@@ -6,25 +6,7 @@ import FetcherForm from './fetcherForm/FetcherForm.jsx';
 import Detail from './detail/Detail.jsx';
 import Modal from './shared/Modal.jsx';
 // import Layout from './shared/Layout.jsx';
-
-/* Mock_Data
-  {
-    schema_field_name: {
-      value: '',
-      code: '',
-      sources: {
-        api: [{
-          url,
-          path,
-          object,
-          functions,
-        }],
-        script: [{}],
-        html: []
-      },
-    },
-  }
-*/
+import mock from './mock.js';
 
 const propTypes = {
   classes: PropTypes.object.isRequired,
@@ -48,7 +30,7 @@ class App extends React.Component {
         type: '',
         onClick: () => {},
       },
-      data: '', // all the data in Mock_Data
+      data: mock, // all the data in Mock_Data
       currentField: { // field for detail view
         name: '',
         data: {},
@@ -73,6 +55,29 @@ class App extends React.Component {
     this.showModal = this.showModal.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.closeModal = this.closeModal.bind(this);
+  }
+
+
+  // USED BY FORM
+  getTargetProduct() {
+    return this.state.data.targetProduct || {};
+  }
+
+  setCurrentField(name) {
+    this.setState((prevState) => {
+      const paths = prevState.data.paths;
+      return {
+        currentField: {
+          name,
+          data: paths[name],
+        },
+      };
+    });
+  }
+
+  // USED BY DETAIL
+  getCurrentField() {
+    return this.state.currentField;
   }
 
   // componentDidMount() {
