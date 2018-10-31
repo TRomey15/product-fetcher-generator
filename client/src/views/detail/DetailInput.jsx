@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
+import { Inspector, chromeLight } from 'react-inspector';
 
 import {
   Button,
@@ -29,7 +30,7 @@ class DetailInput extends Component {
 
     this.state = {
       dropdownOpen: false,
-      message: this.props.activeSource[this.props.inputField],
+      // message: this.props.activeSource[this.props.inputField],
     };
   }
 
@@ -44,14 +45,14 @@ class DetailInput extends Component {
   }
 
   render() {
-    const { colorizeButtons, currentField, selectedResponse, activeSource, inputField, classes, handleDetailFormClick } = this.props;
-
+    const { activeField, colorizeButtons, data, selectedResponse, activeSource, currentField, inputField, classes, handleDetailFormClick } = this.props;
+    const defaultPath = data.paths[activeField][0].jsonPath[0].path[0].join('.');
     return (
       <div>
         <FormGroup row key={inputField}>
-          <Label> {inputField}:</Label>
+          <Label>Property Path: {defaultPath}</Label>
           <InputGroup placeholder="sm" bssize="sm" className={classes.DetailInput}>
-            <Input bssize="sm" className={classes.detailText} onChange={e => this.handleChange('message', e)} placeholder={activeSource[inputField]} />
+            <Input bssize="sm" className={classes.detailText} onChange={e => this.handleChange('message', e)} />
             <InputGroupAddon addonType="append">
               <Button
                 size="sm"
@@ -60,10 +61,6 @@ class DetailInput extends Component {
               >Set</Button>
             </InputGroupAddon>
           </InputGroup>
-          <FormText
-            color={this.state.message !== activeSource[inputField] ? 'danger' : 'primary'}
-            className={classes.detailText}
-          >{activeSource[inputField]}</FormText>
         </FormGroup>
         <p />
       </div>
@@ -72,6 +69,7 @@ class DetailInput extends Component {
 }
 
 DetailInput.propTypes = {
+  activeField: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired,
   handleDetailFormClick: PropTypes.func.isRequired,
   activeSource: PropTypes.object.isRequired,

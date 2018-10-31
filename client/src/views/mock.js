@@ -1,72 +1,168 @@
+/* eslint-disable */
+
 const dummyFunctions = ['cleanText', 'priceClean', 'makeDelicious']; // dummy helpers for transform
 
-const testObj =
-  { // For Demoing rendering of R hand side of detail View
-    '@context': 'http:schema.org',
-    '@type': 'Product',
-    name: 'Solid Pique Polo',
-    description: 'Joe Fresh - Solid Pique Polo is now 33-38% off. Free Shipping on orders over $100.',
-    brand: 'Joe Fresh',
-    image: [
-      'www.hautelookcdn.com/products/MC8K190003/large/8047587.jpg',
-    ],
-    offers: [
-      {
-        '@type': 'Offer',
-        priceCurrency: 'USD',
-        availability: 'http:schema.org/InStock',
-        price: 9.96,
-      },
-      {
-        '@type': 'Offer',
-        priceCurrency: 'USD',
-        availability: 'http:schema.org./inStock',
-        price: 10.7,
-      },
-    ],
-  };
-
 const mock = {
-  testObject: testObj,
   dummyFunctions,
-  mockData: { // simulating Data provided by Backend...
-    primary_image: {
-      activeKey: 'api',
-      value: '', // were this 'brand' it would be zara...
-      code: 'stringified function',
-      name: 'primary_image',
-      sources: {
-        api: [{
-          selected: true,
-          url: 'https://images.lululemon.com/is/image/lululemon/LW1BE.jpg',
-          path: 'data.product-attribute.product-carousel["0"].image-info["4"]', // input
-          object: testObj,
-          functions: dummyFunctions,
-        },
-        {
-          selected: false,
-          url: 'a totally different url',
-          path: 'a totally different path', // input
-          object: { funnyObject: 'output to editor' },
-          functions: dummyFunctions,
-        },
+  targetProduct: {
+    title: 'Bryant Faux Wood Patio Adirondack Chair - Project 62™',
+    price_current: 152.99,
+    price_list: 179.99,
+    image_url_primary: 'https://target.scene7.com/is/image/Target/16500244',
+    brand: 'Project 62',
+    category: 'patio seating',
+  },
+  paths: {
+    title: [
+      {
+        request: 'https:\/\/www.target.com\/p\/bryant-faux-wood-patio-adirondack-chair-project-62-153\/-\/A-16500244?preselect=51291121',
+        jsonPath: [
+          {
+            enclosingScript: '<script class=" type="application\/ld+json">',
+            path: [
+              [
+                '@graph',
+                0,
+                'name',
+              ],
+            ],
+          },
         ],
-        script: [{
-          scriptRegex: '/[crazyLooking][RegexThing](.*)/',
-          selected: true,
-          path: 'data.product-attribute.product-carousel["0"].image-info["4"]', // input
-          object: { funnyObject: 'output to editor' },
-          functions: dummyFunctions,
-        }],
-        html: [{
-          selector: 'selector',
-          selected: true,
-          path: 'data.product-attribute.product-carousel["0"].image-info["4"]', // input
-          object: { funnyObject: 'output to editor' },
-          functions: dummyFunctions,
-        }],
       },
-    },
+    ],
+    price_current: [
+      {
+        request: 'https:\/\/www.target.com\/p\/bryant-faux-wood-patio-adirondack-chair-project-62-153\/-\/A-16500244?preselect=51291121',
+        jsonPath: [
+          {
+            enclosingVariable: '__PRELOADED_STATE__=',
+            path: [
+              [
+                'product',
+                'productDetails',
+                'item',
+                'price',
+                'price',
+              ],
+              [
+                'product',
+                'productDetails',
+                'item',
+                'children',
+                '51291121',
+                'price',
+                'price',
+              ],
+            ],
+          },
+        ],
+      },
+      {
+        request: 'https:\/\/www.target.com\/p\/bryant-faux-wood-patio-adirondack-chair-project-62-153\/-\/A-16500244?preselect=51291121',
+        jsonPath: [
+          {
+            enclosingVariable: '__PRELOADED_STATE__=',
+            path: [
+              [
+                'product',
+                'productDetails',
+                'item',
+                'price',
+                'price',
+              ],
+              [
+                'product',
+                'productDetails',
+                'item',
+                'children',
+                '51291121',
+                'price',
+                'price',
+              ],
+            ],
+          },
+        ],
+      },
+      {
+        request: 'https:\/\/www.target.com\/p\/bryant-faux-wood-patio-adirondack-chair-project-62-153\/-\/A-16500244?preselect=51291121',
+        jsonPath: [
+          {
+            enclosingScript: '<script class=" type="application\/ld+json">',
+            path: [
+              [
+                '@graph',
+                0,
+                'name',
+              ],
+            ],
+          },
+        ],
+      },
+    ],
+    brand: [
+      {
+        request: 'https:\/\/redsky.target.com\/v2\/pdp\/tcin\/16500244?excludes=taxonomy%2Cbulk_ship%2Cawesome_shop%2Cquestion_answer_statistics%2Crating_and_review_reviews%2Crating_and_review_statistics%2Cdeep_red_labels%2Craw_price%2Cin_store_location&storeId=1192',
+        jsonPath: [
+          {
+            path: [
+              [
+                'product',
+                'item',
+                'child_items',
+                0,
+                'product_brand',
+                'brand',
+              ],
+              [
+                'product',
+                'item',
+                'child_items',
+                1,
+                'product_brand',
+                'brand',
+              ],
+              [
+                'product',
+                'item',
+                'product_brand',
+                'brand',
+              ],
+            ],
+          },
+        ],
+      },
+      {
+        request: 'anotherRequest',
+        jsonPath: [
+          {
+            path: [
+              [
+                'product',
+                'item',
+                'child_items',
+                0,
+                'product_brand',
+                'brand',
+              ],
+              [
+                'product',
+                'item',
+                'child_items',
+                1,
+                'product_brand',
+                'brand',
+              ],
+              [
+                'product',
+                'item',
+                'product_brand',
+                'brand',
+              ],
+            ],
+          },
+        ],
+      },
+    ],
   },
 };
 

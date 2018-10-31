@@ -24,7 +24,7 @@ const styles = {
 };
 
 // consider Lodash implementation for this deep copy...
-const workingData = JSON.parse(JSON.stringify(mock.mockData));
+const workingData = JSON.parse(JSON.stringify(mock));
 
 class App extends React.Component {
   constructor(props) {
@@ -42,15 +42,38 @@ class App extends React.Component {
       },
       data: workingData, // all the data in Mock_Data
       currentField: { // field for detail view
-        name: 'api',
+        name: '',
         data: {},
       },
     };
   }
 
-  // componentDidMount() {
-  //   this.showModal('save'); // for testing buttons
-  // }
+  // USED BY FORM
+  getTargetProduct() {
+    return this.state.data.targetProduct || {};
+  }
+
+  setCurrentField(name) {
+    this.setState((prevState) => {
+      const paths = prevState.data.paths;
+      return {
+        currentField: {
+          name,
+          data: paths[name],
+        },
+      };
+    });
+  }
+
+  // USED BY DETAIL
+  getCurrentField() {
+    return this.state.currentField;
+  }
+
+  componentDidMount() {
+    // this.showModal('save'); // for testing buttons
+    // this.setCurrentField('brand'); // setting for brand upon instantiation for testing purposes
+  }
 
   getSchemaFieldData(key) {
     return this.state.data[key];
@@ -105,6 +128,7 @@ class App extends React.Component {
 
   // modal
   showModal(modalType) {
+    console.log('hitting show modal');
     const actions = {
       submit: this.submitForm,
       error: this.closeModal,
@@ -129,6 +153,7 @@ class App extends React.Component {
   }
 
   handleDisplayFieldChange(field, e) {
+    console.log('handling display', e.target.value);
     const newState = { ...this.state };
     newState.currentField[field] = e.target.value;
     this.setState(() => Object.assign({}, newState));

@@ -41,7 +41,7 @@ class Container extends React.PureComponent {
 
 
 Container.propTypes = {
-  children: PropTypes.node.isRequired,
+  // children: PropTypes.node.isRequired,
   header: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired,
 };
