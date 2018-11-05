@@ -153,7 +153,8 @@ class App extends React.Component {
   }
 
   handleDisplayFieldChange(field, e) {
-    console.log('handling display', e.target.value);
+    // console.log('handling display', e.target.value);
+    console.log('handling display', e);
     const newState = { ...this.state };
     newState.currentField[field] = e.target.value;
     this.setState(() => Object.assign({}, newState));

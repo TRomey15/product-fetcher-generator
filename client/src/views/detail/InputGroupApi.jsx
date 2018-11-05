@@ -10,6 +10,10 @@ import { Inspector, chromeLight } from 'react-inspector';
 
 import {
   FormGroup,
+  InputGroup,
+  InputGroupAddon,
+  Input,
+  Button,
   Label,
 } from 'reactstrap';
 
@@ -31,6 +35,8 @@ class InputGroupApi extends Component {
   }
 
   render() {
+
+
     const {
       activeField,
       classes,
@@ -42,6 +48,8 @@ class InputGroupApi extends Component {
       selectedResponse,
       currentField,
     } = this.props;
+
+    const defaultPath = data.paths[activeField][0].jsonPath[0].path[0].join('.');
 
     return (
       <div>
@@ -64,6 +72,19 @@ class InputGroupApi extends Component {
             activeField={activeField}
             data={data}
           />
+        <FormGroup row key={inputField}>
+          <Label>Property Path: {defaultPath}</Label>
+          <InputGroup placeholder="sm" bssize="sm" className={classes.DetailInput}>
+            <Input bssize="sm" className={classes.detailText} onChange={e => this.handleChange('message', e)} />
+            <InputGroupAddon addonType="append">
+              <Button
+                size="sm"
+                onClick={() => handleDetailFormClick(inputField, selectedResponse, this.state.message)}
+                color={colorizeButtons(currentField)}
+              >Set</Button>
+            </InputGroupAddon>
+          </InputGroup>
+        </FormGroup>
         </FormGroup>
       </div>
     );

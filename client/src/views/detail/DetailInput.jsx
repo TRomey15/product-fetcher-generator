@@ -26,7 +26,7 @@ const styles = {
 class DetailInput extends Component {
   constructor(props) {
     super(props);
-    this.toggle = this.toggle.bind(this);
+    // this.toggle = this.toggle.bind(this);
 
     this.state = {
       dropdownOpen: false,

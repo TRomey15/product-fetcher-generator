@@ -64,7 +64,7 @@ class SourceToggle extends Component {
                 (<DropdownItem
                   className={classes.dummy}
                   size="sm"
-                  onClick={e => handleDisplayFieldChange('name', e)}
+                  onClick={() => handleDisplayFieldChange('name', idx)}
                   key={idx.toString()}
                   value={i}
                 >
