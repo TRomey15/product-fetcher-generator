@@ -195,6 +195,7 @@ class App extends React.Component {
             data={formData}
           />
         </div>
+        {/* FIXME: Either way, classes.show will be the class? */}
         <div className={currentFieldData ? classes.show : classes.show}>
           <Detail
             currentField={currentField}

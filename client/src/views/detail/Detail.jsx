@@ -6,22 +6,25 @@ import { Inspector, chromeLight } from 'react-inspector';
 
 import {
   Badge,
-  // Button,
-  ButtonDropdown,
-  ButtonGroup,
+  Button,
+  // ButtonDropdown,
+  // ButtonGroup,
   Card,
   Col,
   Container,
-  DropdownItem,
-  DropdownMenu,
-  DropdownToggle,
+  // DropdownItem,
+  // DropdownMenu,
+  // DropdownToggle,
   Form,
   FormGroup,
+  Label,
   Row,
+  Input,
+  InputGroup,
+  InputGroupAddon,
 } from 'reactstrap';
 
-// import DetailInput from './DetailInput.jsx';
-import InputGroupApi from './InputGroupApi';
+import InputGroupApi from './InputGroupApi.jsx';
 import AutoCompleteModal from '../shared/AutoCompleteModal.jsx';
 import SourceToggle from './SourceToggle.jsx';
 
@@ -52,6 +55,9 @@ const styles = {
   dropText: {
     fontSize: '10px',
   },
+  detailText: {
+    fontSize: '10px',
+  },
 };
 
 class Detail extends Component {
@@ -61,6 +67,7 @@ class Detail extends Component {
     this.state = { dropdownOpen: false };
   }
 
+  // TODO: Don't think this is currently being used in the code?
   toggle() {
     this.setState(prevState => ({
       dropdownOpen: !prevState.dropdownOpen,
@@ -103,10 +110,10 @@ class Detail extends Component {
       return type;
     };
 
-    // const activeField = 'primary_image';
+    // const productDetailsKey = 'primary_image';
     // const selectedResponse = 0; // temporarily hardcoding...
-    // const tabSources = Object.keys(data[activeField].sources);
-    // const activeSource = data[activeField].sources[currentField.name][selectedResponse];
+    // const tabSources = Object.keys(data[productDetailsKey].sources);
+    // const activeSource = data[productDetailsKey].sources[currentField.name][selectedResponse];
 
     // const inputFields = Object.keys(activeSource)
     // .filter((key) => { // exclude rendering of inputs displayed elsewhere...
@@ -129,32 +136,78 @@ class Detail extends Component {
 
 
     // const tabSources = ['api', 'api2', 'script', 'html'];
-    const activeField = 'price_current';
-    // const tabSources = Object.keys(data.paths[activeField]);
-    const tabSources = data.paths[activeField].map(e => evalSource(e));
+
+    const productDetailsKey = 'price_current';
+    // const tabSources = Object.keys(data.paths[productDetailsKey]);
+    const tabSources = data.paths[productDetailsKey].map(e => evalSource(e));
     // const teek = {jsonPath:{enclosingVariable: 'zert'}}
+
+    // const defaultApiPath = data.paths[productDetailsKey][0].jsonPath[0].path[0].join('.');
+    // const apiForm = (
+    //   <div>
+    //     <FormGroup>
+    //       <Label>Content: {data.targetProduct.price_current}</Label>
+    //       <FormGroup row>
+    //         <Label>Property Path: {defaultApiPath}</Label>
+    //         <InputGroup placeholder="sm" bssize="sm" className={classes.DetailInput}>
+    //           <Input bssize="sm" className={classes.detailText} onChange={e => this.handleChange('message', e)} />
+    //           <InputGroupAddon addonType="append">
+    //             <Button
+    //               size="sm"
+    //               // onClick={() => handleDetailFormClick(inputField, selectedResponse, this.state.message)}
+    //               color={colorizeButtons(currentField.name)}
+    //             >Set</Button>
+    //           </InputGroupAddon>
+    //         </InputGroup>
+    //       </FormGroup>
+    //     </FormGroup>
+    //   </div>
+    // );
+
+    console.log('this is the dataaa', data);
+
+    // TODO: Need to figure out how to determine which path is script, html, or api data
+    // TODO: Need to determine how button toggle btwn paths will change the form view
+    // const defaultScriptPath = data.paths[productDetailsKey][2].jsonPath[0].path[0].join();
+    // const htmlForm = (
+    //   <div>
+    //     <FormGroup>
+    //       <Label>Content: {data.targetProduct.price_current}</Label>
+    //       <FormGroup row>
+    //         <Label>Property Path: {defaultScriptPath}</Label>
+    //         <InputGroup placeholder="sm" bssize="sm" className={classes.DetailInput}>
+    //           <Input bssize="sm" className={classes.detailText} onChange={e => this.handleChange('message', e)} />
+    //           <InputGroupAddon addonType="append">
+    //             <Button
+    //               size="sm"
+    //               // onClick={() => handleDetailFormClick(inputField, selectedResponse, this.state.message)}
+    //               color={colorizeButtons(currentField.name)}
+    //             >Set</Button>
+    //           </InputGroupAddon>
+    //         </InputGroup>
+    //       </FormGroup>
+    //     </FormGroup>
+    //   </div>
+    // );
 
     return (
       <div className={classes.detailContainer}>
         {/* {tabSourcez} */}
         <Inspector
-          data={data.paths[activeField][0].jsonPath[0]}
+          data={data.paths[productDetailsKey][0].jsonPath[0]}
         />
+        {/* TODO: what is an o tag? */}
         <o>xxxx</o>
         <Container>
           <Row>
             <Col xs="6" md="5">
-              <Badge className={classes.activeBadge}>{activeField}</Badge>
+              <Badge className={classes.activeBadge}>{productDetailsKey}</Badge>
               <Form>
                 <InputGroupApi
-                  data={data}
                   colorizeButtons={colorizeButtons}
-                  handleDetailFormClick={handleDetailFormClick}
-                  handleDisplayFieldChange={handleDisplayFieldChange}
-                  currentField={currentField.name}
-                  saveClick={saveClick}
-                  handleUndo={handleUndo}
-                  activeField={activeField}
+                  data={data}
+                  currentFieldName={currentField.name}
+                  productDetailsKey={productDetailsKey}
                 />
                 <FormGroup row>
                   <AutoCompleteModal
@@ -180,7 +233,7 @@ class Detail extends Component {
                   theme={{ ...chromeLight, ...({ TREE_NODE_PADDING: 20 }, { TREENODE_FONT_SIZE: '8px' }) }}
                   className={classes.objectRender}
                   initialExpandedPaths={['root', 'root.*']}
-                  data={data.paths[activeField]}
+                  data={data.paths[productDetailsKey]}
                 />
                 {/* <ObjectInspector className={classes.objectRender} initialExpandedPaths={['root', 'root.*']} data={activeSource.object} /> */}
               </Card>
