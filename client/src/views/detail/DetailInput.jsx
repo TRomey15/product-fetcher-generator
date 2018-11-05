@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
-import { Inspector, chromeLight } from 'react-inspector';
+// import { Inspector, chromeLight } from 'react-inspector';
 
 import {
   Button,
   FormGroup,
-  FormText,
+  // FormText,
   Input,
   InputGroup,
   InputGroupAddon,
@@ -34,6 +34,7 @@ class DetailInput extends Component {
     };
   }
 
+  // TODO: Not using this method? does this meant that state isn't changing?
   toggle = () => {
     this.setState(prevState => ({
       dropdownOpen: !prevState.dropdownOpen,
@@ -45,8 +46,8 @@ class DetailInput extends Component {
   }
 
   render() {
-    const { activeField, colorizeButtons, data, selectedResponse, activeSource, currentField, inputField, classes, handleDetailFormClick } = this.props;
-    const defaultPath = data.paths[activeField][0].jsonPath[0].path[0].join('.');
+    const { productDetailsKey, colorizeButtons, data, selectedResponse, activeSource, currentFieldName, inputField, classes, handleDetailFormClick } = this.props;
+    const defaultPath = data.paths[productDetailsKey][0].jsonPath[0].path[0].join('.');
     return (
       <div>
         <FormGroup row key={inputField}>
@@ -57,7 +58,7 @@ class DetailInput extends Component {
               <Button
                 size="sm"
                 onClick={() => handleDetailFormClick(inputField, selectedResponse, this.state.message)}
-                color={colorizeButtons(currentField)}
+                color={colorizeButtons(currentFieldName)}
               >Set</Button>
             </InputGroupAddon>
           </InputGroup>
@@ -69,13 +70,14 @@ class DetailInput extends Component {
 }
 
 DetailInput.propTypes = {
-  activeField: PropTypes.string.isRequired,
+  productDetailsKey: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired,
   handleDetailFormClick: PropTypes.func.isRequired,
   activeSource: PropTypes.object.isRequired,
   selectedResponse: PropTypes.number.isRequired,
   inputField: PropTypes.string.isRequired,
-  currentField: PropTypes.string.isRequired,
+  currentFieldName: PropTypes.string.isRequired,
   colorizeButtons: PropTypes.func.isRequired,
+  // data: PropTypes.___.isRequired,
 };
 export default injectSheet(styles)(DetailInput);

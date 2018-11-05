@@ -83,7 +83,7 @@ class SourceToggle extends Component {
 SourceToggle.propTypes = {
   classes: PropTypes.object.isRequired,
   colorizeButtons: PropTypes.func.isRequired,
-  currentField: PropTypes.string.isRequired,
+  currentField: PropTypes.object.isRequired,
   data: PropTypes.object.isRequired,
   evalSource: PropTypes.func.isRequired,
   handleDisplayFieldChange: PropTypes.func.isRequired,

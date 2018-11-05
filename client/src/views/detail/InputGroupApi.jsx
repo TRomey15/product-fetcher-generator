@@ -7,63 +7,60 @@ import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
 import { Inspector, chromeLight } from 'react-inspector';
 
-
 import {
   FormGroup,
   Label,
+  InputGroup,
+  Input,
+  InputGroupAddon,
+  Button,
 } from 'reactstrap';
 
-import DetailInput from './DetailInput';
-
-const styles = {};
+const styles = {
+  detailInput: {
+    fontSize: '10px',
+    margin: '10px',
+  },
+};
 
 class InputGroupApi extends Component {
   constructor(props) {
     super(props);
-    this.toggle = this.toggle.bind(this);
-    this.state = { dropdownOpen: false };
+    this.handleChange = this.handleChange.bind(this);
   }
 
-  toggle() {
-    this.setState(prevState => ({
-      dropdownOpen: !prevState.dropdownOpen,
-    }));
+  handleChange(field, e) {
+    this.setState({ [field]: e.target.value });
   }
 
   render() {
     const {
-      activeField,
       classes,
+      productDetailsKey,
       data,
       colorizeButtons,
-      handleDetailFormClick,
-      activeSource,
-      inputField,
-      selectedResponse,
-      currentField,
+      currentFieldName,
     } = this.props;
+
+    const defaultApiPath = data.paths[productDetailsKey][0].jsonPath[0].path[0].join('.');
 
     return (
       <div>
-        {/* <Inspector
-          data={data}
-        /> */}
         <FormGroup>
-          <Label>Content: </Label>
-          {inputField}
-          <Label>
-            {data.targetProduct.price_current}
-          </Label>
-          <DetailInput
-            colorizeButtons={colorizeButtons}
-            handleDetailFormClick={handleDetailFormClick}
-            activeSource={activeSource}
-            inputField={inputField}
-            selectedResponse={selectedResponse}
-            currentField={currentField}
-            activeField={activeField}
-            data={data}
-          />
+          <Label>Content: {data.targetProduct.price_current}</Label>
+          <FormGroup row>
+            <Label>Property Path: {defaultApiPath}</Label>
+            <InputGroup placeholder="sm" bssize="sm" className={classes.DetailInput}>
+              <Input bssize="sm" className={classes.detailText} onChange={e => this.handleChange('message', e)} />
+              <InputGroupAddon addonType="append">
+                <Button
+                  size="sm"
+                  // onClick={() => handleDetailFormClick(inputField, selectedResponse, this.state.message)}
+                  color={colorizeButtons(currentFieldName)}
+                >Set</Button>
+              </InputGroupAddon>
+            </InputGroup>
+          </FormGroup>
         </FormGroup>
       </div>
     );
@@ -72,13 +69,8 @@ class InputGroupApi extends Component {
 
 InputGroupApi.propTypes = {
   classes: PropTypes.object.isRequired,
-  currentField: PropTypes.object.isRequired,
+  currentFieldName: PropTypes.string.isRequired,
   data: PropTypes.object.isRequired,
-  // handleDisplayFieldChange: PropTypes.func.isRequired,
-  // handleDetailFormClick: PropTypes.func.isRequired,
-  // handleUndo: PropTypes.func.isRequired,
-  // saveClick: PropTypes.func.isRequired,
-  // transformFunctions: PropTypes.array.isRequired,
 };
 
 export default injectSheet(styles)(InputGroupApi);
