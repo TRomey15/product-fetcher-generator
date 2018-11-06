@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
@@ -31,19 +32,21 @@ class App extends React.Component {
     super(props);
     autoBind(this);
     this.state = {
-      top: 'topline message',
-      message: 'placeholder', // DummyPlaceholder for testing ui
-      messageTwo: 'placeholder message 2', // Same...
       showModal: false,
-      activeForm: 'primary_image', // hardcoded for now - to build out...
+      activeSource: 0, // choose which source/path provided by backend is used for active form
       modalData: {
         type: '',
         onClick: () => {},
       },
       data: workingData, // all the data in Mock_Data
       currentField: { // field for detail view
-        name: '',
-        data: {},
+        name: 'price_current', // hardcoding for now - provided by JS's form...
+        data: { // modified data returned from detail view...
+          propertyPath: 'foo',
+          scriptRegex: 'bar',
+          transformation: [],
+        },
+        moreData: 'someMore',
       },
     };
   }
@@ -152,12 +155,17 @@ class App extends React.Component {
     this.setState({ data: undoData });
   }
 
-  handleDisplayFieldChange(field, e) {
-    // console.log('handling display', e.target.value);
-    console.log('handling display', e);
-    const newState = { ...this.state };
-    newState.currentField[field] = e.target.value;
-    this.setState(() => Object.assign({}, newState));
+  // handleDisplayFieldChange(field, e) {
+  //   // console.log('handling display', e.target.value);
+  //   console.log('handling display', e);
+  //   const newState = { ...this.state };
+  //   newState.activeSource = e;
+  //   // newState.currentField[field] = e;
+  //   this.setState(() => Object.assign({}, newState));
+  //   console.log(this.state.activeSource);
+  // }
+  handleDisplayFieldChange(e) {
+    this.setState({ activeSource: e });
   }
 
   handleChange(field, e) {
@@ -166,22 +174,29 @@ class App extends React.Component {
     });
   }
 
-  handleDetailFormClick(field, index, e) {
-    if (e.length) {
-      const newState = { ...this.state };
-      newState.data[this.state.activeForm].sources[this.state.currentField.name][index][field] = e;
-      this.setState(() => Object.assign({}, newState));
-    }
+  // handleDetailFormClick(field, index, e) {
+  //   if (e.length) {
+  //     const newState = { ...this.state };
+  //     newState.data[this.state.activeForm].sources[this.state.currentField.name][index][field] = e;
+  //     this.setState(() => Object.assign({}, newState));
+  //   }
+  // }
+
+  handleDetailFormClick(field, e) {
+    const newState = { ...this.state };
+    newState.currentField.data[field] = e;
+    this.setState(() => Object.assign({}, newState));
   }
 
   render() {
     const { classes } = this.props;
-    const { data, currentField, showModal, modalData } = this.state;
+    const { activeSource, data, currentField, showModal, modalData } = this.state;
     const formData = data && Object.assign({}, data);
     const currentFieldData = data && Object.assign({}, currentField.data);
-
+    console.log('currentField', currentField.name);
     return (
       <div>
+        smore:{this.state.currentField.moreData}
         <Navbar className={classes.headerBrand} color="secondary">
           <NavbarBrand className={classes.headerBrand}> {/* temporarily holding topline */}
             <img src="https://cdn.joinhoney.com/images/header/honey-logo-orange.svg" alt="Honey" data-reactid="20" /> &nbsp;product fetcher generator
@@ -198,13 +213,15 @@ class App extends React.Component {
         {/* FIXME: Either way, classes.show will be the class? */}
         <div className={currentFieldData ? classes.show : classes.show}>
           <Detail
+            activeSource={activeSource}
             currentField={currentField}
-            data={this.state.data}
+            data={data}
             handleDisplayFieldChange={this.handleDisplayFieldChange}
             handleDetailFormClick={this.handleDetailFormClick}
             handleUndo={this.handleUndo}
             onClose={this.onDetailClose}
             // onRestore={this.restoreSchemaFieldData}
+            productDetailsKey={currentField.name}
             onSave={this.onSaveChanges}
             saveClick={this.showModal}
             transformFunctions={mock.dummyFunctions}

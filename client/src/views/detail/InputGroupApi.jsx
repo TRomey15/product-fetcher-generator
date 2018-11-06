@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-console */
-/* eslint-disable react/prop-types */
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
@@ -30,36 +29,41 @@ class InputGroupApi extends Component {
   }
 
   handleChange(field, e) {
-    this.setState({ [field]: e.target.value });
+    this.setState({ [field]: e.target.value,
+    });
   }
 
   render() {
     const {
+      activeSource,
       classes,
-      productDetailsKey,
       data,
       colorizeButtons,
-      currentFieldName,
+      handleDetailFormClick,
+      productDetailsKey,
+      tabSources,
     } = this.props;
 
-    const defaultApiPath = data.paths[productDetailsKey][0].jsonPath[0].path[0].join('.');
+    const defaultPropertyPath = data.paths[productDetailsKey][activeSource].jsonPath[0].path[0].join('.');
 
     return (
       <div>
         <FormGroup>
           <Label>Content: {data.targetProduct.price_current}</Label>
+          {/* <Label>Content: {defaultApiPath}</Label> */}
           <FormGroup row>
-            <Label>Property Path: {defaultApiPath}</Label>
+            <Label>Property Path:</Label>
             <InputGroup placeholder="sm" bssize="sm" className={classes.DetailInput}>
-              <Input bssize="sm" className={classes.detailText} onChange={e => this.handleChange('message', e)} />
+              <Input bssize="sm" className={classes.detailText} onChange={e => this.handleChange('message', e)} placeholder={defaultPropertyPath} />
               <InputGroupAddon addonType="append">
                 <Button
                   size="sm"
-                  // onClick={() => handleDetailFormClick(inputField, selectedResponse, this.state.message)}
-                  color={colorizeButtons(currentFieldName)}
+                  onClick={() => handleDetailFormClick('propertyPath', this.state.message)}
+                  color={colorizeButtons(tabSources[activeSource])}
                 >Set</Button>
               </InputGroupAddon>
             </InputGroup>
+            <Label> {defaultPropertyPath}</Label>
           </FormGroup>
         </FormGroup>
       </div>
@@ -68,8 +72,12 @@ class InputGroupApi extends Component {
 }
 
 InputGroupApi.propTypes = {
+  tabSources: PropTypes.array.isRequired,
+  activeSource: PropTypes.number.isRequired,
+  colorizeButtons: PropTypes.func.isRequired,
+  handleDetailFormClick: PropTypes.func.isRequired,
+  productDetailsKey: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired,
-  currentFieldName: PropTypes.string.isRequired,
   data: PropTypes.object.isRequired,
 };
 

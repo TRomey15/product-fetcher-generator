@@ -1,3 +1,4 @@
+
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
@@ -39,36 +40,32 @@ class SourceToggle extends Component {
 
   render() {
     const {
+      activeSource,
       classes,
       colorizeButtons,
-      currentField,
-      data,
-      evalSource,
       handleDisplayFieldChange,
       handleUndo,
       saveClick,
+      tabSources,
     } = this.props;
-
-    const activeField = 'price_current';
-    const tabSources = data.paths[activeField].map(e => evalSource(e));
 
     return (
       <div>
         <ButtonGroup size="sm" className={classes.buttonGroup}>
           <ButtonDropdown size="sm" isOpen={this.state.dropdownOpen} toggle={this.toggle} name="name">
-            <DropdownToggle caret color={colorizeButtons(currentField.name)}>
-              {currentField.name ? currentField.name : tabSources[0]}
+            <DropdownToggle caret color={colorizeButtons(tabSources[activeSource])}>
+              {tabSources[activeSource]}
             </DropdownToggle>
             <DropdownMenu size="sm">
               {tabSources.map((i, idx) =>
                 (<DropdownItem
                   className={classes.dummy}
                   size="sm"
-                  onClick={() => handleDisplayFieldChange('name', idx)}
+                  onClick={() => handleDisplayFieldChange(idx)}
                   key={idx.toString()}
                   value={i}
                 >
-                  {i}
+                  {i} : {idx}
                 </DropdownItem>))}
             </DropdownMenu>
           </ButtonDropdown>
@@ -81,14 +78,12 @@ class SourceToggle extends Component {
 }
 
 SourceToggle.propTypes = {
+  activeSource: PropTypes.number.isRequired,
   classes: PropTypes.object.isRequired,
   colorizeButtons: PropTypes.func.isRequired,
-  currentField: PropTypes.object.isRequired,
-  data: PropTypes.object.isRequired,
-  evalSource: PropTypes.func.isRequired,
   handleDisplayFieldChange: PropTypes.func.isRequired,
   handleUndo: PropTypes.func.isRequired,
   saveClick: PropTypes.func.isRequired,
-  // activeSource: PropTypes.object.isRequired,
+  tabSources: PropTypes.array.isRequired,
 };
 export default injectSheet(styles)(SourceToggle);

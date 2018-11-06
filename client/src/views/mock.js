@@ -35,6 +35,31 @@ const mock = {
         request: 'https:\/\/www.target.com\/p\/bryant-faux-wood-patio-adirondack-chair-project-62-153\/-\/A-16500244?preselect=51291121',
         jsonPath: [
           {
+            path: [
+              [
+                'probably',
+                'some',
+                'api',
+                'data',
+                'yep',
+              ],
+              [
+                'product',
+                'productDetails',
+                'item',
+                'children',
+                '51291121',
+                'price',
+                'price',
+              ],
+            ],
+          },
+        ],
+      },
+      {
+        request: 'https:\/\/www.target.com\/p\/bryant-faux-wood-patio-adirondack-chair-project-62-153\/-\/A-16500244?preselect=51291121',
+        jsonPath: [
+          {
             enclosingVariable: '__PRELOADED_STATE__=',
             path: [
               [
@@ -77,6 +102,32 @@ const mock = {
                 'children',
                 '51291121',
                 'price',
+                'price',
+              ],
+            ],
+          },
+        ],
+      },
+      {
+        request: 'https:\/\/www.target.com\/p\/bryant-faux-wood-patio-adirondack-chair-project-62-153\/-\/A-16500244?preselect=51291121',
+        jsonPath: [
+          {
+            enclosingVariable: 'a very funky variable',
+            path: [
+              [
+                'product',
+                'productWeirdness',
+                'this',
+                'isnot',
+                'right',
+              ],
+              [
+                'product',
+                'but',
+                'maybe',
+                'this',
+                'one',
+                'is',
                 'price',
               ],
             ],
@@ -142,7 +193,7 @@ const mock = {
                 'child_items',
                 0,
                 'product_brand',
-                'brand',
+                'brandzzzzz',
               ],
               [
                 'product',
