@@ -1,4 +1,3 @@
-
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
@@ -19,7 +18,7 @@ const styles = {
   },
 };
 
-class InputGroupApi extends Component {
+class InputGroupScript extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -54,10 +53,15 @@ class InputGroupApi extends Component {
       tabSources,
     } = this.props;
 
+    const defaultEnclosingScript = data.paths[productDetailsKey][activeSource].jsonPath[0].enclosingScript;
+
     return (
       <div>
         <FormGroup>
-          <Label>Content: {data.targetProduct[productDetailsKey]}</Label>
+          <FormGroup row>
+            <Label>Content: {data.targetProduct[productDetailsKey]}</Label>
+            <Label>Script: {defaultEnclosingScript}</Label>
+          </FormGroup>
           <FormGroup row>
             <Label>Property Path:</Label>
             <InputGroup placeholder="sm" bssize="sm" className={classes.DetailInput}>
@@ -78,7 +82,7 @@ class InputGroupApi extends Component {
   }
 }
 
-InputGroupApi.propTypes = {
+InputGroupScript.propTypes = {
   currentField: PropTypes.object.isRequired,
   tabSources: PropTypes.array.isRequired,
   defaultPropertyPath: PropTypes.string.isRequired,
@@ -90,4 +94,4 @@ InputGroupApi.propTypes = {
   data: PropTypes.object.isRequired,
 };
 
-export default injectSheet(styles)(InputGroupApi);
+export default injectSheet(styles)(InputGroupScript);

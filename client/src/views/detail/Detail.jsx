@@ -16,7 +16,8 @@ import {
 } from 'reactstrap';
 
 // import DetailInput from './DetailInput.jsx';
-import InputGroupApi from './InputGroupApi';
+import InputGroupApi from './InputGroupApi.jsx';
+import InputGroupScript from './InputGroupScript.jsx';
 import AutoCompleteModal from '../shared/AutoCompleteModal.jsx';
 import SourceToggle from './SourceToggle.jsx';
 
@@ -107,13 +108,12 @@ class Detail extends Component {
 
     return (
       <div className={classes.detailContainer}>
-        {defaultPropertyPath}
         <Container>
           <Row>
             <Col xs="6" md="5">
               <Badge className={classes.activeBadge}>{productDetailsKey}</Badge>
               <Form>
-                <InputGroupApi
+                <InputGroupScript
                   data={data}
                   colorizeButtons={colorizeButtons}
                   currentField={currentField}

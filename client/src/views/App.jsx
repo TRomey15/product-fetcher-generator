@@ -189,23 +189,32 @@ class App extends React.Component {
   }
 
   testPC() {
-    const newState = { ...this.state };
-    newState.currentField.name = 'price_current';
-    newState.showDetail = true;
-    this.setState(() => Object.assign({}, newState));
+    this.setState(state => ({
+      ...state,
+      currentField: {
+        ...state.currentField,
+        name: 'price_current',
+      },
+      showDetail: true,
+    }));
   }
 
   testBrand() {
-    this.setState({
-      currentField: { ...this.state.currentField, name: 'brand' },
+    this.setState(state => ({
+      ...state,
+      currentField: {
+        ...state.currentField,
+        name: 'brand',
+      },
       showDetail: true,
-    });
+    }));
   }
 
   toggleDetail() {
-    this.setState({
-      showDetail: !this.state.showDetail,
-    });
+    this.setState(state => ({
+      ...state,
+      showDetail: !state.showDetail,
+    }));
   }
 
   render() {
@@ -221,7 +230,7 @@ class App extends React.Component {
             <img src="https://cdn.joinhoney.com/images/header/honey-logo-orange.svg" alt="Honey" data-reactid="20" /> &nbsp;product fetcher generator
           </NavbarBrand>
         </Navbar>
-        <Button onClick={this.testPC}>ShowPriceCurerent</Button>
+        <Button onClick={this.testPC}>Price Current</Button>
         <Button onClick={this.testBrand}>Brand</Button>
         <div className={currentFieldData ? classes.hide : classes.show}>
           <FetcherForm
@@ -232,27 +241,25 @@ class App extends React.Component {
           />
         </div>
         {/* FIXME: Either way, classes.show will be the class? */}
-        <div className={currentFieldData ? classes.show : classes.show}>
-          <Modal toggle={this.toggleDetail} size="lg" isOpen={this.state.showDetail}>
-            {/* <ModalHeader>HEADER GOES HERE</ModalHeader> */}
-            <ModalBody>
-              <Detail
-                activeSource={activeSource}
-                currentField={currentField}
-                data={data}
-                handleDisplayFieldChange={this.handleDisplayFieldChange}
-                handleDetailFormClick={this.handleDetailFormClick}
-                handleUndo={this.handleUndo}
-                onClose={this.onDetailClose}
-                // onRestore={this.restoreSchemaFieldData}
-                productDetailsKey={currentField.name}
-                onSave={this.onSaveChanges}
-                saveClick={this.showModal}
-                transformFunctions={mock.dummyFunctions}
-              />
-            </ModalBody>
-          </Modal>
-        </div>
+        <Modal toggle={this.toggleDetail} size="lg" isOpen={this.state.showDetail}>
+          {/* <ModalHeader>HEADER GOES HERE</ModalHeader> */}
+          <ModalBody>
+            <Detail
+              activeSource={activeSource}
+              currentField={currentField}
+              data={data}
+              handleDisplayFieldChange={this.handleDisplayFieldChange}
+              handleDetailFormClick={this.handleDetailFormClick}
+              handleUndo={this.handleUndo}
+              onClose={this.onDetailClose}
+              // onRestore={this.restoreSchemaFieldData}
+              productDetailsKey={currentField.name}
+              onSave={this.onSaveChanges}
+              saveClick={this.showModal}
+              transformFunctions={mock.dummyFunctions}
+            />
+          </ModalBody>
+        </Modal>
         <div className={showModal ? classes.show : classes.hide}>
           <AlertModal
             showModal={this.state.showModal}
