@@ -43,17 +43,15 @@ class InputGroupScript extends Component {
 
   render() {
     const {
-      activeSource,
+      // activeSource,
+      btnColor,
       classes,
       currentField,
       data,
-      colorizeButtons,
+      defaultEnclosingScript,
       handleDetailFormClick,
       productDetailsKey,
-      tabSources,
     } = this.props;
-
-    const defaultEnclosingScript = data.paths[productDetailsKey][activeSource].jsonPath[0].enclosingScript;
 
     return (
       <div>
@@ -70,7 +68,7 @@ class InputGroupScript extends Component {
                 <Button
                   size="sm"
                   onClick={() => handleDetailFormClick('propertyPath', this.state.propertyPath)}
-                  color={colorizeButtons(tabSources[activeSource])}
+                  color={btnColor}
                 >Set</Button>
               </InputGroupAddon>
             </InputGroup>
@@ -83,11 +81,10 @@ class InputGroupScript extends Component {
 }
 
 InputGroupScript.propTypes = {
+  btnColor: PropTypes.string.isRequired,
   currentField: PropTypes.object.isRequired,
-  tabSources: PropTypes.array.isRequired,
   defaultPropertyPath: PropTypes.string.isRequired,
-  activeSource: PropTypes.number.isRequired,
-  colorizeButtons: PropTypes.func.isRequired,
+  defaultEnclosingScript: PropTypes.string.isRequired,
   handleDetailFormClick: PropTypes.func.isRequired,
   productDetailsKey: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired,

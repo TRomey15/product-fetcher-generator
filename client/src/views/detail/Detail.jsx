@@ -7,6 +7,7 @@ import { Inspector, chromeLight } from 'react-inspector';
 
 import {
   Badge,
+  Button,
   Card,
   Col,
   Container,
@@ -18,6 +19,7 @@ import {
 // import DetailInput from './DetailInput.jsx';
 import InputGroupApi from './InputGroupApi.jsx';
 import InputGroupScript from './InputGroupScript.jsx';
+import InputGroupHtml from './InputGroupHtml.jsx';
 import AutoCompleteModal from '../shared/AutoCompleteModal.jsx';
 import SourceToggle from './SourceToggle.jsx';
 
@@ -74,6 +76,7 @@ class Detail extends Component {
       handleDetailFormClick,
       handleDisplayFieldChange,
       handleUndo,
+      onClose,
       productDetailsKey,
       saveClick,
       transformFunctions,
@@ -103,8 +106,52 @@ class Detail extends Component {
       return type;
     };
 
+
     const tabSources = data.paths[productDetailsKey].map(e => evalSource(e));
     const defaultPropertyPath = data.paths[productDetailsKey][activeSource].jsonPath[0].path[0].join('.');
+    const defaultEnclosingScript = data.paths[productDetailsKey][activeSource]
+    .jsonPath[0].enclosingScript;
+    const defaultEnclosingVariable = data.paths[productDetailsKey][activeSource].jsonPath[0].enclosingVariable;
+    const btnColor = colorizeButtons(tabSources[activeSource]);
+
+    const inputGroupToRender = (inputGroupType) => {
+      if (inputGroupType === 'api') {
+        return (<InputGroupApi
+          data={data}
+          btnColor={btnColor}
+          currentField={currentField}
+          handleDetailFormClick={handleDetailFormClick}
+          handleDisplayFieldChange={handleDisplayFieldChange}
+          productDetailsKey={productDetailsKey}
+          tabSources={tabSources}
+          defaultPropertyPath={defaultPropertyPath}
+        />);
+      } else if (inputGroupType === 'script') {
+        return (<InputGroupScript
+          data={data}
+          btnColor={btnColor}
+          currentField={currentField}
+          handleDetailFormClick={handleDetailFormClick}
+          handleDisplayFieldChange={handleDisplayFieldChange}
+          defaultEnclosingScript={defaultEnclosingScript}
+          productDetailsKey={productDetailsKey}
+          tabSources={tabSources}
+          defaultPropertyPath={defaultPropertyPath}
+        />);
+      } else {
+        return (<InputGroupHtml
+          data={data}
+          btnColor={btnColor}
+          currentField={currentField}
+          defaultEnclosingVariable={defaultEnclosingVariable}
+          handleDetailFormClick={handleDetailFormClick}
+          handleDisplayFieldChange={handleDisplayFieldChange}
+          productDetailsKey={productDetailsKey}
+          tabSources={tabSources}
+          defaultPropertyPath={defaultPropertyPath}
+        />);
+      }
+    };
 
     return (
       <div className={classes.detailContainer}>
@@ -113,21 +160,21 @@ class Detail extends Component {
             <Col xs="6" md="5">
               <Badge className={classes.activeBadge}>{productDetailsKey}</Badge>
               <Form>
-                <InputGroupScript
+                {/* <InputGroupScript
                   data={data}
-                  colorizeButtons={colorizeButtons}
+                  btnColor={btnColor}
                   currentField={currentField}
                   handleDetailFormClick={handleDetailFormClick}
                   handleDisplayFieldChange={handleDisplayFieldChange}
                   activeSource={activeSource}
-                  // saveClick={saveClick}
-                  // handleUndo={handleUndo}
                   productDetailsKey={productDetailsKey}
                   tabSources={tabSources}
                   defaultPropertyPath={defaultPropertyPath}
-                />
+                /> */}
+                {inputGroupToRender(tabSources[activeSource])}
                 <FormGroup row>
                   <AutoCompleteModal
+                    btnColor={btnColor}
                     title="Transformation"
                     suggestions={transformFunctions}
                     handleDetailFormClick={handleDetailFormClick}
@@ -164,6 +211,7 @@ class Detail extends Component {
                   data={data.paths[productDetailsKey][activeSource].jsonPath[0]}
                 />
               </Card>
+              <Button onClick={onClose}>Close</Button>
             </Col>
           </Row>
         </Container>
@@ -179,6 +227,7 @@ Detail.propTypes = {
   data: PropTypes.object.isRequired,
   handleDisplayFieldChange: PropTypes.func.isRequired,
   handleDetailFormClick: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
   productDetailsKey: PropTypes.string.isRequired,
   handleUndo: PropTypes.func.isRequired,
   saveClick: PropTypes.func.isRequired,

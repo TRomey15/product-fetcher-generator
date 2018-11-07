@@ -164,6 +164,7 @@ class AutoCompleteModal extends Component {
           />
           <InputGroupAddon addonType="append">
             <Button
+              color={this.props.btnColor}
               onClick={() => this.props.handleDetailFormClick('transformation', this.state.selected)}
               size="sm"
             >Set</Button>
@@ -187,6 +188,7 @@ class AutoCompleteModal extends Component {
 }
 
 AutoCompleteModal.propTypes = {
+  btnColor: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired,
   suggestions: PropTypes.array.isRequired,
   title: PropTypes.string.isRequired,

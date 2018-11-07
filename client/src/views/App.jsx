@@ -4,7 +4,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
 import autoBind from 'react-autobind';
-import { Button, Modal, ModalHeader, ModalBody, Navbar, NavbarBrand } from 'reactstrap';
+import { Button, Modal, ModalBody, Navbar, NavbarBrand } from 'reactstrap';
+import { Inspector, chromeLight } from 'react-inspector';
 
 import mock from './mock.js';
 import Detail from './detail/Detail';
@@ -30,6 +31,11 @@ const styles = {
 
 // consider Lodash implementation for this deep copy...
 const workingData = JSON.parse(JSON.stringify(mock));
+const currentDefaults = {
+  propertyPath: 'foo',
+  scriptRegex: 'bar',
+  transformation: [],
+};
 
 class App extends React.Component {
   constructor(props) {
@@ -49,6 +55,7 @@ class App extends React.Component {
         data: { // modified data returned from detail view...
           propertyPath: 'foo',
           scriptRegex: 'bar',
+          enclosingVariable: 'funkyVariable',
           transformation: [],
         },
         moreData: 'someMore',
@@ -116,17 +123,11 @@ class App extends React.Component {
     this.setState({ currentField: { name, data } });
   }
 
-  // githubOnClick() {
-  //   // whatever is in data -> send to backend to send to github
-  // }
-
   // detail view
   onSaveChanges() {
+    // fire backend save event here...
     this.showModal('save');
-  }
-
-  onDetailClose() {
-    this.setState({ currentField: { name: '', data: {} } });
+    this.onDetailClose('');
   }
 
   restoreSchemaFieldData(fieldKey) {
@@ -134,7 +135,7 @@ class App extends React.Component {
     this.setState({ currentField: { data: originalData } });
   }
 
-  // modal
+  // modal (Alert Type)
   showModal(modalType) {
     console.log('hitting show modal');
     const actions = {
@@ -152,29 +153,28 @@ class App extends React.Component {
 
   closeModal() {
     const showModal = this.state.showModal;
-    this.setState({ showModal: !showModal });
+    this.setState({ showModal: false });
   }
-
-  handleUndo() {
-    console.log('hittig handle Undo');
-    const undoData = JSON.parse(JSON.stringify(mock));
-    this.setState({ data: undoData });
-  }
-
-  // handleDisplayFieldChange(field, e) {
-  //   // console.log('handling display', e.target.value);
-  //   console.log('handling display', e);
-  //   const newState = { ...this.state };
-  //   newState.activeSource = e;
-  //   // newState.currentField[field] = e;
-  //   this.setState(() => Object.assign({}, newState));
-  //   console.log(this.state.activeSource);
-  // }
 
   toggleDetail() {
     this.setState(state => ({
       ...state,
       showDetail: !state.showDetail,
+    }));
+  }
+
+  onDetailClose() {
+    this.setState(state => ({
+      ...state,
+      currentField: {
+        ...state.currentField,
+        data: {
+          propertyPath: 'foo',
+          scriptRegex: 'bar',
+          enclosingVariable: 'funkyVariable',
+          transformation: [],
+        } },
+      showDetail: false,
     }));
   }
 
@@ -196,6 +196,7 @@ class App extends React.Component {
     this.setState(() => Object.assign({}, newState));
   }
 
+  // for testing buttons only - override w. JS UI...
   testPC() {
     this.setState(state => ({
       ...state,
@@ -218,6 +219,12 @@ class App extends React.Component {
     }));
   }
 
+  handleUndo() {
+    console.log('hittig handle Undo');
+    const undoData = JSON.parse(JSON.stringify(mock));
+    this.setState({ data: undoData });
+  }
+
   render() {
     const { classes } = this.props;
     const { activeSource, data, currentField, showModal, modalData } = this.state;
@@ -231,19 +238,24 @@ class App extends React.Component {
             <img src="https://cdn.joinhoney.com/images/header/honey-logo-orange.svg" alt="Honey" data-reactid="20" /> &nbsp;product fetcher generator
           </NavbarBrand>
         </Navbar>
+        <FetcherForm
+          onSrcButtonClick={this.onSrcButtonClick}
+          onClick={this.formOnClick}
+          onSaveToGitHub={this.githubOnClick}
+          data={formData}
+        />
+        {/* buttons for testing - replace w. js ui */}
         <Button onClick={this.testPC}>Price Current</Button>
+        <p />
         <Button onClick={this.testBrand}>Brand</Button>
-        <div className={currentFieldData ? classes.hide : classes.show}>
-          <FetcherForm
-            onSrcButtonClick={this.onSrcButtonClick}
-            onClick={this.formOnClick}
-            onSaveToGitHub={this.githubOnClick}
-            data={formData}
-          />
-        </div>
+        <p />
+        <Inspector data={currentField} />
         {/* FIXME: Either way, classes.show will be the class? */}
-        <Modal toggle={this.toggleDetail} size="lg" isOpen={this.state.showDetail}>
-          {/* <ModalHeader>HEADER GOES HERE</ModalHeader> */}
+        <Modal
+          toggle={this.toggleDetail}
+          size="lg"
+          isOpen={this.state.showDetail}
+        >
           <ModalBody>
             <Detail
               activeSource={activeSource}

@@ -17,16 +17,14 @@ const styles = {
     fontSize: '10px',
     margin: '10px',
   },
-  subText: {
-    fontSize: '10px',
-  },
 };
 
-class InputGroupApi extends Component {
+class InputGroupHtml extends Component {
   constructor(props) {
     super(props);
     this.state = {
       propertyPath: this.props.defaultPropertyPath,
+      enclosingVariable: this.props.defaultEnclosingVariable,
     };
     this.handleChange = this.handleChange.bind(this);
   }
@@ -41,7 +39,10 @@ class InputGroupApi extends Component {
 
   updatePropertyPath(prevProps) {
     if (prevProps.defaultPropertyPath !== this.props.defaultPropertyPath) {
-      this.setState({ propertyPath: this.props.defaultPropertyPath });
+      this.setState({
+        propertyPath: this.props.defaultPropertyPath,
+        enclosingVariable: this.props.defaultEnclosingVariable,
+      });
     }
   }
 
@@ -51,6 +52,7 @@ class InputGroupApi extends Component {
       classes,
       currentField,
       data,
+      defaultEnclosingVariable,
       handleDetailFormClick,
       productDetailsKey,
     } = this.props;
@@ -71,7 +73,26 @@ class InputGroupApi extends Component {
                 >Set</Button>
               </InputGroupAddon>
             </InputGroup>
-            <Label className={classes.subText}> {currentField.data.propertyPath}</Label>
+            <Label> {currentField.data.propertyPath}</Label>
+          </FormGroup>
+          <FormGroup row>
+            <Label>Enclosing Variable: {defaultEnclosingVariable}</Label>
+            <InputGroup placeholder="sm" bssize="sm" className={classes.DetailInput}>
+              <Input
+                bssize="sm"
+                className={classes.detailText}
+                onChange={e => this.handleChange('enclosingVariable', e)}
+                value={this.state.enclosingVariable}
+              />
+              <InputGroupAddon addonType="append">
+                <Button
+                  size="sm"
+                  onClick={() => handleDetailFormClick('enclosingVariable', this.state.enclosingVariable)}
+                  color={btnColor}
+                >Set</Button>
+              </InputGroupAddon>
+            </InputGroup>
+            <Label> {currentField.data.enclosingVariable}</Label>
           </FormGroup>
         </FormGroup>
       </div>
@@ -79,14 +100,15 @@ class InputGroupApi extends Component {
   }
 }
 
-InputGroupApi.propTypes = {
+InputGroupHtml.propTypes = {
   btnColor: PropTypes.string.isRequired,
   currentField: PropTypes.object.isRequired,
   defaultPropertyPath: PropTypes.string.isRequired,
+  defaultEnclosingVariable: PropTypes.string.isRequired,
   handleDetailFormClick: PropTypes.func.isRequired,
   productDetailsKey: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired,
   data: PropTypes.object.isRequired,
 };
 
-export default injectSheet(styles)(InputGroupApi);
+export default injectSheet(styles)(InputGroupHtml);
