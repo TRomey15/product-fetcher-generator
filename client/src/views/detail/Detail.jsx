@@ -53,7 +53,9 @@ class Detail extends Component {
   constructor(props) {
     super(props);
     this.toggle = this.toggle.bind(this);
-    this.state = { dropdownOpen: false };
+    this.state = {
+      dropdownOpen: false,
+    };
   }
 
   toggle() {
@@ -101,10 +103,11 @@ class Detail extends Component {
     };
 
     const tabSources = data.paths[productDetailsKey].map(e => evalSource(e));
+    const defaultPropertyPath = data.paths[productDetailsKey][activeSource].jsonPath[0].path[0].join('.');
 
     return (
       <div className={classes.detailContainer}>
-        {/* <o>xxxx</o> */}
+        {defaultPropertyPath}
         <Container>
           <Row>
             <Col xs="6" md="5">
@@ -113,18 +116,21 @@ class Detail extends Component {
                 <InputGroupApi
                   data={data}
                   colorizeButtons={colorizeButtons}
+                  currentField={currentField}
                   handleDetailFormClick={handleDetailFormClick}
                   handleDisplayFieldChange={handleDisplayFieldChange}
                   activeSource={activeSource}
-                  saveClick={saveClick}
-                  handleUndo={handleUndo}
+                  // saveClick={saveClick}
+                  // handleUndo={handleUndo}
                   productDetailsKey={productDetailsKey}
                   tabSources={tabSources}
+                  defaultPropertyPath={defaultPropertyPath}
                 />
                 <FormGroup row>
                   <AutoCompleteModal
                     title="Transformation"
                     suggestions={transformFunctions}
+                    handleDetailFormClick={handleDetailFormClick}
                   />
                 </FormGroup>
               </Form>

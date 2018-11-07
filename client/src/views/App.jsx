@@ -1,9 +1,10 @@
 /* eslint-disable no-console */
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
 import autoBind from 'react-autobind';
-import { Navbar, NavbarBrand } from 'reactstrap';
+import { Button, Modal, ModalHeader, ModalBody, Navbar, NavbarBrand } from 'reactstrap';
 
 import mock from './mock.js';
 import Detail from './detail/Detail';
@@ -12,6 +13,9 @@ import AlertModal from './shared/AlertModal';
 // import Layout from './shared/Layout.jsx';
 
 const styles = {
+  detailModal: {
+    width: '800px',
+  },
   hide: {
     display: 'none',
   },
@@ -33,6 +37,7 @@ class App extends React.Component {
     autoBind(this);
     this.state = {
       showModal: false,
+      showDetail: false,
       activeSource: 0, // choose which source/path provided by backend is used for active form
       modalData: {
         type: '',
@@ -40,7 +45,7 @@ class App extends React.Component {
       },
       data: workingData, // all the data in Mock_Data
       currentField: { // field for detail view
-        name: 'price_current', // hardcoding for now - provided by JS's form...
+        name: '', // hardcoding for now - provided by JS's form...
         data: { // modified data returned from detail view...
           propertyPath: 'foo',
           scriptRegex: 'bar',
@@ -151,7 +156,8 @@ class App extends React.Component {
   }
 
   handleUndo() {
-    const undoData = JSON.parse(JSON.stringify(mock.mockData));
+    console.log('hittig handle Undo');
+    const undoData = JSON.parse(JSON.stringify(mock));
     this.setState({ data: undoData });
   }
 
@@ -164,14 +170,8 @@ class App extends React.Component {
   //   this.setState(() => Object.assign({}, newState));
   //   console.log(this.state.activeSource);
   // }
-  handleDisplayFieldChange(e) {
+  handleDisplayFieldChange(e) { // idx toggles through multiple data sources per detail field...
     this.setState({ activeSource: e });
-  }
-
-  handleChange(field, e) {
-    this.setState({
-      [field]: e.target.value,
-    });
   }
 
   // handleDetailFormClick(field, index, e) {
@@ -188,20 +188,41 @@ class App extends React.Component {
     this.setState(() => Object.assign({}, newState));
   }
 
+  testPC() {
+    const newState = { ...this.state };
+    newState.currentField.name = 'price_current';
+    newState.showDetail = true;
+    this.setState(() => Object.assign({}, newState));
+  }
+
+  testBrand() {
+    this.setState({
+      currentField: { ...this.state.currentField, name: 'brand' },
+      showDetail: true,
+    });
+  }
+
+  toggleDetail() {
+    this.setState({
+      showDetail: !this.state.showDetail,
+    });
+  }
+
   render() {
     const { classes } = this.props;
     const { activeSource, data, currentField, showModal, modalData } = this.state;
     const formData = data && Object.assign({}, data);
     const currentFieldData = data && Object.assign({}, currentField.data);
-    console.log('currentField', currentField.name);
+    console.log(currentFieldData);
     return (
       <div>
-        smore:{this.state.currentField.moreData}
         <Navbar className={classes.headerBrand} color="secondary">
           <NavbarBrand className={classes.headerBrand}> {/* temporarily holding topline */}
             <img src="https://cdn.joinhoney.com/images/header/honey-logo-orange.svg" alt="Honey" data-reactid="20" /> &nbsp;product fetcher generator
           </NavbarBrand>
         </Navbar>
+        <Button onClick={this.testPC}>ShowPriceCurerent</Button>
+        <Button onClick={this.testBrand}>Brand</Button>
         <div className={currentFieldData ? classes.hide : classes.show}>
           <FetcherForm
             onSrcButtonClick={this.onSrcButtonClick}
@@ -212,20 +233,25 @@ class App extends React.Component {
         </div>
         {/* FIXME: Either way, classes.show will be the class? */}
         <div className={currentFieldData ? classes.show : classes.show}>
-          <Detail
-            activeSource={activeSource}
-            currentField={currentField}
-            data={data}
-            handleDisplayFieldChange={this.handleDisplayFieldChange}
-            handleDetailFormClick={this.handleDetailFormClick}
-            handleUndo={this.handleUndo}
-            onClose={this.onDetailClose}
-            // onRestore={this.restoreSchemaFieldData}
-            productDetailsKey={currentField.name}
-            onSave={this.onSaveChanges}
-            saveClick={this.showModal}
-            transformFunctions={mock.dummyFunctions}
-          />
+          <Modal toggle={this.toggleDetail} size="lg" isOpen={this.state.showDetail}>
+            {/* <ModalHeader>HEADER GOES HERE</ModalHeader> */}
+            <ModalBody>
+              <Detail
+                activeSource={activeSource}
+                currentField={currentField}
+                data={data}
+                handleDisplayFieldChange={this.handleDisplayFieldChange}
+                handleDetailFormClick={this.handleDetailFormClick}
+                handleUndo={this.handleUndo}
+                onClose={this.onDetailClose}
+                // onRestore={this.restoreSchemaFieldData}
+                productDetailsKey={currentField.name}
+                onSave={this.onSaveChanges}
+                saveClick={this.showModal}
+                transformFunctions={mock.dummyFunctions}
+              />
+            </ModalBody>
+          </Modal>
         </div>
         <div className={showModal ? classes.show : classes.hide}>
           <AlertModal

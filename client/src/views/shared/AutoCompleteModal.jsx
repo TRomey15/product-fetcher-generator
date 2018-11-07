@@ -2,7 +2,7 @@
 import React, { Fragment, Component } from 'react';
 import injectSheet from 'react-jss';
 import PropTypes from 'prop-types';
-import { Badge, Input, Label } from 'reactstrap';
+import { Badge, Input, InputGroup, InputGroupAddon, Button, Label } from 'reactstrap';
 
 const ENTER_KEY = 13;
 const UP_ARROW = 38;
@@ -152,15 +152,23 @@ class AutoCompleteModal extends Component {
     return (
       <Fragment>
         <Label>{this.props.title} : {suggestionsListComponent}</Label>
-        <Input
-          placeholder="type to insert methods..."
-          bsSize="sm"
-          // type="text"
-          title={this.props.title}
-          onChange={onChange}
-          onKeyDown={onKeyDown}
-          value={userInput}
-        />
+        <InputGroup>
+          <Input
+            placeholder="type to insert methods..."
+            bsSize="sm"
+            // type="text"
+            title={this.props.title}
+            onChange={onChange}
+            onKeyDown={onKeyDown}
+            value={userInput}
+          />
+          <InputGroupAddon addonType="append">
+            <Button
+              onClick={() => this.props.handleDetailFormClick('transformation', this.state.selected)}
+              size="sm"
+            >Set</Button>
+          </InputGroupAddon>
+        </InputGroup>
         {this.state.selected.map((e, idx) => {
           return (
             <Badge
@@ -182,6 +190,7 @@ AutoCompleteModal.propTypes = {
   classes: PropTypes.object.isRequired,
   suggestions: PropTypes.array.isRequired,
   title: PropTypes.string.isRequired,
+  handleDetailFormClick: PropTypes.func.isRequired,
 };
 
 export default injectSheet(styles)(AutoCompleteModal);

@@ -25,6 +25,9 @@ const styles = {
 class InputGroupApi extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      propertyPath: this.props.defaultPropertyPath,
+    };
     this.handleChange = this.handleChange.bind(this);
   }
 
@@ -33,37 +36,46 @@ class InputGroupApi extends Component {
     });
   }
 
+  componentDidUpdate(prevprops) {
+    if (prevprops.defaultPropertyPath !== this.props.defaultPropertyPath) {
+      this.setState({ propertyPath: this.props.defaultPropertyPath });
+    }
+  }
+
   render() {
     const {
       activeSource,
       classes,
+      currentField,
       data,
+      // defaultPropertyPath,
       colorizeButtons,
       handleDetailFormClick,
       productDetailsKey,
       tabSources,
     } = this.props;
 
-    const defaultPropertyPath = data.paths[productDetailsKey][activeSource].jsonPath[0].path[0].join('.');
+    // const defaultPropertyPath = this.state.propertyPath;
+    // const defaultPropertyPath = data.paths[productDetailsKey][activeSource].jsonPath[0].path[0].join('.');
 
     return (
       <div>
         <FormGroup>
-          <Label>Content: {data.targetProduct.price_current}</Label>
-          {/* <Label>Content: {defaultApiPath}</Label> */}
+          <Label>Content: {data.targetProduct[productDetailsKey]}</Label>
           <FormGroup row>
             <Label>Property Path:</Label>
             <InputGroup placeholder="sm" bssize="sm" className={classes.DetailInput}>
-              <Input bssize="sm" className={classes.detailText} onChange={e => this.handleChange('message', e)} placeholder={defaultPropertyPath} />
+              <Input bssize="sm" className={classes.detailText} onChange={e => this.handleChange('propertyPath', e)} value={this.state.propertyPath} />
               <InputGroupAddon addonType="append">
                 <Button
                   size="sm"
-                  onClick={() => handleDetailFormClick('propertyPath', this.state.message)}
+                  onClick={() => handleDetailFormClick('propertyPath', this.state.propertyPath)}
                   color={colorizeButtons(tabSources[activeSource])}
                 >Set</Button>
               </InputGroupAddon>
             </InputGroup>
-            <Label> {defaultPropertyPath}</Label>
+            <Label> {currentField.data.propertyPath}</Label>
+            {/* <Label> {defaultPropertyPath}</Label> */}
           </FormGroup>
         </FormGroup>
       </div>
@@ -72,7 +84,9 @@ class InputGroupApi extends Component {
 }
 
 InputGroupApi.propTypes = {
+  currentField: PropTypes.object.isRequired,
   tabSources: PropTypes.array.isRequired,
+  defaultPropertyPath: PropTypes.string.isRequired,
   activeSource: PropTypes.number.isRequired,
   colorizeButtons: PropTypes.func.isRequired,
   handleDetailFormClick: PropTypes.func.isRequired,
