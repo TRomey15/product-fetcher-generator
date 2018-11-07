@@ -170,6 +170,14 @@ class App extends React.Component {
   //   this.setState(() => Object.assign({}, newState));
   //   console.log(this.state.activeSource);
   // }
+
+  toggleDetail() {
+    this.setState(state => ({
+      ...state,
+      showDetail: !state.showDetail,
+    }));
+  }
+
   handleDisplayFieldChange(e) { // idx toggles through multiple data sources per detail field...
     this.setState({ activeSource: e });
   }
@@ -207,13 +215,6 @@ class App extends React.Component {
         name: 'brand',
       },
       showDetail: true,
-    }));
-  }
-
-  toggleDetail() {
-    this.setState(state => ({
-      ...state,
-      showDetail: !state.showDetail,
     }));
   }
 
