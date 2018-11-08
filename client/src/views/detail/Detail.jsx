@@ -1,26 +1,14 @@
-
-
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
 import { Inspector, chromeLight } from 'react-inspector';
 
-import {
-  Badge,
-  Button,
-  Card,
-  Col,
-  Container,
-  Form,
-  FormGroup,
-  Row,
-} from 'reactstrap';
+import { Badge, Button, ButtonGroup, Card, Col, Container, Fade, Form, FormGroup, Row } from 'reactstrap';
 
-// import DetailInput from './DetailInput.jsx';
-import InputGroupApi from './InputGroupApi.jsx';
-import InputGroupScript from './InputGroupScript.jsx';
-import InputGroupHtml from './InputGroupHtml.jsx';
 import AutoCompleteModal from '../shared/AutoCompleteModal.jsx';
+import InputGroupApi from './InputGroupApi.jsx';
+import InputGroupHtml from './InputGroupHtml.jsx';
+import InputGroupScript from './InputGroupScript.jsx';
 import SourceToggle from './SourceToggle.jsx';
 
 const styles = {
@@ -44,11 +32,17 @@ const styles = {
     color: 'white',
   },
   objectRender: {
-    marginTop: '10px',
+    margin: '10px',
     padding: '10px',
   },
   dropText: {
     fontSize: '10px',
+  },
+  subText: {
+    fontSize: '10px',
+  },
+  verboseBtn: {
+    fontSize: '12x',
   },
 };
 
@@ -56,14 +50,22 @@ class Detail extends Component {
   constructor(props) {
     super(props);
     this.toggle = this.toggle.bind(this);
+    this.toggleVerbose = this.toggleVerbose.bind(this);
     this.state = {
       dropdownOpen: false,
+      fadeIn: false,
     };
   }
 
   toggle() {
     this.setState(prevState => ({
       dropdownOpen: !prevState.dropdownOpen,
+    }));
+  }
+
+  toggleVerbose() {
+    this.setState(prevState => ({
+      fadeIn: !prevState.fadeIn,
     }));
   }
 
@@ -106,50 +108,58 @@ class Detail extends Component {
       return type;
     };
 
-
     const tabSources = data.paths[productDetailsKey].map(e => evalSource(e));
-    const defaultPropertyPath = data.paths[productDetailsKey][activeSource].jsonPath[0].path[0].join('.');
-    const defaultEnclosingScript = data.paths[productDetailsKey][activeSource]
-    .jsonPath[0].enclosingScript;
-    const defaultEnclosingVariable = data.paths[productDetailsKey][activeSource].jsonPath[0].enclosingVariable;
+    const rootDataPath = data.paths[productDetailsKey][activeSource].jsonPath[0];
+    const defaultPropertyPath = rootDataPath.path[0].join('.');
+    const defaultEnclosingScript = rootDataPath.enclosingScript;
+    const defaultEnclosingVariable = rootDataPath.enclosingVariable;
     const btnColor = colorizeButtons(tabSources[activeSource]);
 
     const inputGroupToRender = (inputGroupType) => {
       if (inputGroupType === 'api') {
-        return (<InputGroupApi
-          data={data}
-          btnColor={btnColor}
-          currentField={currentField}
-          handleDetailFormClick={handleDetailFormClick}
-          handleDisplayFieldChange={handleDisplayFieldChange}
-          productDetailsKey={productDetailsKey}
-          tabSources={tabSources}
-          defaultPropertyPath={defaultPropertyPath}
-        />);
+        return (
+          <InputGroupApi
+            btnColor={btnColor}
+            classes={classes}
+            currentField={currentField}
+            data={data}
+            defaultPropertyPath={defaultPropertyPath}
+            handleDetailFormClick={handleDetailFormClick}
+            handleDisplayFieldChange={handleDisplayFieldChange}
+            productDetailsKey={productDetailsKey}
+            tabSources={tabSources}
+          />
+        );
       } else if (inputGroupType === 'script') {
-        return (<InputGroupScript
-          data={data}
-          btnColor={btnColor}
-          currentField={currentField}
-          handleDetailFormClick={handleDetailFormClick}
-          handleDisplayFieldChange={handleDisplayFieldChange}
-          defaultEnclosingScript={defaultEnclosingScript}
-          productDetailsKey={productDetailsKey}
-          tabSources={tabSources}
-          defaultPropertyPath={defaultPropertyPath}
-        />);
+        return (
+          <InputGroupScript
+            btnColor={btnColor}
+            classes={classes}
+            currentField={currentField}
+            data={data}
+            defaultEnclosingScript={defaultEnclosingScript}
+            defaultPropertyPath={defaultPropertyPath}
+            handleDetailFormClick={handleDetailFormClick}
+            handleDisplayFieldChange={handleDisplayFieldChange}
+            productDetailsKey={productDetailsKey}
+            tabSources={tabSources}
+          />
+        );
       } else {
-        return (<InputGroupHtml
-          data={data}
-          btnColor={btnColor}
-          currentField={currentField}
-          defaultEnclosingVariable={defaultEnclosingVariable}
-          handleDetailFormClick={handleDetailFormClick}
-          handleDisplayFieldChange={handleDisplayFieldChange}
-          productDetailsKey={productDetailsKey}
-          tabSources={tabSources}
-          defaultPropertyPath={defaultPropertyPath}
-        />);
+        return (
+          <InputGroupHtml
+            btnColor={btnColor}
+            classes={classes}
+            currentField={currentField}
+            data={data}
+            defaultEnclosingVariable={defaultEnclosingVariable}
+            defaultPropertyPath={defaultPropertyPath}
+            handleDetailFormClick={handleDetailFormClick}
+            handleDisplayFieldChange={handleDisplayFieldChange}
+            productDetailsKey={productDetailsKey}
+            tabSources={tabSources}
+          />
+        );
       }
     };
 
@@ -160,58 +170,56 @@ class Detail extends Component {
             <Col xs="6" md="5">
               <Badge className={classes.activeBadge}>{productDetailsKey}</Badge>
               <Form>
-                {/* <InputGroupScript
-                  data={data}
-                  btnColor={btnColor}
-                  currentField={currentField}
-                  handleDetailFormClick={handleDetailFormClick}
-                  handleDisplayFieldChange={handleDisplayFieldChange}
-                  activeSource={activeSource}
-                  productDetailsKey={productDetailsKey}
-                  tabSources={tabSources}
-                  defaultPropertyPath={defaultPropertyPath}
-                /> */}
                 {inputGroupToRender(tabSources[activeSource])}
                 <FormGroup row>
                   <AutoCompleteModal
                     btnColor={btnColor}
-                    title="Transformation"
-                    suggestions={transformFunctions}
                     handleDetailFormClick={handleDetailFormClick}
+                    suggestions={transformFunctions}
+                    title="Transformation"
                   />
                 </FormGroup>
               </Form>
-              <Inspector
-                expandLevel={3}
-                theme={{ ...chromeLight, ...({ TREE_NODE_PADDING: 20 }, { TREENODE_FONT_SIZE: '8px' }) }}
-                className={classes.objectRender}
-                initialExpandedPaths={['root', 'root.*']}
-                data={currentField}
-              />
+              <Fade in={this.state.fadeIn}>
+                <Inspector
+                  className={classes.objectRender}
+                  data={currentField}
+                  expandLevel={3}
+                  initialExpandedPaths={['root', 'root.*']}
+                  theme={{ ...chromeLight, ...({ TREE_NODE_PADDING: 20 }, { TREENODE_FONT_SIZE: '8px' }) }}
+                />
+              </Fade>
             </Col>
             <Col className={classes.devBorder} xs="6" md="7">
               <SourceToggle
-                evalSource={evalSource}
-                productDetailsKey={productDetailsKey}
                 activeSource={activeSource}
-                handleDisplayFieldChange={handleDisplayFieldChange}
                 colorizeButtons={colorizeButtons}
-                saveClick={saveClick}
-                handleUndo={handleUndo}
                 data={data}
+                evalSource={evalSource}
+                handleDisplayFieldChange={handleDisplayFieldChange}
+                handleUndo={handleUndo}
+                productDetailsKey={productDetailsKey}
+                saveClick={saveClick}
                 tabSources={tabSources}
               />
               <p />
               <Card className={classes.objectRender}>
                 <Inspector
-                  expandLevel={3}
-                  theme={{ ...chromeLight, ...({ TREE_NODE_PADDING: 20 }, { TREENODE_FONT_SIZE: '8px' }) }}
                   className={classes.objectRender}
-                  initialExpandedPaths={['root', 'root.*']}
                   data={data.paths[productDetailsKey][activeSource].jsonPath[0]}
+                  expandLevel={3}
+                  initialExpandedPaths={['root', 'root.*']}
+                  theme={{ ...chromeLight, ...({ TREE_NODE_PADDING: 20 }, { TREENODE_FONT_SIZE: '8px' }) }}
                 />
               </Card>
-              <Button onClick={onClose}>Close</Button>
+              <ButtonGroup size="sm" className={classes.buttonGroup}>
+                <Button size="sm" outline onClick={this.toggleVerbose}>
+                  verbose
+                </Button>
+                <Button size="sm" onClick={onClose}>
+                  close
+                </Button>
+              </ButtonGroup>
             </Col>
           </Row>
         </Container>

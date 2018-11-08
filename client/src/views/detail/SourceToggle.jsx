@@ -1,16 +1,8 @@
-
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
 
-import {
-  Button,
-  ButtonDropdown,
-  ButtonGroup,
-  DropdownItem,
-  DropdownMenu,
-  DropdownToggle,
-} from 'reactstrap';
+import { Button, ButtonDropdown, ButtonGroup, DropdownItem, DropdownMenu, DropdownToggle } from 'reactstrap';
 
 const styles = {
   dummy: {
@@ -32,22 +24,14 @@ class SourceToggle extends Component {
     this.setState(prevState => ({
       dropdownOpen: !prevState.dropdownOpen,
     }));
-  }
+  };
 
   handleChange(field, e) {
     this.setState({ [field]: e.target.value });
   }
 
   render() {
-    const {
-      activeSource,
-      classes,
-      colorizeButtons,
-      handleDisplayFieldChange,
-      handleUndo,
-      saveClick,
-      tabSources,
-    } = this.props;
+    const { activeSource, classes, colorizeButtons, handleDisplayFieldChange, handleUndo, saveClick, tabSources } = this.props;
 
     return (
       <div>
@@ -57,20 +41,23 @@ class SourceToggle extends Component {
               {tabSources[activeSource]}
             </DropdownToggle>
             <DropdownMenu size="sm">
-              {tabSources.map((i, idx) =>
-                (<DropdownItem
-                  className={classes.dummy}
-                  size="sm"
-                  onClick={() => handleDisplayFieldChange(idx)}
-                  key={idx.toString()}
-                  value={i}
-                >
+              {tabSources.map((i, idx) => (
+                <DropdownItem className={classes.dummy} size="sm" onClick={() => handleDisplayFieldChange(idx)} key={idx.toString()} value={i}>
                   {i} : {idx}
-                </DropdownItem>))}
+                </DropdownItem>
+              ))}
             </DropdownMenu>
           </ButtonDropdown>
-          <Button onClick={() => { handleUndo(); }}>restore</Button>
-          <Button onClick={() => saveClick('submit')} color="danger">save</Button>
+          <Button
+            onClick={() => {
+              handleUndo();
+            }}
+          >
+            restore
+          </Button>
+          <Button onClick={() => saveClick('submit')} color="danger">
+            save
+          </Button>
         </ButtonGroup>
       </div>
     );

@@ -2,7 +2,7 @@
 import React, { Fragment, Component } from 'react';
 import injectSheet from 'react-jss';
 import PropTypes from 'prop-types';
-import { Badge, Input, InputGroup, InputGroupAddon, Button, Label } from 'reactstrap';
+import { Badge, Button, Input, InputGroup, InputGroupAddon, Label } from 'reactstrap';
 
 const ENTER_KEY = 13;
 const UP_ARROW = 38;
@@ -22,7 +22,6 @@ const styles = {
     margin: '10px 2px 0',
   },
 };
-
 
 class AutoCompleteModal extends Component {
   constructor(props) {
@@ -52,10 +51,7 @@ class AutoCompleteModal extends Component {
     const userInput = e.currentTarget.value;
 
     // Filter our suggestions that don't contain the user's input
-    const filteredSuggestions = suggestions.filter(
-      suggestion =>
-        suggestion.toLowerCase().indexOf(userInput.toLowerCase()) > -1
-    );
+    const filteredSuggestions = suggestions.filter(suggestion => suggestion.toLowerCase().indexOf(userInput.toLowerCase()) > -1);
 
     // Update the user input and filtered suggestions, reset the active
     // suggestion and make sure the suggestions are shown
@@ -114,11 +110,7 @@ class AutoCompleteModal extends Component {
       onClick,
       onKeyDown,
       // classes,
-      state: {
-        filteredSuggestions,
-        showSuggestions,
-        userInput,
-      },
+      state: { filteredSuggestions, showSuggestions, userInput },
     } = this;
 
     let suggestionsListComponent;
@@ -129,11 +121,7 @@ class AutoCompleteModal extends Component {
           <span className="suggestions">
             {filteredSuggestions.map((suggestion) => {
               return (
-                <span
-                  className={this.props.classes.suggestList}
-                  key={suggestion}
-                  onClick={onClick}
-                >
+                <span className={this.props.classes.suggestList} key={suggestion} onClick={onClick}>
                   {`${suggestion} `}
                 </span>
               );
@@ -141,46 +129,36 @@ class AutoCompleteModal extends Component {
           </span>
         );
       } else {
-        suggestionsListComponent = (
-          <span className={this.props.classes.suggestList}>
-           No suggestions...
-          </span>
-        );
+        suggestionsListComponent = <span className={this.props.classes.suggestList}>No suggestions...</span>;
       }
     }
 
     return (
       <Fragment>
-        <Label>{this.props.title} : {suggestionsListComponent}</Label>
+        <Label>
+          {this.props.title} : {suggestionsListComponent}
+        </Label>
         <InputGroup>
-          <Input
-            placeholder="type to insert methods..."
-            bsSize="sm"
-            // type="text"
-            title={this.props.title}
-            onChange={onChange}
-            onKeyDown={onKeyDown}
-            value={userInput}
-          />
+          <Input bsSize="sm" onChange={onChange} onKeyDown={onKeyDown} placeholder="type to insert methods..." title={this.props.title} value={userInput} />
           <InputGroupAddon addonType="append">
-            <Button
-              color={this.props.btnColor}
-              onClick={() => this.props.handleDetailFormClick('transformation', this.state.selected)}
-              size="sm"
-            >Set</Button>
+            <Button color={this.props.btnColor} onClick={() => this.props.handleDetailFormClick('transformation', this.state.selected)} size="sm">
+              Set
+            </Button>
           </InputGroupAddon>
         </InputGroup>
         {this.state.selected.map((e, idx) => {
           return (
             <Badge
               className={this.props.classes.methodBadge}
-              pill
               color={COLORS[(idx + 1) % 7]}
-              size="xs"
               key={idx.toString()}
               onClick={() => this.onClearClick(idx)}
-            >{e}
-            </Badge>);
+              pill
+              size="xs"
+            >
+              {e}
+            </Badge>
+          );
         })}
       </Fragment>
     );

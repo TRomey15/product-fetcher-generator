@@ -1,24 +1,13 @@
-
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
 
-import {
-  FormGroup,
-  Label,
-  InputGroup,
-  Input,
-  InputGroupAddon,
-  Button,
-} from 'reactstrap';
+import { Button, FormGroup, InputGroup, Input, InputGroupAddon, Label } from 'reactstrap';
 
 const styles = {
   detailInput: {
     fontSize: '10px',
     margin: '10px',
-  },
-  subText: {
-    fontSize: '10px',
   },
 };
 
@@ -46,14 +35,7 @@ class InputGroupApi extends Component {
   }
 
   render() {
-    const {
-      btnColor,
-      classes,
-      currentField,
-      data,
-      handleDetailFormClick,
-      productDetailsKey,
-    } = this.props;
+    const { btnColor, classes, currentField, data, handleDetailFormClick, productDetailsKey } = this.props;
 
     return (
       <div>
@@ -64,11 +46,9 @@ class InputGroupApi extends Component {
             <InputGroup placeholder="sm" bssize="sm" className={classes.DetailInput}>
               <Input bssize="sm" className={classes.detailText} onChange={e => this.handleChange('propertyPath', e)} value={this.state.propertyPath} />
               <InputGroupAddon addonType="append">
-                <Button
-                  size="sm"
-                  onClick={() => handleDetailFormClick('propertyPath', this.state.propertyPath)}
-                  color={btnColor}
-                >Set</Button>
+                <Button size="sm" onClick={() => handleDetailFormClick('propertyPath', this.state.propertyPath)} color={btnColor}>
+                  Set
+                </Button>
               </InputGroupAddon>
             </InputGroup>
             <Label className={classes.subText}> {currentField.data.propertyPath}</Label>

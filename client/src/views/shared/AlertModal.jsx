@@ -2,24 +2,16 @@ import React from 'react';
 import injectSheet from 'react-jss';
 import PropTypes from 'prop-types';
 
-import {
-  Button,
-  Modal,
-  ModalBody,
-  ModalFooter,
-  ModalHeader,
-} from 'reactstrap';
+import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 
 const styles = {
-  blue: {
-  },
+  blue: {},
 };
 
 const displayType = {
   submit: {
     title: 'Are you sure you want to submit?',
     description: 'There are one or more required fields that have not been filled. Would you like to continue?',
-
   },
   error: {
     title: 'Error!',
@@ -45,7 +37,7 @@ class ModalView extends React.Component {
   }
 
   render() {
-    const { closeModal, functionTypeKey, classes, saveChanges } = this.props;
+    const { classes, closeModal, functionTypeKey, saveChanges } = this.props;
     const modalType = displayType[functionTypeKey] || {};
     const title = modalType.title || '';
     const description = modalType.description || '';
@@ -54,12 +46,18 @@ class ModalView extends React.Component {
       <div>
         <Modal isOpen={this.props.showModal} toggle={this.toggle}>
           <ModalHeader toggle={this.toggle}>{title}</ModalHeader>
-          <ModalBody className={classes.blue}>
-            {description}
-          </ModalBody>
+          <ModalBody className={classes.blue}>{description}</ModalBody>
           <ModalFooter>
-            {functionTypeKey !== 'save' ? <Button size="sm" color="danger" onClick={saveChanges}>Confirm</Button> : <span />}{' '}
-            <Button size="sm" color="secondary" onClick={closeModal}>Close / Cancel</Button>
+            {functionTypeKey !== 'save' ? (
+              <Button size="sm" color="danger" onClick={saveChanges}>
+                Confirm
+              </Button>
+            ) : (
+              <span />
+            )}{' '}
+            <Button size="sm" color="secondary" onClick={closeModal}>
+              Close / Cancel
+            </Button>
           </ModalFooter>
         </Modal>
       </div>

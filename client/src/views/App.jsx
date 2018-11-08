@@ -1,11 +1,8 @@
-/* eslint-disable no-console */
-/* eslint-disable no-unused-vars */
 import React from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
 import autoBind from 'react-autobind';
 import { Button, Modal, ModalBody, Navbar, NavbarBrand } from 'reactstrap';
-import { Inspector, chromeLight } from 'react-inspector';
 
 import mock from './mock.js';
 import Detail from './detail/Detail';
@@ -31,11 +28,6 @@ const styles = {
 
 // consider Lodash implementation for this deep copy...
 const workingData = JSON.parse(JSON.stringify(mock));
-const currentDefaults = {
-  propertyPath: 'foo',
-  scriptRegex: 'bar',
-  transformation: [],
-};
 
 class App extends React.Component {
   constructor(props) {
@@ -50,9 +42,11 @@ class App extends React.Component {
         onClick: () => {},
       },
       data: workingData, // all the data in Mock_Data
-      currentField: { // field for detail view
+      currentField: {
+        // field for detail view
         name: '', // hardcoding for now - provided by JS's form...
-        data: { // modified data returned from detail view...
+        data: {
+          // modified data returned from detail view...
           propertyPath: 'foo',
           scriptRegex: 'bar',
           enclosingVariable: 'funkyVariable',
@@ -137,7 +131,6 @@ class App extends React.Component {
 
   // modal (Alert Type)
   showModal(modalType) {
-    console.log('hitting show modal');
     const actions = {
       submit: this.submitForm,
       error: this.closeModal,
@@ -152,7 +145,6 @@ class App extends React.Component {
   }
 
   closeModal() {
-    const showModal = this.state.showModal;
     this.setState({ showModal: false });
   }
 
@@ -173,12 +165,14 @@ class App extends React.Component {
           scriptRegex: 'bar',
           enclosingVariable: 'funkyVariable',
           transformation: [],
-        } },
+        },
+      },
       showDetail: false,
     }));
   }
 
-  handleDisplayFieldChange(e) { // idx toggles through multiple data sources per detail field...
+  handleDisplayFieldChange(e) {
+    // idx toggles through multiple data sources per detail field...
     this.setState({ activeSource: e });
   }
 
@@ -199,7 +193,7 @@ class App extends React.Component {
   // for testing buttons only - override w. JS UI...
   testPC() {
     this.setState(state => ({
-      ...state,
+      // ...state,
       currentField: {
         ...state.currentField,
         name: 'price_current',
@@ -210,7 +204,7 @@ class App extends React.Component {
 
   testBrand() {
     this.setState(state => ({
-      ...state,
+      // ...state,
       currentField: {
         ...state.currentField,
         name: 'brand',
@@ -220,42 +214,30 @@ class App extends React.Component {
   }
 
   handleUndo() {
-    console.log('hittig handle Undo');
     const undoData = JSON.parse(JSON.stringify(mock));
     this.setState({ data: undoData });
   }
 
   render() {
     const { classes } = this.props;
-    const { activeSource, data, currentField, showModal, modalData } = this.state;
+    const { activeSource, data, currentField, modalData } = this.state;
     const formData = data && Object.assign({}, data);
-    const currentFieldData = data && Object.assign({}, currentField.data);
-    console.log(currentFieldData);
+
     return (
       <div>
         <Navbar className={classes.headerBrand} color="secondary">
-          <NavbarBrand className={classes.headerBrand}> {/* temporarily holding topline */}
+          <NavbarBrand className={classes.headerBrand}>
+            {' '}
+            {/* temporarily holding topline */}
             <img src="https://cdn.joinhoney.com/images/header/honey-logo-orange.svg" alt="Honey" data-reactid="20" /> &nbsp;product fetcher generator
           </NavbarBrand>
         </Navbar>
-        <FetcherForm
-          onSrcButtonClick={this.onSrcButtonClick}
-          onClick={this.formOnClick}
-          onSaveToGitHub={this.githubOnClick}
-          data={formData}
-        />
+        <FetcherForm data={formData} onClick={this.formOnClick} onSaveToGitHub={this.githubOnClick} onSrcButtonClick={this.onSrcButtonClick} />
         {/* buttons for testing - replace w. js ui */}
         <Button onClick={this.testPC}>Price Current</Button>
         <p />
         <Button onClick={this.testBrand}>Brand</Button>
-        <p />
-        <Inspector data={currentField} />
-        {/* FIXME: Either way, classes.show will be the class? */}
-        <Modal
-          toggle={this.toggleDetail}
-          size="lg"
-          isOpen={this.state.showDetail}
-        >
+        <Modal toggle={this.toggleDetail} size="lg" isOpen={this.state.showDetail}>
           <ModalBody>
             <Detail
               activeSource={activeSource}
@@ -273,15 +255,7 @@ class App extends React.Component {
             />
           </ModalBody>
         </Modal>
-        <div className={showModal ? classes.show : classes.hide}>
-          <AlertModal
-            showModal={this.state.showModal}
-            closeModal={this.closeModal}
-            functionTypeKey={modalData.type}
-            saveChanges={this.onSaveChanges}
-          />
-        </div>
-        {/* <Layout buttonText="hello" buttonOnClick={ () => { console.log('hello world'); }} header="world" /> */}
+        <AlertModal closeModal={this.closeModal} functionTypeKey={modalData.type} saveChanges={this.onSaveChanges} showModal={this.state.showModal} />
       </div>
     );
   }

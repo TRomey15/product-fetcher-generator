@@ -1,16 +1,8 @@
-
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
 
-import {
-  FormGroup,
-  Label,
-  InputGroup,
-  Input,
-  InputGroupAddon,
-  Button,
-} from 'reactstrap';
+import { Button, FormGroup, Input, InputGroup, InputGroupAddon, Label } from 'reactstrap';
 
 const styles = {
   detailInput: {
@@ -47,15 +39,7 @@ class InputGroupHtml extends Component {
   }
 
   render() {
-    const {
-      btnColor,
-      classes,
-      currentField,
-      data,
-      defaultEnclosingVariable,
-      handleDetailFormClick,
-      productDetailsKey,
-    } = this.props;
+    const { btnColor, classes, currentField, data, handleDetailFormClick, productDetailsKey } = this.props;
 
     return (
       <div>
@@ -63,20 +47,18 @@ class InputGroupHtml extends Component {
           <Label>Content: {data.targetProduct[productDetailsKey]}</Label>
           <FormGroup row>
             <Label>Property Path:</Label>
-            <InputGroup placeholder="sm" bssize="sm" className={classes.DetailInput}>
+            <InputGroup bssize="sm" className={classes.DetailInput}>
               <Input bssize="sm" className={classes.detailText} onChange={e => this.handleChange('propertyPath', e)} value={this.state.propertyPath} />
               <InputGroupAddon addonType="append">
-                <Button
-                  size="sm"
-                  onClick={() => handleDetailFormClick('propertyPath', this.state.propertyPath)}
-                  color={btnColor}
-                >Set</Button>
+                <Button size="sm" onClick={() => handleDetailFormClick('propertyPath', this.state.propertyPath)} color={btnColor}>
+                  Set
+                </Button>
               </InputGroupAddon>
             </InputGroup>
-            <Label> {currentField.data.propertyPath}</Label>
+            <Label className={classes.subText}> {currentField.data.propertyPath}</Label>
           </FormGroup>
           <FormGroup row>
-            <Label>Enclosing Variable: {defaultEnclosingVariable}</Label>
+            <Label>Enclosing Variable:</Label>
             <InputGroup placeholder="sm" bssize="sm" className={classes.DetailInput}>
               <Input
                 bssize="sm"
@@ -85,14 +67,12 @@ class InputGroupHtml extends Component {
                 value={this.state.enclosingVariable}
               />
               <InputGroupAddon addonType="append">
-                <Button
-                  size="sm"
-                  onClick={() => handleDetailFormClick('enclosingVariable', this.state.enclosingVariable)}
-                  color={btnColor}
-                >Set</Button>
+                <Button size="sm" onClick={() => handleDetailFormClick('enclosingVariable', this.state.enclosingVariable)} color={btnColor}>
+                  Set
+                </Button>
               </InputGroupAddon>
             </InputGroup>
-            <Label> {currentField.data.enclosingVariable}</Label>
+            <Label className={classes.subText}> {currentField.data.enclosingVariable}</Label>
           </FormGroup>
         </FormGroup>
       </div>
