@@ -23,22 +23,9 @@ const styles = {
   buttonGroup: {
     margin: '0 auto',
   },
-  detailInput: {
-    // width: '400px',
-    fontSize: '10px',
-    margin: '10px',
-  },
-  codeWindow: {
-    backgroundColor: '#333',
-    borderColor: '#333',
-    color: 'white',
-  },
   objectRender: {
     margin: '10px',
     padding: '10px',
-  },
-  dropText: {
-    fontSize: '10px',
   },
   subText: {
     fontSize: '10px',
