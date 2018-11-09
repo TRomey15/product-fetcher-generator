@@ -182,7 +182,7 @@ class Detail extends Component {
             <Col className={classes.devBorder} xs="6" md="7">
               <SourceToggle
                 activeSource={activeSource}
-                colorizeButtons={colorizeButtons}
+                btnColor={btnColor}
                 data={data}
                 evalSource={evalSource}
                 handleDisplayFieldChange={handleDisplayFieldChange}

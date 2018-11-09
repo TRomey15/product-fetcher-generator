@@ -31,13 +31,13 @@ class SourceToggle extends Component {
   }
 
   render() {
-    const { activeSource, classes, colorizeButtons, handleDisplayFieldChange, handleUndo, saveClick, tabSources } = this.props;
+    const { activeSource, btnColor, classes, handleDisplayFieldChange, handleUndo, saveClick, tabSources } = this.props;
 
     return (
       <div>
         <ButtonGroup size="sm" className={classes.buttonGroup}>
           <ButtonDropdown size="sm" isOpen={this.state.dropdownOpen} toggle={this.toggle} name="name">
-            <DropdownToggle caret color={colorizeButtons(tabSources[activeSource])}>
+            <DropdownToggle caret color={btnColor}>
               {tabSources[activeSource]}
             </DropdownToggle>
             <DropdownMenu size="sm">
@@ -66,8 +66,8 @@ class SourceToggle extends Component {
 
 SourceToggle.propTypes = {
   activeSource: PropTypes.number.isRequired,
+  btnColor: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired,
-  colorizeButtons: PropTypes.func.isRequired,
   handleDisplayFieldChange: PropTypes.func.isRequired,
   handleUndo: PropTypes.func.isRequired,
   saveClick: PropTypes.func.isRequired,
