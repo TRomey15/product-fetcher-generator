@@ -52,7 +52,6 @@ class App extends React.Component {
           enclosingVariable: 'funkyVariable',
           transformation: [],
         },
-        moreData: 'someMore',
       },
     };
   }
@@ -89,8 +88,10 @@ class App extends React.Component {
   }
 
   saveChanges(dataUpdates) {
-    this.setState({ currentField: { name: '', data: {} } });
-    this.setState({ data: dataUpdates }); // should probably how data is updated
+    this.setState({
+      currentField: { name: '', data: {} },
+      data: dataUpdates, // should probably how data is updated
+    });
     this.showModal('save');
   }
 
@@ -149,15 +150,18 @@ class App extends React.Component {
   }
 
   toggleDetail() {
+    if (this.state.showDetail) {
+      this.onDetailClose();
+      return;
+    }
     this.setState(state => ({
-      ...state,
       showDetail: !state.showDetail,
     }));
   }
 
   onDetailClose() {
     this.setState(state => ({
-      ...state,
+      activeSource: 0,
       currentField: {
         ...state.currentField,
         data: {
@@ -185,15 +189,20 @@ class App extends React.Component {
   // }
 
   handleDetailFormClick(field, e) {
-    const newState = { ...this.state };
-    newState.currentField.data[field] = e;
-    this.setState(() => Object.assign({}, newState));
+    this.setState(state => ({
+      currentField: {
+        ...state.currentField,
+        data: {
+          ...state.currentField.data,
+          [field]: e,
+        },
+      },
+    }));
   }
 
   // for testing buttons only - override w. JS UI...
   testPC() {
     this.setState(state => ({
-      // ...state,
       currentField: {
         ...state.currentField,
         name: 'price_current',
@@ -204,7 +213,6 @@ class App extends React.Component {
 
   testBrand() {
     this.setState(state => ({
-      // ...state,
       currentField: {
         ...state.currentField,
         name: 'brand',
@@ -221,15 +229,13 @@ class App extends React.Component {
   render() {
     const { classes } = this.props;
     const { activeSource, data, currentField, modalData } = this.state;
-    const formData = data && Object.assign({}, data);
+    const formData = data && { ...data };
 
     return (
       <div>
         <Navbar className={classes.headerBrand} color="secondary">
           <NavbarBrand className={classes.headerBrand}>
-            {' '}
-            {/* temporarily holding topline */}
-            <img src="https://cdn.joinhoney.com/images/header/honey-logo-orange.svg" alt="Honey" data-reactid="20" /> &nbsp;product fetcher generator
+            <img src="https://cdn.joinhoney.com/images/header/honey-logo-orange.svg" alt="Honey" /> product fetcher generator
           </NavbarBrand>
         </Navbar>
         <FetcherForm data={formData} onClick={this.formOnClick} onSaveToGitHub={this.githubOnClick} onSrcButtonClick={this.onSrcButtonClick} />
@@ -248,7 +254,7 @@ class App extends React.Component {
               handleUndo={this.handleUndo}
               onClose={this.onDetailClose}
               // onRestore={this.restoreSchemaFieldData}
-              productDetailsKey={currentField.name}
+              productObservationKey={currentField.name}
               onSave={this.onSaveChanges}
               saveClick={this.showModal}
               transformFunctions={mock.dummyFunctions}

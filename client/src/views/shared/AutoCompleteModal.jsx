@@ -107,7 +107,7 @@ class AutoCompleteModal extends Component {
   render() {
     const {
       onChange,
-      onClick,
+      // onClick,
       onKeyDown,
       // classes,
       state: { filteredSuggestions, showSuggestions, userInput },
@@ -121,7 +121,7 @@ class AutoCompleteModal extends Component {
           <span className="suggestions">
             {filteredSuggestions.map((suggestion) => {
               return (
-                <span className={this.props.classes.suggestList} key={suggestion} onClick={onClick}>
+                <span className={this.props.classes.suggestList} key={suggestion} onClick={() => {}}>
                   {`${suggestion} `}
                 </span>
               );

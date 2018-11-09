@@ -39,41 +39,41 @@ class InputGroupHtml extends Component {
   }
 
   render() {
-    const { btnColor, classes, currentField, data, handleDetailFormClick, productDetailsKey } = this.props;
+    const { btnColor, classes, currentField, data, handleDetailFormClick, productObservationKey } = this.props;
 
     return (
       <div>
-        <FormGroup>
-          <Label>Content: {data.targetProduct[productDetailsKey]}</Label>
-          <FormGroup row>
-            <Label>Property Path:</Label>
-            <InputGroup bssize="sm" className={classes.DetailInput}>
-              <Input bssize="sm" className={classes.detailText} onChange={e => this.handleChange('propertyPath', e)} value={this.state.propertyPath} />
-              <InputGroupAddon addonType="append">
-                <Button size="sm" onClick={() => handleDetailFormClick('propertyPath', this.state.propertyPath)} color={btnColor}>
-                  Set
-                </Button>
-              </InputGroupAddon>
-            </InputGroup>
-            <Label className={classes.subText}> {currentField.data.propertyPath}</Label>
-          </FormGroup>
-          <FormGroup row>
-            <Label>Enclosing Variable:</Label>
-            <InputGroup placeholder="sm" bssize="sm" className={classes.DetailInput}>
-              <Input
-                bssize="sm"
-                className={classes.detailText}
-                onChange={e => this.handleChange('enclosingVariable', e)}
-                value={this.state.enclosingVariable}
-              />
-              <InputGroupAddon addonType="append">
-                <Button size="sm" onClick={() => handleDetailFormClick('enclosingVariable', this.state.enclosingVariable)} color={btnColor}>
-                  Set
-                </Button>
-              </InputGroupAddon>
-            </InputGroup>
-            <Label className={classes.subText}> {currentField.data.enclosingVariable}</Label>
-          </FormGroup>
+        <FormGroup row>
+          <Label>Content: {data.targetProduct[productObservationKey]}</Label>
+        </FormGroup>
+        <FormGroup row>
+          <Label>Property Path:</Label>
+          <InputGroup bssize="sm" className={classes.DetailInput}>
+            <Input bssize="sm" className={classes.detailText} onChange={e => this.handleChange('propertyPath', e)} value={this.state.propertyPath} />
+            <InputGroupAddon addonType="append">
+              <Button size="sm" onClick={() => handleDetailFormClick('propertyPath', this.state.propertyPath)} color={btnColor}>
+                Set
+              </Button>
+            </InputGroupAddon>
+          </InputGroup>
+          <Label className={classes.subText}> {currentField.data.propertyPath}</Label>
+        </FormGroup>
+        <FormGroup row>
+          <Label>Enclosing Variable:</Label>
+          <InputGroup placeholder="sm" bssize="sm" className={classes.DetailInput}>
+            <Input
+              bssize="sm"
+              className={classes.detailText}
+              onChange={e => this.handleChange('enclosingVariable', e)}
+              value={this.state.enclosingVariable}
+            />
+            <InputGroupAddon addonType="append">
+              <Button size="sm" onClick={() => handleDetailFormClick('enclosingVariable', this.state.enclosingVariable)} color={btnColor}>
+                Set
+              </Button>
+            </InputGroupAddon>
+          </InputGroup>
+          <Label className={classes.subText}> {currentField.data.enclosingVariable}</Label>
         </FormGroup>
       </div>
     );
@@ -86,7 +86,7 @@ InputGroupHtml.propTypes = {
   defaultPropertyPath: PropTypes.string.isRequired,
   defaultEnclosingVariable: PropTypes.string.isRequired,
   handleDetailFormClick: PropTypes.func.isRequired,
-  productDetailsKey: PropTypes.string.isRequired,
+  productObservationKey: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired,
   data: PropTypes.object.isRequired,
 };

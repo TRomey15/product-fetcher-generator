@@ -13,7 +13,9 @@ import SourceToggle from './SourceToggle.jsx';
 
 const styles = {
   activeBadge: {
+    position: 'relative',
     marginBottom: '10px',
+    right: '15px',
   },
   detailContainer: {
     margin: '20px',
@@ -79,7 +81,7 @@ class Detail extends Component {
       handleDisplayFieldChange,
       handleUndo,
       onClose,
-      productDetailsKey,
+      productObservationKey,
       saveClick,
       transformFunctions,
     } = this.props;
@@ -108,8 +110,8 @@ class Detail extends Component {
       return type;
     };
 
-    const tabSources = data.paths[productDetailsKey].map(e => evalSource(e));
-    const rootDataPath = data.paths[productDetailsKey][activeSource].jsonPath[0];
+    const tabSources = data.paths[productObservationKey].map(e => evalSource(e));
+    const rootDataPath = data.paths[productObservationKey][activeSource].jsonPath[0];
     const defaultPropertyPath = rootDataPath.path[0].join('.');
     const defaultEnclosingScript = rootDataPath.enclosingScript;
     const defaultEnclosingVariable = rootDataPath.enclosingVariable;
@@ -126,7 +128,7 @@ class Detail extends Component {
             defaultPropertyPath={defaultPropertyPath}
             handleDetailFormClick={handleDetailFormClick}
             handleDisplayFieldChange={handleDisplayFieldChange}
-            productDetailsKey={productDetailsKey}
+            productObservationKey={productObservationKey}
             tabSources={tabSources}
           />
         );
@@ -141,7 +143,7 @@ class Detail extends Component {
             defaultPropertyPath={defaultPropertyPath}
             handleDetailFormClick={handleDetailFormClick}
             handleDisplayFieldChange={handleDisplayFieldChange}
-            productDetailsKey={productDetailsKey}
+            productObservationKey={productObservationKey}
             tabSources={tabSources}
           />
         );
@@ -156,7 +158,7 @@ class Detail extends Component {
             defaultPropertyPath={defaultPropertyPath}
             handleDetailFormClick={handleDetailFormClick}
             handleDisplayFieldChange={handleDisplayFieldChange}
-            productDetailsKey={productDetailsKey}
+            productObservationKey={productObservationKey}
             tabSources={tabSources}
           />
         );
@@ -168,7 +170,7 @@ class Detail extends Component {
         <Container>
           <Row>
             <Col xs="6" md="5">
-              <Badge className={classes.activeBadge}>{productDetailsKey}</Badge>
+              <Badge className={classes.activeBadge}>{productObservationKey}</Badge>
               <Form>
                 {inputGroupToRender(tabSources[activeSource])}
                 <FormGroup row>
@@ -183,10 +185,10 @@ class Detail extends Component {
               <Fade in={this.state.fadeIn}>
                 <Inspector
                   className={classes.objectRender}
-                  data={currentField}
+                  data={JSON.parse(JSON.stringify(currentField))}
                   expandLevel={3}
                   initialExpandedPaths={['root', 'root.*']}
-                  theme={{ ...chromeLight, ...({ TREE_NODE_PADDING: 20 }, { TREENODE_FONT_SIZE: '8px' }) }}
+                  theme={{ ...chromeLight, TREENODE_FONT_SIZE: '8px' }}
                 />
               </Fade>
             </Col>
@@ -198,23 +200,22 @@ class Detail extends Component {
                 evalSource={evalSource}
                 handleDisplayFieldChange={handleDisplayFieldChange}
                 handleUndo={handleUndo}
-                productDetailsKey={productDetailsKey}
+                productObservationKey={productObservationKey}
                 saveClick={saveClick}
                 tabSources={tabSources}
               />
-              <p />
               <Card className={classes.objectRender}>
                 <Inspector
                   className={classes.objectRender}
-                  data={data.paths[productDetailsKey][activeSource].jsonPath[0]}
+                  data={rootDataPath}
                   expandLevel={3}
                   initialExpandedPaths={['root', 'root.*']}
-                  theme={{ ...chromeLight, ...({ TREE_NODE_PADDING: 20 }, { TREENODE_FONT_SIZE: '8px' }) }}
+                  theme={{ ...chromeLight, TREENODE_FONT_SIZE: '8px' }}
                 />
               </Card>
               <ButtonGroup size="sm" className={classes.buttonGroup}>
                 <Button size="sm" outline onClick={this.toggleVerbose}>
-                  verbose
+                  Details
                 </Button>
                 <Button size="sm" onClick={onClose}>
                   close
@@ -236,7 +237,7 @@ Detail.propTypes = {
   handleDisplayFieldChange: PropTypes.func.isRequired,
   handleDetailFormClick: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
-  productDetailsKey: PropTypes.string.isRequired,
+  productObservationKey: PropTypes.string.isRequired,
   handleUndo: PropTypes.func.isRequired,
   saveClick: PropTypes.func.isRequired,
   transformFunctions: PropTypes.array.isRequired,

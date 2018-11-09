@@ -12,6 +12,10 @@ const styles = {
   subText: {
     fontSize: '10px',
   },
+  sciptText: {
+    // fontFamily: 'monospace',
+    fontSize: '10px',
+  },
 };
 
 class InputGroupScript extends Component {
@@ -38,27 +42,28 @@ class InputGroupScript extends Component {
   }
 
   render() {
-    const { btnColor, classes, currentField, data, defaultEnclosingScript, handleDetailFormClick, productDetailsKey } = this.props;
+    const { btnColor, classes, currentField, data, defaultEnclosingScript, handleDetailFormClick, productObservationKey } = this.props;
 
     return (
       <div>
-        <FormGroup>
-          <FormGroup row>
-            <Label>Content: {data.targetProduct[productDetailsKey]}</Label>
-            <Label>Script: {defaultEnclosingScript}</Label>
-          </FormGroup>
-          <FormGroup row>
-            <Label>Property Path:</Label>
-            <InputGroup placeholder="sm" bssize="sm" className={classes.DetailInput}>
-              <Input bssize="sm" className={classes.detailText} onChange={e => this.handleChange('propertyPath', e)} value={this.state.propertyPath} />
-              <InputGroupAddon addonType="append">
-                <Button size="sm" onClick={() => handleDetailFormClick('propertyPath', this.state.propertyPath)} color={btnColor}>
-                  Set
-                </Button>
-              </InputGroupAddon>
-            </InputGroup>
-            <Label className={classes.subText}> {currentField.data.propertyPath}</Label>
-          </FormGroup>
+        <FormGroup row>
+          <Label>Content: {data.targetProduct[productObservationKey]}</Label>
+          <Label>Script:
+            <br />
+            <code className={classes.scriptText}>{defaultEnclosingScript}</code>
+          </Label>
+        </FormGroup>
+        <FormGroup row>
+          <Label>Property Path:</Label>
+          <InputGroup placeholder="sm" bssize="sm" className={classes.DetailInput}>
+            <Input bssize="sm" className={classes.detailText} onChange={e => this.handleChange('propertyPath', e)} value={this.state.propertyPath} />
+            <InputGroupAddon addonType="append">
+              <Button size="sm" onClick={() => handleDetailFormClick('propertyPath', this.state.propertyPath)} color={btnColor}>
+                Set
+              </Button>
+            </InputGroupAddon>
+          </InputGroup>
+          <Label className={classes.subText}> {currentField.data.propertyPath}</Label>
         </FormGroup>
       </div>
     );
@@ -71,7 +76,7 @@ InputGroupScript.propTypes = {
   defaultPropertyPath: PropTypes.string.isRequired,
   defaultEnclosingScript: PropTypes.string.isRequired,
   handleDetailFormClick: PropTypes.func.isRequired,
-  productDetailsKey: PropTypes.string.isRequired,
+  productObservationKey: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired,
   data: PropTypes.object.isRequired,
 };

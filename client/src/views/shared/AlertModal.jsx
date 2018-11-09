@@ -1,12 +1,6 @@
 import React from 'react';
-import injectSheet from 'react-jss';
 import PropTypes from 'prop-types';
-
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
-
-const styles = {
-  blue: {},
-};
 
 const displayType = {
   submit: {
@@ -23,53 +17,33 @@ const displayType = {
   },
 };
 
-class ModalView extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-    this.toggle = this.toggle.bind(this);
-  }
-
-  toggle() {
-    this.setState((state) => {
-      return { modal: state.quantity };
-    });
-  }
-
-  render() {
-    const { classes, closeModal, functionTypeKey, saveChanges } = this.props;
-    const modalType = displayType[functionTypeKey] || {};
-    const title = modalType.title || '';
-    const description = modalType.description || '';
-
-    return (
-      <div>
-        <Modal isOpen={this.props.showModal} toggle={this.toggle}>
-          <ModalHeader toggle={this.toggle}>{title}</ModalHeader>
-          <ModalBody className={classes.blue}>{description}</ModalBody>
-          <ModalFooter>
-            {functionTypeKey !== 'save' ? (
-              <Button size="sm" color="danger" onClick={saveChanges}>
-                Confirm
-              </Button>
-            ) : (
+const AlertModal = (props) => {
+  const { functionTypeKey, saveChanges, showModal, closeModal } = props;
+  const modalType = displayType[functionTypeKey] || {};
+  const title = modalType.title || '';
+  const description = modalType.description || '';
+  return (
+    <div>
+      <Modal size="sm" isOpen={showModal}>
+        <ModalHeader>{title}</ModalHeader>
+        <ModalBody>{description}</ModalBody>
+        <ModalFooter>
+          {
+            functionTypeKey !== 'save' ?
+              <Button size="sm" color="danger" onClick={saveChanges}> Confirm </Button> :
               <span />
-            )}{' '}
-            <Button size="sm" color="secondary" onClick={closeModal}>
-              Close / Cancel
-            </Button>
-          </ModalFooter>
-        </Modal>
-      </div>
-    );
-  }
-}
+          }
+          <Button size="sm" color="secondary" onClick={closeModal}> Close / Cancel </Button>
+        </ModalFooter>
+      </Modal>
+    </div>
+  );
+};
 
-ModalView.propTypes = {
-  classes: PropTypes.object.isRequired,
+AlertModal.propTypes = {
   closeModal: PropTypes.func.isRequired,
   functionTypeKey: PropTypes.string.isRequired,
   saveChanges: PropTypes.func.isRequired,
   showModal: PropTypes.bool.isRequired,
 };
-export default injectSheet(styles)(ModalView);
+export default AlertModal;

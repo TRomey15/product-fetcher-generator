@@ -35,24 +35,24 @@ class InputGroupApi extends Component {
   }
 
   render() {
-    const { btnColor, classes, currentField, data, handleDetailFormClick, productDetailsKey } = this.props;
+    const { btnColor, classes, currentField, data, handleDetailFormClick, productObservationKey } = this.props;
 
     return (
       <div>
-        <FormGroup>
-          <Label>Content: {data.targetProduct[productDetailsKey]}</Label>
-          <FormGroup row>
-            <Label>Property Path:</Label>
-            <InputGroup placeholder="sm" bssize="sm" className={classes.DetailInput}>
-              <Input bssize="sm" className={classes.detailText} onChange={e => this.handleChange('propertyPath', e)} value={this.state.propertyPath} />
-              <InputGroupAddon addonType="append">
-                <Button size="sm" onClick={() => handleDetailFormClick('propertyPath', this.state.propertyPath)} color={btnColor}>
-                  Set
-                </Button>
-              </InputGroupAddon>
-            </InputGroup>
-            <Label className={classes.subText}> {currentField.data.propertyPath}</Label>
-          </FormGroup>
+        <FormGroup row>
+          <Label>Content: {data.targetProduct[productObservationKey]}</Label>
+        </FormGroup>
+        <FormGroup row>
+          <Label>Property Path:</Label>
+          <InputGroup placeholder="sm" bssize="sm" className={classes.DetailInput}>
+            <Input bssize="sm" className={classes.detailText} onChange={e => this.handleChange('propertyPath', e)} value={this.state.propertyPath} />
+            <InputGroupAddon addonType="append">
+              <Button size="sm" onClick={() => handleDetailFormClick('propertyPath', this.state.propertyPath)} color={btnColor}>
+                Set
+              </Button>
+            </InputGroupAddon>
+          </InputGroup>
+          <Label className={classes.subText}> {currentField.data.propertyPath}</Label>
         </FormGroup>
       </div>
     );
@@ -64,7 +64,7 @@ InputGroupApi.propTypes = {
   currentField: PropTypes.object.isRequired,
   defaultPropertyPath: PropTypes.string.isRequired,
   handleDetailFormClick: PropTypes.func.isRequired,
-  productDetailsKey: PropTypes.string.isRequired,
+  productObservationKey: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired,
   data: PropTypes.object.isRequired,
 };
