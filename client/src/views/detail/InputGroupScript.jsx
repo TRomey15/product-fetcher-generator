@@ -13,7 +13,6 @@ const styles = {
     fontSize: '10px',
   },
   sciptText: {
-    // fontFamily: 'monospace',
     fontSize: '10px',
   },
 };
