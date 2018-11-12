@@ -238,7 +238,12 @@ class App extends React.Component {
             <img src="https://cdn.joinhoney.com/images/header/honey-logo-orange.svg" alt="Honey" /> product fetcher generator
           </NavbarBrand>
         </Navbar>
-        <FetcherForm data={formData} onClick={this.formOnClick} onSaveToGitHub={this.githubOnClick} onSrcButtonClick={this.onSrcButtonClick} />
+        <FetcherForm
+          onSrcButtonClick={this.onSrcButtonClick}
+          onClick={this.formOnClick}
+          onSaveToGitHub={this.githubOnClick}
+          data={formData}
+        />
         {/* buttons for testing - replace w. js ui */}
         <Button onClick={this.testPC}>Price Current</Button>
         <p />

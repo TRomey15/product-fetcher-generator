@@ -3,6 +3,17 @@ import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
 // import classNames from 'classnames';
 
+const propTypes = {
+  children: PropTypes.node.isRequired,
+  header: PropTypes.string.isRequired,
+  classes: PropTypes.object.isRequired,
+  onClick: PropTypes.func,
+};
+
+const defaultProps = {
+  onClick: () => {},
+};
+
 const styles = {
   main: {
     margin: '1%',
@@ -27,22 +38,17 @@ const styles = {
 
 class Container extends React.PureComponent {
   render() {
-    const { header, classes } = this.props;
+    const { header, classes, onClick } = this.props;
     return (
-      <div className={classes.main}>
-        <h1 className={classes.header}>{header}</h1>
-        <div className={classes.cardContainer}>
-          {/* {this.props.children} */}
-        </div>
+      <div className={ classes.main } onClick={ onClick }>
+        <h1 className={ classes.header }>{ header }</h1>
+        { this.props.children }
       </div>
     );
   }
 }
 
+Container.propTypes = propTypes;
+Container.defaultProps = defaultProps;
 
-Container.propTypes = {
-  // children: PropTypes.node.isRequired,
-  header: PropTypes.string.isRequired,
-  classes: PropTypes.object.isRequired,
-};
 export default injectSheet(styles)(Container);
