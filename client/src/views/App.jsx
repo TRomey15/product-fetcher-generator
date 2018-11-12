@@ -8,6 +8,7 @@ import mock from './mock.js';
 import Detail from './detail/Detail';
 import FetcherForm from './fetcherForm/FetcherForm';
 import AlertModal from './shared/AlertModal';
+import TestFields from './detail/TestFields';
 // import Layout from './shared/Layout.jsx';
 
 const styles = {
@@ -248,6 +249,7 @@ class App extends React.Component {
         <Button onClick={this.testPC}>Price Current</Button>
         <p />
         <Button onClick={this.testBrand}>Brand</Button>
+        {/* <TestFields testPC={this.testPC} testBrand={this.testBrand} /> */}
         <Modal toggle={this.toggleDetail} size="lg" isOpen={this.state.showDetail}>
           <ModalBody>
             <Detail
