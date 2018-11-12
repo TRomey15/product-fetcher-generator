@@ -4,14 +4,6 @@ import PropTypes from 'prop-types';
 import Button from './Button.jsx';
 // import classNames from 'classnames';
 
-const propTypes = {
-  children: PropTypes.node.isRequired,
-  buttonText: PropTypes.string.isRequired,
-  buttonOnClick: PropTypes.func.isRequired,
-  header: PropTypes.string.isRequired,
-  classes: PropTypes.object.isRequired,
-};
-
 const styles = {
   cardDiv: {
     width: '100%',
@@ -52,5 +44,14 @@ class Layout extends React.PureComponent {
   }
 }
 
-Layout.propTypes = propTypes;
+Layout.propTypes = {
+  children: PropTypes.node.isRequired,
+  buttonText: PropTypes.string.isRequired,
+  buttonOnClick: PropTypes.func.isRequired,
+  header: PropTypes.string,
+  classes: PropTypes.object.isRequired,
+};
+Layout.defaultProps = {
+  header: '',
+};
 export default injectSheet(styles)(Layout);

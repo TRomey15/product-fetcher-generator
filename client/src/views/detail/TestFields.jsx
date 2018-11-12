@@ -1,36 +1,10 @@
-// TODO: implement Layout
+// For devlopment purposes on the detail view while main FetcherForm is under construction...
 import React from 'react';
-import injectSheet from 'react-jss';
+// import injectSheet from 'react-jss';
 import PropTypes from 'prop-types';
 import { Button, Col, Input, InputGroup, InputGroupAddon, Label } from 'reactstrap';
 
 import Container from '../shared/Container.jsx';
-// import Layout from '../shared/Layout.jsx';
-// const header = 'Product Fetcher Generator';
-
-const styles = {
-  activeBadge: {
-    position: 'relative',
-    marginBottom: '10px',
-    right: '15px',
-  },
-  detailContainer: {
-    margin: '20px',
-  },
-  buttonGroup: {
-    margin: '0 auto',
-  },
-  objectRender: {
-    margin: '10px',
-    padding: '10px',
-  },
-  subText: {
-    fontSize: '10px',
-  },
-  verboseBtn: {
-    fontSize: '12x',
-  },
-};
 
 class TestFields extends React.Component {
   constructor(props) {
@@ -47,15 +21,15 @@ class TestFields extends React.Component {
   }
 
   render() {
-    const { classes, testPC, testBrand } = this.props;
+    const { testPC, testBrand } = this.props;
     return (
       <div>
         <Container>
           <Col xs="6" md="5">
-            {/* <Layout /> */}
+            <h6>... inputs for testing detail view while Form is under construction...</h6>
             <Label>price_current:</Label>
-            <InputGroup placeholder="sm" bssize="sm" className={classes.DetailInput}>
-              <Input bssize="sm" className={classes.detailText} onChange={e => this.handleChange('message1', e)} value={this.state.message1} />
+            <InputGroup placeholder="sm" bssize="sm">
+              <Input bssize="sm" onChange={e => this.handleChange('message1', e)} value={this.state.message1} />
               <InputGroupAddon addonType="append">
                 <Button size="sm" onClick={testPC} color="secondary">
                   ?
@@ -63,8 +37,8 @@ class TestFields extends React.Component {
               </InputGroupAddon>
             </InputGroup>
             <Label>brand:</Label>
-            <InputGroup placeholder="sm" bssize="sm" className={classes.DetailInput}>
-              <Input bssize="sm" className={classes.detailText} onChange={e => this.handleChange('message2', e)} value={this.state.message2} />
+            <InputGroup placeholder="sm" bssize="sm">
+              <Input bssize="sm" onChange={e => this.handleChange('message2', e)} value={this.state.message2} />
               <InputGroupAddon addonType="append">
                 <Button size="sm" onClick={testBrand} color="secondary">
                   ?
@@ -78,8 +52,8 @@ class TestFields extends React.Component {
   }
 }
 TestFields.propTypes = {
-  classes: PropTypes.object.isRequired,
   testPC: PropTypes.func.isRequired,
   testBrand: PropTypes.func.isRequired,
 };
-export default injectSheet(styles)(TestFields);
+// export default injectSheet(styles)(TestFields);
+export default TestFields;
