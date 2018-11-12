@@ -23,15 +23,8 @@ const styles = {
   buttonGroup: {
     margin: '0 auto',
   },
-  objectRender: {
-    margin: '10px',
-    padding: '10px',
-  },
   subText: {
     fontSize: '10px',
-  },
-  verboseBtn: {
-    fontSize: '12x',
   },
 };
 

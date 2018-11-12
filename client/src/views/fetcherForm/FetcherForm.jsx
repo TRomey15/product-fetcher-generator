@@ -2,7 +2,6 @@ import React from 'react';
 import injectSheet from 'react-jss';
 import PropTypes from 'prop-types';
 import { Input, Form, FormGroup, Button, ButtonGroup, Tooltip, Col, Label } from 'reactstrap';
-
 import Container from '../shared/Container';
 import CustomInputFields from './CustomInputFields';
 import Layout from '../shared/Layout';
@@ -193,6 +192,7 @@ class FetcherForm extends React.Component {
   render() {
     const { tab, show, currentField, validationErrors, prodObj, displayViewButton } = this.state;
     const { classes } = this.props;
+
     return (
       <Container header={header} onClick={ () => { this.setState({ show: false }); } }>
         <p>Store Label</p>
