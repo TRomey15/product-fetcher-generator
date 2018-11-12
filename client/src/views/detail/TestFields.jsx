@@ -1,21 +1,43 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+// TODO: implement Layout
+import React from 'react';
 import injectSheet from 'react-jss';
+import PropTypes from 'prop-types';
+import { Button, Col, Input, InputGroup, InputGroupAddon, Label } from 'reactstrap';
 
-import { Button, Container, Col, FormGroup, InputGroup, Input, InputGroupAddon, Label } from 'reactstrap';
+import Container from '../shared/Container.jsx';
+// import Layout from '../shared/Layout.jsx';
+// const header = 'Product Fetcher Generator';
 
 const styles = {
-  detailInput: {
-    fontSize: '10px',
+  activeBadge: {
+    position: 'relative',
+    marginBottom: '10px',
+    right: '15px',
+  },
+  detailContainer: {
+    margin: '20px',
+  },
+  buttonGroup: {
+    margin: '0 auto',
+  },
+  objectRender: {
     margin: '10px',
+    padding: '10px',
+  },
+  subText: {
+    fontSize: '10px',
+  },
+  verboseBtn: {
+    fontSize: '12x',
   },
 };
 
-class TestFields extends Component {
+class TestFields extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      propertyPath: this.props.defaultPropertyPath,
+      // foo: 'bar',
+      // message1: '',
     };
     this.handleChange = this.handleChange.bind(this);
   }
@@ -24,19 +46,8 @@ class TestFields extends Component {
     this.setState({ [field]: e.target.value });
   }
 
-  componentDidUpdate(prevProps) {
-    this.updatePropertyPath(prevProps);
-  }
-
-  updatePropertyPath(prevProps) {
-    if (prevProps.defaultPropertyPath !== this.props.defaultPropertyPath) {
-      this.setState({ propertyPath: this.props.defaultPropertyPath });
-    }
-  }
-
   render() {
-    const { classes, testBrand, testPC } = this.props;
-
+    const { classes, testPC, testBrand } = this.props;
     return (
       <div>
         <Container>
@@ -66,15 +77,9 @@ class TestFields extends Component {
     );
   }
 }
-
 TestFields.propTypes = {
-  btnColor: PropTypes.string.isRequired,
-  currentField: PropTypes.object.isRequired,
-  defaultPropertyPath: PropTypes.string.isRequired,
-  handleDetailFormClick: PropTypes.func.isRequired,
-  productObservationKey: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired,
-  data: PropTypes.object.isRequired,
+  testPC: PropTypes.func.isRequired,
+  testBrand: PropTypes.func.isRequired,
 };
-
 export default injectSheet(styles)(TestFields);

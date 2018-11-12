@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
 import autoBind from 'react-autobind';
-import { Button, Modal, ModalBody, Navbar, NavbarBrand } from 'reactstrap';
+import { Modal, ModalBody, Navbar, NavbarBrand } from 'reactstrap';
 
 import mock from './mock.js';
 import Detail from './detail/Detail';
@@ -246,10 +246,7 @@ class App extends React.Component {
           data={formData}
         />
         {/* buttons for testing - replace w. js ui */}
-        <Button onClick={this.testPC}>Price Current</Button>
-        <p />
-        <Button onClick={this.testBrand}>Brand</Button>
-        {/* <TestFields testPC={this.testPC} testBrand={this.testBrand} /> */}
+        <TestFields testPC={this.testPC} testBrand={this.testBrand} classes={this.classes} />
         <Modal toggle={this.toggleDetail} size="lg" isOpen={this.state.showDetail}>
           <ModalBody>
             <Detail
