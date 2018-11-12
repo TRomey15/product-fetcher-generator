@@ -11,6 +11,12 @@ import AlertModal from './shared/AlertModal';
 import TestFields from './detail/TestFields';
 // import Layout from './shared/Layout.jsx';
 
+import mock from './mock.js';
+
+const propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
 const styles = {
   detailModal: {
     width: '800px',
@@ -79,10 +85,31 @@ class App extends React.Component {
     return this.state.currentField;
   }
 
-  componentDidMount() {
-    // this.showModal('save'); // for testing buttons
-    // this.setCurrentField('brand'); // setting for brand upon instantiation for testing purposes
+  // USED BY FORM
+  getTargetProduct() {
+    return this.state.data.targetProduct || {};
   }
+
+  setCurrentField(name) {
+    this.setState((prevState) => {
+      const paths = prevState.data.paths;
+      return {
+        currentField: {
+          name,
+          data: paths[name],
+        },
+      };
+    });
+  }
+
+  // USED BY DETAIL
+  getCurrentField() {
+    return this.state.currentField;
+  }
+
+  // componentDidMount() {
+  //   this.showModal('save'); // for testing buttons
+  // }
 
   getSchemaFieldData(key) {
     return this.state.data[key];
