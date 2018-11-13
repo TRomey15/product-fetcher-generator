@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Popover, PopoverBody, Button } from 'reactstrap';
+import ReactMarkdown from 'react-markdown/with-html';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { css } from 'emotion';
@@ -28,9 +29,9 @@ export default class Tooltip extends React.PureComponent {
   }
 
   render() {
-    const { id, hint } = this.props;
+    const { id, text } = this.props;
 
-    return hint && [
+    return text && [
       <Button
         id={`${id}-icon`}
         className={css(buttonWithoutStyling, icon)}
@@ -51,7 +52,7 @@ export default class Tooltip extends React.PureComponent {
         toggle={() => this.setState(state => ({ isOpen: !state.isOpen }))}
       >
         <PopoverBody>
-          {hint}
+          <ReactMarkdown source={text} escapeHtml={false} />
         </PopoverBody>
       </Popover>,
     ];
@@ -60,9 +61,9 @@ export default class Tooltip extends React.PureComponent {
 
 Tooltip.propTypes = {
   id: PropTypes.string.isRequired,
-  hint: PropTypes.string,
+  text: PropTypes.string,
 };
 
 Tooltip.defaultProps = {
-  hint: '',
+  text: '',
 };

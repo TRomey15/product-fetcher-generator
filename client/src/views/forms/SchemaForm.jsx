@@ -9,6 +9,9 @@ import {
   Button,
 } from 'reactstrap';
 import { css } from 'emotion';
+import { Typeahead } from 'react-bootstrap-typeahead';
+import 'react-bootstrap-typeahead/css/Typeahead.css';
+import 'react-bootstrap-typeahead/css/Typeahead-bs4.css';
 import Tooltip from '../Tooltip';
 import RequiredIcon from '../RequiredIcon';
 import withTooltip from '../hoc/withTooltip';
@@ -57,19 +60,14 @@ export default class SchemaForm extends React.Component {
           hint={hints.canonicalUrl}
           required
         />
-        <FormGroup tag="fieldset">
-          <Label>
-            Is Canonical?
+        <FormGroup>
+          <FormGroup check>
+            <Label check>
+              <Input type="checkbox" />{' '}
+              Is Canonical?
+            </Label>
             <RequiredIcon />
-            <Tooltip id="is-canonical-url" hint={hints.isCanonicalUrl} />
-          </Label>
-          <FormGroup check>
-            <Label check>
-              <Input type="radio" name="radio1" checked />{' '}Yes</Label>
-          </FormGroup>
-          <FormGroup check>
-            <Label check>
-              <Input type="radio" name="radio1" />{' '}No</Label>
+            <Tooltip id="is-canonical" text={hints.isCanonical} />
           </FormGroup>
         </FormGroup>
         <CustomInput
@@ -119,7 +117,34 @@ export default class SchemaForm extends React.Component {
             />
           </Col>
         </Row>
-
+        <FormGroup>
+          <Label for="keywords">Keywords</Label>
+          <Typeahead
+            menuId="keywords"
+            allowNew
+            multiple
+            newSelectionPrefix="Add keyword: "
+            emptyLabel=""
+            options={[]}
+          />
+        </FormGroup>
+        <FormGroup>
+          <Label for="product-states">Product States</Label>
+          <Tooltip id="product-states" text={hints.productStates} />
+          <Typeahead
+            menuId="product-states"
+            multiple
+            emptyLabel=""
+            options={['ISPO', 'CS', 'TPS', 'DIGITAL', 'CUZ', 'ATCP']}
+          />
+        </FormGroup>
+        <FormGroup check>
+          <Label check>
+            <Input type="checkbox" />{' '}
+            Is Imprint?
+          </Label>
+          <Tooltip id="is-imprint" text={hints.imprint} />
+        </FormGroup>
         <div id="control-buttons" className={css({ marginTop: '30px' })}>
           <Button type="button" color="success" className="float-right">
             Analyze

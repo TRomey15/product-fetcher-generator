@@ -13,7 +13,7 @@ const withTooltip = (InputComponent) => {
         <FormGroup>
           <Label for={id}>{label}</Label>
           {required && <RequiredIcon />}
-          {hint && <Tooltip id={`${id}-tooltip`} hint={hint} />}
+          {hint && <Tooltip id={`${id}-tooltip`} text={hint} />}
           <InputComponent {...Object.assign({ id }, rest)} />
           <FormFeedback>{`${label} is required`}</FormFeedback>
         </FormGroup>
