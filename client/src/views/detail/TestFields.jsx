@@ -4,7 +4,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Col, Input, InputGroup, InputGroupAddon, Label } from 'reactstrap';
 
-import Container from '../shared/Container.jsx';
+import Container from '../common/Container.jsx';
 
 class TestFields extends React.Component {
   constructor(props) {

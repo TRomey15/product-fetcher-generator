@@ -1,276 +1,114 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import injectSheet from 'react-jss';
-import autoBind from 'react-autobind';
-import { Modal, ModalBody, Navbar, NavbarBrand } from 'reactstrap';
+import {
+  Container,
+  Row,
+  Col,
+  TabPane,
+  TabContent,
+  Nav,
+  NavItem,
+  NavLink,
+  Card,
+  CardHeader,
+  CardBody,
+} from 'reactstrap';
+import { css } from 'emotion';
+import StoreForm from './forms/StoreForm';
+import SchemaForm from './forms/SchemaForm';
 
-import mock from './mock.js';
-import Detail from './detail/Detail';
-import FetcherForm from './fetcherForm/FetcherForm';
-import AlertModal from './shared/AlertModal';
-import TestFields from './detail/TestFields';
-// import Layout from './shared/Layout.jsx';
+const containerPadding = {
+  padding: '30px',
+};
 
-const styles = {
-  detailModal: {
-    width: '800px',
-  },
-  hide: {
-    display: 'none',
-  },
-  show: {
-    display: 'block',
-  },
-  headerBrand: {
-    fontSize: '18px',
-    color: 'white',
+const contentPadding = {
+  padding: '15px',
+};
+
+const pointer = {
+  '&:hover': {
+    cursor: 'pointer',
   },
 };
 
-// consider Lodash implementation for this deep copy...
-const workingData = JSON.parse(JSON.stringify(mock));
-
-class App extends React.Component {
+class App extends React.PureComponent {
   constructor(props) {
     super(props);
-    autoBind(this);
+
+    this.toggle = this.toggle.bind(this);
     this.state = {
-      showModal: false,
-      showDetail: false,
-      activeSource: 0, // choose which source/path provided by backend is used for active form
-      modalData: {
-        type: '',
-        onClick: () => {},
-      },
-      data: workingData, // all the data in Mock_Data
-      currentField: {
-        // field for detail view
-        name: '', // hardcoding for now - provided by JS's form...
-        data: {
-          // modified data returned from detail view...
-          propertyPath: 'foo',
-          scriptRegex: 'bar',
-          enclosingVariable: 'funkyVariable',
-          transformation: [],
-        },
-      },
+      activeTab: '1',
     };
   }
 
-  // USED BY FORM
-  getTargetProduct() {
-    return this.state.data.targetProduct || {};
-  }
-
-  // USED BY DETAIL
-  getCurrentField() {
-    return this.state.currentField;
-  }
-
-  setCurrentField(name) {
-    this.setState((prevState) => {
-      const paths = prevState.data.paths;
-      return {
-        currentField: {
-          name,
-          data: paths[name],
-        },
-      };
-    });
-  }
-
-  // componentDidMount() {
-  //   this.showModal('save'); // for testing buttons
-  // }
-
-  getSchemaFieldData(key) {
-    return this.state.data[key];
-  }
-
-  saveChanges(dataUpdates) {
-    this.setState({
-      currentField: { name: '', data: {} },
-      data: dataUpdates, // should probably how data is updated
-    });
-    this.showModal('save');
-  }
-
-  // submitForm() {
-  //   // make request
-  //   // then...
-  //   // const data = JSON.parse(res);
-  //   // this.setState({ schemaFields: data });
-  //   // if error: set state to show 'error' modal
-  // }
-
-  // fetcher generator view
-  onSubmit() {
-    this.submitForm();
-  }
-
-  formOnClick() {
-    this.showModal('submit');
-  }
-
-  onSrcButtonClick(fieldKey) {
-    const name = fieldKey;
-    const data = this.getSchemaFieldData(fieldKey);
-    this.setState({ currentField: { name, data } });
-  }
-
-  // detail view
-  onSaveChanges() {
-    // fire backend save event here...
-    this.showModal('save');
-    this.onDetailClose('');
-  }
-
-  restoreSchemaFieldData(fieldKey) {
-    const originalData = this.getSchemaFieldData(fieldKey);
-    this.setState({ currentField: { data: originalData } });
-  }
-
-  // modal (Alert Type)
-  showModal(modalType) {
-    const actions = {
-      submit: this.submitForm,
-      error: this.closeModal,
-      save: this.saveChanges,
-    };
-
-    const updatedModalData = {
-      onClick: actions[modalType],
-      type: modalType,
-    };
-    this.setState({ showModal: true, modalData: updatedModalData });
-  }
-
-  closeModal() {
-    this.setState({ showModal: false });
-  }
-
-  toggleDetail() {
-    if (this.state.showDetail) {
-      this.onDetailClose();
-      return;
+  toggle(tab) {
+    if (this.state.activeTab !== tab) {
+      this.setState({
+        activeTab: tab,
+      });
     }
-    this.setState(state => ({
-      showDetail: !state.showDetail,
-    }));
-  }
-
-  onDetailClose() {
-    this.setState(state => ({
-      activeSource: 0,
-      currentField: {
-        ...state.currentField,
-        data: {
-          propertyPath: 'foo',
-          scriptRegex: 'bar',
-          enclosingVariable: 'funkyVariable',
-          transformation: [],
-        },
-      },
-      showDetail: false,
-    }));
-  }
-
-  handleDisplayFieldChange(e) {
-    // idx toggles through multiple data sources per detail field...
-    this.setState({ activeSource: e });
-  }
-
-  // handleDetailFormClick(field, index, e) {
-  //   if (e.length) {
-  //     const newState = { ...this.state };
-  //     newState.data[this.state.activeForm].sources[this.state.currentField.name][index][field] = e;
-  //     this.setState(() => Object.assign({}, newState));
-  //   }
-  // }
-
-  handleDetailFormClick(field, e) {
-    this.setState(state => ({
-      currentField: {
-        ...state.currentField,
-        data: {
-          ...state.currentField.data,
-          [field]: e,
-        },
-      },
-    }));
-  }
-
-  // for testing buttons only - override w. JS UI...
-  testPC() {
-    this.setState(state => ({
-      currentField: {
-        ...state.currentField,
-        name: 'price_current',
-      },
-      showDetail: true,
-    }));
-  }
-
-  testBrand() {
-    this.setState(state => ({
-      currentField: {
-        ...state.currentField,
-        name: 'brand',
-      },
-      showDetail: true,
-    }));
-  }
-
-  handleUndo() {
-    const undoData = JSON.parse(JSON.stringify(mock));
-    this.setState({ data: undoData });
   }
 
   render() {
-    const { classes } = this.props;
-    const { activeSource, data, currentField, modalData } = this.state;
-    const formData = data && { ...data };
-
     return (
-      <div>
-        <Navbar className={classes.headerBrand} color="secondary">
-          <NavbarBrand className={classes.headerBrand}>
-            <img src="https://cdn.joinhoney.com/images/header/honey-logo-orange.svg" alt="Honey" /> product fetcher generator
-          </NavbarBrand>
-        </Navbar>
-        <FetcherForm
-          onSrcButtonClick={this.onSrcButtonClick}
-          onClick={this.formOnClick}
-          onSaveToGitHub={this.githubOnClick}
-          data={formData}
-        />
-        {/* buttons for testing - replace w. js ui */}
-        <TestFields testPC={this.testPC} testBrand={this.testBrand} classes={this.classes} />
-        <Modal toggle={this.toggleDetail} size="lg" isOpen={this.state.showDetail}>
-          <ModalBody>
-            <Detail
-              activeSource={activeSource}
-              currentField={currentField}
-              data={data}
-              handleDisplayFieldChange={this.handleDisplayFieldChange}
-              handleDetailFormClick={this.handleDetailFormClick}
-              handleUndo={this.handleUndo}
-              onClose={this.onDetailClose}
-              // onRestore={this.restoreSchemaFieldData}
-              productObservationKey={currentField.name}
-              onSave={this.onSaveChanges}
-              saveClick={this.showModal}
-              transformFunctions={mock.dummyFunctions}
-            />
-          </ModalBody>
-        </Modal>
-        <AlertModal closeModal={this.closeModal} functionTypeKey={modalData.type} saveChanges={this.onSaveChanges} showModal={this.state.showModal} />
-      </div>
+      <Container fluid className={css(containerPadding)}>
+        <h1 className="mb-md-3">
+          Product Fetcher Generator
+        </h1>
+        <Row className="mb-md-3">
+          <Col md={6}>
+            <StoreForm storeLabel="walmart" productPageUrl="" />
+          </Col>
+        </Row>
+        <Row>
+          <Col md={6}>
+            <Card>
+              <CardHeader>
+                <h4>Product Observation Object</h4>
+              </CardHeader>
+              <CardBody>
+                <Nav tabs>
+                  <NavItem>
+                    <NavLink
+                      className={[this.state.activeTab === '1' ? 'active' : '', css(pointer)].join(' ')}
+                      onClick={() => { this.toggle('1'); }}
+                    >
+                      Persistent Fields
+                    </NavLink>
+                  </NavItem>
+                  <NavItem>
+                    <NavLink
+                      className={[this.state.activeTab === '2' ? 'active' : '', css(pointer)].join(' ')}
+                      onClick={() => { this.toggle('2'); }}
+                    >
+                      Non-Persistent Fields
+                    </NavLink>
+                  </NavItem>
+                </Nav>
+                <TabContent activeTab={this.state.activeTab}>
+                  <TabPane tabId="1" className={css(contentPadding)}>
+                    <SchemaForm productObservation={{}} />
+                  </TabPane>
+                  <TabPane tabId="2">
+                    TODO
+                  </TabPane>
+                </TabContent>
+              </CardBody>
+            </Card>
+          </Col>
+          <Col md={6}>
+            <Card>
+              <CardHeader>
+                <h4>Generated Code</h4>
+              </CardHeader>
+              <CardBody>
+                TODO
+              </CardBody>
+            </Card>
+          </Col>
+        </Row>
+      </Container>
     );
   }
 }
 
-App.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
-export default injectSheet(styles)(App);
+export default App;

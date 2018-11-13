@@ -5,7 +5,7 @@ import { Inspector, chromeLight } from 'react-inspector';
 
 import { Badge, Button, ButtonGroup, Card, Col, Container, Fade, Form, FormGroup, Row } from 'reactstrap';
 
-import AutoCompleteModal from '../shared/AutoCompleteModal.jsx';
+import AutoCompleteModal from '../common/AutoCompleteModal.jsx';
 import InputGroupApi from './InputGroupApi.jsx';
 import InputGroupHtml from './InputGroupHtml.jsx';
 import InputGroupScript from './InputGroupScript.jsx';
