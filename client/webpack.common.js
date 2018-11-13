@@ -1,6 +1,7 @@
 const path = require('path');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
+// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const config = {
   entry: {
@@ -48,12 +49,24 @@ const config = {
   plugins: [
     new CleanWebpackPlugin(['dist']),
     new HtmlWebPackPlugin({ template: './src/index.html' }),
+    // new BundleAnalyzerPlugin(),
   ],
   resolve: {
     alias: {
-      React: path.resolve(__dirname, 'src/components'),
+      React: path.resolve(__dirname, 'src/views'),
     },
     extensions: ['.wasm', '.mjs', '.js', '.jsx', '.json'],
+  },
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        commons: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          chunks: 'all',
+        },
+      },
+    },
   },
 };
 

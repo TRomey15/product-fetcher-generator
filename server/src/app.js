@@ -16,6 +16,10 @@ const resolvers = {
     },
   },
   Mutation: {
+    analyze(root, { store }) {
+      console.log('Store', store);
+      return { hello: `${store.storeId}-server!!!` };
+    },
     createProductObservation(root, args, context, info) {
       return context.db.mutation.createProductObservation(args, info);
     },

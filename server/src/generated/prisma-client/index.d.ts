@@ -759,8 +759,8 @@ export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 export type StoreOrderByInput =
   | "id_ASC"
   | "id_DESC"
-  | "name_ASC"
-  | "name_DESC"
+  | "storeId_ASC"
+  | "storeId_DESC"
   | "createdAt_ASC"
   | "createdAt_DESC"
   | "updatedAt_ASC"
@@ -810,7 +810,7 @@ export type ProductFetcherWhereUniqueInput = AtLeastOne<{
 }>;
 
 export interface StoreUpdateInput {
-  name?: String;
+  storeId?: String;
   productFetcher?: ProductFetcherUpdateOneInput;
   productPages?: ProductPageUpdateManyInput;
 }
@@ -990,7 +990,7 @@ export interface ProductFetcherWhereInput {
 }
 
 export interface StoreCreateInput {
-  name: String;
+  storeId: String;
   productFetcher?: ProductFetcherCreateOneInput;
   productPages?: ProductPageCreateManyInput;
 }
@@ -1607,20 +1607,20 @@ export interface StoreWhereInput {
   id_not_starts_with?: ID_Input;
   id_ends_with?: ID_Input;
   id_not_ends_with?: ID_Input;
-  name?: String;
-  name_not?: String;
-  name_in?: String[] | String;
-  name_not_in?: String[] | String;
-  name_lt?: String;
-  name_lte?: String;
-  name_gt?: String;
-  name_gte?: String;
-  name_contains?: String;
-  name_not_contains?: String;
-  name_starts_with?: String;
-  name_not_starts_with?: String;
-  name_ends_with?: String;
-  name_not_ends_with?: String;
+  storeId?: String;
+  storeId_not?: String;
+  storeId_in?: String[] | String;
+  storeId_not_in?: String[] | String;
+  storeId_lt?: String;
+  storeId_lte?: String;
+  storeId_gt?: String;
+  storeId_gte?: String;
+  storeId_contains?: String;
+  storeId_not_contains?: String;
+  storeId_starts_with?: String;
+  storeId_not_starts_with?: String;
+  storeId_ends_with?: String;
+  storeId_not_ends_with?: String;
   productFetcher?: ProductFetcherWhereInput;
   productPages_every?: ProductPageWhereInput;
   productPages_some?: ProductPageWhereInput;
@@ -2098,6 +2098,7 @@ export interface ProductObservationUpdatekeywordsInput {
 
 export type StoreWhereUniqueInput = AtLeastOne<{
   id: ID_Input;
+  storeId?: String;
 }>;
 
 export interface ProductObservationUpdatecategoriesInput {
@@ -2961,12 +2962,12 @@ export interface ProductFetcherSubscriptionPayloadSubscription
 
 export interface StoreNode {
   id: ID_Output;
-  name: String;
+  storeId: String;
 }
 
 export interface Store extends Promise<StoreNode>, Fragmentable {
   id: () => Promise<ID_Output>;
-  name: () => Promise<String>;
+  storeId: () => Promise<String>;
   productFetcher: <T = ProductFetcher>() => T;
   productPages: <T = FragmentableArray<ProductPageNode>>(
     args?: {
@@ -2985,7 +2986,7 @@ export interface StoreSubscription
   extends Promise<AsyncIterator<StoreNode>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  name: () => Promise<AsyncIterator<String>>;
+  storeId: () => Promise<AsyncIterator<String>>;
   productFetcher: <T = ProductFetcherSubscription>() => T;
   productPages: <T = Promise<AsyncIterator<ProductPageSubscription>>>(
     args?: {
@@ -3856,21 +3857,21 @@ export interface AggregateHtmlMetaDataSubscription
 
 export interface StorePreviousValuesNode {
   id: ID_Output;
-  name: String;
+  storeId: String;
 }
 
 export interface StorePreviousValues
   extends Promise<StorePreviousValuesNode>,
     Fragmentable {
   id: () => Promise<ID_Output>;
-  name: () => Promise<String>;
+  storeId: () => Promise<String>;
 }
 
 export interface StorePreviousValuesSubscription
   extends Promise<AsyncIterator<StorePreviousValuesNode>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  name: () => Promise<AsyncIterator<String>>;
+  storeId: () => Promise<AsyncIterator<String>>;
 }
 
 export interface StoreSubscriptionPayloadNode {

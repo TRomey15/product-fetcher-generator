@@ -1,6 +1,15 @@
 # import Store from "./src/generated/prisma.graphql"
 # import { ProductObservation, Transformation } from "./src/generated/prisma.graphql"
 
+type Result {
+    hello: String!
+}
+
+input StoreInput {
+    storeId: String!
+    productPageUrl: String!
+}
+
 type Query {
     store(id: ID!): Store
     stores: [Store!]!
@@ -9,6 +18,7 @@ type Query {
 }
 
 type Mutation {
+    analyze(store: StoreInput!): Result!
     createProductObservation(data: ProductObservationCreateInput!): ProductObservation!
     updateProductObservation(id: ID!, data: ProductObservationCreateInput!): ProductObservation
 }

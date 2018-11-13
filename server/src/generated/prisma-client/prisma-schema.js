@@ -1856,7 +1856,7 @@ input SimilarProductWhereUniqueInput {
 
 type Store {
   id: ID!
-  name: String!
+  storeId: String!
   productFetcher: ProductFetcher
   productPages(where: ProductPageWhereInput, orderBy: ProductPageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [ProductPage!]
 }
@@ -1868,7 +1868,7 @@ type StoreConnection {
 }
 
 input StoreCreateInput {
-  name: String!
+  storeId: String!
   productFetcher: ProductFetcherCreateOneInput
   productPages: ProductPageCreateManyInput
 }
@@ -1881,8 +1881,8 @@ type StoreEdge {
 enum StoreOrderByInput {
   id_ASC
   id_DESC
-  name_ASC
-  name_DESC
+  storeId_ASC
+  storeId_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
@@ -1891,7 +1891,7 @@ enum StoreOrderByInput {
 
 type StorePreviousValues {
   id: ID!
-  name: String!
+  storeId: String!
 }
 
 type StoreSubscriptionPayload {
@@ -1913,7 +1913,7 @@ input StoreSubscriptionWhereInput {
 }
 
 input StoreUpdateInput {
-  name: String
+  storeId: String
   productFetcher: ProductFetcherUpdateOneInput
   productPages: ProductPageUpdateManyInput
 }
@@ -1933,20 +1933,20 @@ input StoreWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
-  name: String
-  name_not: String
-  name_in: [String!]
-  name_not_in: [String!]
-  name_lt: String
-  name_lte: String
-  name_gt: String
-  name_gte: String
-  name_contains: String
-  name_not_contains: String
-  name_starts_with: String
-  name_not_starts_with: String
-  name_ends_with: String
-  name_not_ends_with: String
+  storeId: String
+  storeId_not: String
+  storeId_in: [String!]
+  storeId_not_in: [String!]
+  storeId_lt: String
+  storeId_lte: String
+  storeId_gt: String
+  storeId_gte: String
+  storeId_contains: String
+  storeId_not_contains: String
+  storeId_starts_with: String
+  storeId_not_starts_with: String
+  storeId_ends_with: String
+  storeId_not_ends_with: String
   productFetcher: ProductFetcherWhereInput
   productPages_every: ProductPageWhereInput
   productPages_some: ProductPageWhereInput
@@ -1958,6 +1958,7 @@ input StoreWhereInput {
 
 input StoreWhereUniqueInput {
   id: ID
+  storeId: String
 }
 
 type Subscription {

@@ -14,7 +14,7 @@ enum ProductState {
 
 type Store {
     id: ID! @unique
-    label: String! @unique
+    storeId: String! @unique
     productFetcher: ProductFetcher @relation(name: "ProductFetcher" onDelete: CASCADE)
     productPages: [ProductPage!]! @relation(name: "ProductPages" onDelete: CASCADE)
 }
