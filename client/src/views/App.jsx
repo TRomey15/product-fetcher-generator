@@ -3,8 +3,6 @@ import {
   Container,
   Row,
   Col,
-  TabPane,
-  TabContent,
   Nav,
   NavItem,
   NavLink,
@@ -18,10 +16,6 @@ import SchemaForm from './forms/SchemaForm';
 
 const containerPadding = {
   padding: '30px',
-};
-
-const contentPadding = {
-  padding: '15px',
 };
 
 const pointer = {
@@ -63,7 +57,7 @@ class App extends React.PureComponent {
           <Col md={6}>
             <Card>
               <CardHeader>
-                <h4>Product Observation Object</h4>
+                <h4>Product Observation Schema</h4>
               </CardHeader>
               <CardBody>
                 <Nav tabs>
@@ -83,15 +77,16 @@ class App extends React.PureComponent {
                       Non-Persistent Fields
                     </NavLink>
                   </NavItem>
+                  <NavItem>
+                    <NavLink
+                      className={[this.state.activeTab === '3' ? 'active' : '', css(pointer)].join(' ')}
+                      onClick={() => { this.toggle('3'); }}
+                    >
+                      Custom Fields
+                    </NavLink>
+                  </NavItem>
                 </Nav>
-                <TabContent activeTab={this.state.activeTab}>
-                  <TabPane tabId="1" className={css(contentPadding)}>
-                    <SchemaForm productObservation={{}} />
-                  </TabPane>
-                  <TabPane tabId="2">
-                    TODO
-                  </TabPane>
-                </TabContent>
+                <SchemaForm activeTab={this.state.activeTab} />
               </CardBody>
             </Card>
           </Col>
