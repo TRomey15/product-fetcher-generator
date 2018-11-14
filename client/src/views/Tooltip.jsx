@@ -22,7 +22,7 @@ const icon = {
   paddingLeft: '5px',
 };
 
-export default class Tooltip extends React.PureComponent {
+export default class Tooltip extends React.Component {
   constructor(props) {
     super(props);
     this.state = { isOpen: false };

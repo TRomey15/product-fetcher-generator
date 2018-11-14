@@ -17,15 +17,16 @@ import 'react-bootstrap-typeahead/css/Typeahead.css';
 import 'react-bootstrap-typeahead/css/Typeahead-bs4.css';
 import Tooltip from '../Tooltip';
 import RequiredIcon from '../RequiredIcon';
-import customize from '../hocs/customize';
-// import DynamicList from '../DynamicList';
+import CustomInput from '../CustomInput';
+import InputRow from '../InputRow';
+import withList from '../hocs/withList';
 import hints from '../../hints';
 
 const contentPadding = {
   padding: '15px',
 };
 
-const CustomInput = customize(Input);
+const DynamicList = withList(InputRow);
 
 export default class SchemaForm extends React.Component {
   render() {
@@ -146,6 +147,7 @@ export default class SchemaForm extends React.Component {
                 menuId="product-states"
                 multiple
                 clearButton
+                selectHintOnEnter
                 emptyLabel=""
                 options={['ISPO', 'CS', 'TPS', 'DIGITAL', 'CUZ', 'ATCP']}
               />
@@ -195,8 +197,8 @@ export default class SchemaForm extends React.Component {
               hint={hints.deals}
             />
           </TabPane>
-          <TabPane tabId="3">
-           to
+          <TabPane tabId="3" className={css(contentPadding)}>
+            <DynamicList />
           </TabPane>
         </TabContent>
         <div id="control-buttons" className={css({ marginTop: '30px' })}>
