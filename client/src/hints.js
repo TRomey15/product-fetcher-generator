@@ -12,4 +12,7 @@ export default Object.freeze({
     '<b>TPS</b> (third party seller), <b>DIGITAL</b> (digital download), <b>CUZ</b> (customizable product), <b>ATCP</b> ' +
     '(add to cart see final price)',
   imprint: 'Checked if the user was looking at the current product variant page',
+  quantityAllowed: 'Maximum amount allowed to be purchased',
+  quantityIncrement: 'Quantities must be purchased in multiples of the specified number)',
+  deals: 'Note potential discounts/special offers, e.g. Buy 2, get 1 FREE!',
 });

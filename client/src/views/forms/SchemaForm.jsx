@@ -17,7 +17,7 @@ import 'react-bootstrap-typeahead/css/Typeahead.css';
 import 'react-bootstrap-typeahead/css/Typeahead-bs4.css';
 import Tooltip from '../Tooltip';
 import RequiredIcon from '../RequiredIcon';
-import withTooltip from '../hoc/withTooltip';
+import withTooltip from '../hocs/withTooltip';
 import hints from '../../hints';
 
 const contentPadding = {
@@ -155,8 +155,42 @@ export default class SchemaForm extends React.Component {
               <Tooltip id="is-imprint" text={hints.imprint} />
             </FormGroup>
           </TabPane>
-          <TabPane tabId="2">
-            NonPersistentFields
+          <TabPane tabId="2" className={css(contentPadding)}>
+            <CustomInput
+              id="quantity-in-stock"
+              type="number"
+              label="Quantity In Stock"
+            />
+            <CustomInput
+              id="quantity-required"
+              type="number"
+              label="Quantity Required"
+            />
+            <CustomInput
+              id="quantity-allowed"
+              type="number"
+              label="Quantity Allowed"
+              hint={hints.quantityAllowed}
+            />
+            <CustomInput
+              id="quantity-increment"
+              type="number"
+              label="Quantity Increment"
+              hint={hints.quantityIncrement}
+            />
+            <FormGroup>
+              <FormGroup check>
+                <Label check>
+                  <Input type="checkbox" />{' '}
+                  Is Final Sale?
+                </Label>
+              </FormGroup>
+            </FormGroup>
+            <CustomInput
+              id="deals"
+              label="Deals"
+              hint={hints.deals}
+            />
           </TabPane>
           <TabPane tabId="3">
             CustomFields
