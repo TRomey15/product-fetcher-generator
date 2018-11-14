@@ -4,7 +4,7 @@ import { FormGroup, Label, FormFeedback } from 'reactstrap';
 import Tooltip from '../Tooltip';
 import RequiredIcon from '../RequiredIcon';
 
-const withTooltip = (InputComponent) => {
+const customize = (InputComponent) => {
   class InputWithTooltip extends React.PureComponent {
     render() {
       const { id, required, label, hint, ...rest } = this.props;
@@ -36,4 +36,4 @@ const withTooltip = (InputComponent) => {
   return InputWithTooltip;
 };
 
-export default withTooltip;
+export default customize;

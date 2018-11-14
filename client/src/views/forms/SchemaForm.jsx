@@ -17,14 +17,15 @@ import 'react-bootstrap-typeahead/css/Typeahead.css';
 import 'react-bootstrap-typeahead/css/Typeahead-bs4.css';
 import Tooltip from '../Tooltip';
 import RequiredIcon from '../RequiredIcon';
-import withTooltip from '../hocs/withTooltip';
+import customize from '../hocs/customize';
+// import DynamicList from '../DynamicList';
 import hints from '../../hints';
 
 const contentPadding = {
   padding: '15px',
 };
 
-const CustomInput = withTooltip(Input);
+const CustomInput = customize(Input);
 
 export default class SchemaForm extends React.Component {
   render() {
@@ -132,6 +133,7 @@ export default class SchemaForm extends React.Component {
                 menuId="keywords"
                 allowNew
                 multiple
+                clearButton
                 newSelectionPrefix="Add keyword: "
                 emptyLabel=""
                 options={[]}
@@ -143,6 +145,7 @@ export default class SchemaForm extends React.Component {
               <Typeahead
                 menuId="product-states"
                 multiple
+                clearButton
                 emptyLabel=""
                 options={['ISPO', 'CS', 'TPS', 'DIGITAL', 'CUZ', 'ATCP']}
               />
@@ -193,7 +196,7 @@ export default class SchemaForm extends React.Component {
             />
           </TabPane>
           <TabPane tabId="3">
-            CustomFields
+           to
           </TabPane>
         </TabContent>
         <div id="control-buttons" className={css({ marginTop: '30px' })}>
