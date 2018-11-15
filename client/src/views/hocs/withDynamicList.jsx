@@ -28,9 +28,7 @@ const iconWrapper = {
   marginTop: '15px',
 };
 
-const MAX_ROWS = 10;
-
-const withList = (WrappedComponent) => {
+const withDynamicList = maxRows => (WrappedComponent) => {
   class DynamicList extends React.Component {
     constructor(props) {
       super(props);
@@ -39,7 +37,7 @@ const withList = (WrappedComponent) => {
 
     render() {
       return (
-        <div {...this.props}>
+        <div>
           {map(times(this.state.count), (index) => {
             const shouldDeduct = this.state.count && this.state.count !== index + 1;
 
@@ -56,19 +54,23 @@ const withList = (WrappedComponent) => {
                         count: prevState.count - 1,
                         maxReached: false,
                       }));
-                    } else {
+                    } else if (!shouldDeduct && this.state.count < maxRows) {
                       this.setState(prevState => ({
                         count: prevState.count + 1,
-                        maxReached: prevState.count === MAX_ROWS,
                       }));
+                    } else {
+                      this.setState({ maxReached: true });
                     }
                   }}
                 >
-                  <FontAwesomeIcon icon={shouldDeduct ? faMinusCircle : faPlusCircle} size="lg" />
+                  <FontAwesomeIcon
+                    icon={shouldDeduct ? faMinusCircle : faPlusCircle}
+                    size="lg"
+                  />
                 </div>
               </div>);
           })}
-          {this.state.maxReached && <p className="text-danger">Maximum numbers of rows ({MAX_ROWS}) reached.</p>}
+          {this.state.maxReached && <p className="text-danger">Maximum number of rows ({maxRows}) reached.</p>}
         </div>
       );
     }
@@ -77,4 +79,4 @@ const withList = (WrappedComponent) => {
   return DynamicList;
 };
 
-export default withList;
+export default withDynamicList;

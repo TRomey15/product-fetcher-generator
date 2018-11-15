@@ -20,6 +20,7 @@ const icon = {
     color: '#5a6268',
   },
   paddingLeft: '5px',
+  marginBottom: '3px',
 };
 
 export default class Tooltip extends React.Component {

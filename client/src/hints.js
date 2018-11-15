@@ -15,4 +15,5 @@ export default Object.freeze({
   quantityAllowed: 'No more products than the specified quantity may be purchased',
   quantityIncrement: 'The product can only be purchased in multiples of the specified number',
   deals: 'Any deals (discounts/special offers) that are associated with this product, e.g. Buy 2, get 1 FREE!',
+  ratingValue: 'Range 1 to 100',
 });

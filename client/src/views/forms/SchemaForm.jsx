@@ -18,15 +18,15 @@ import 'react-bootstrap-typeahead/css/Typeahead-bs4.css';
 import Tooltip from '../Tooltip';
 import RequiredIcon from '../RequiredIcon';
 import CustomInput from '../CustomInput';
-import InputRow from '../InputRow';
-import withList from '../hocs/withList';
+import CustomFieldList from '../CustomFieldList';
+// import AdditionalProductList from '../AdditionalProductList';
 import hints from '../../hints';
 
 const contentPadding = {
   padding: '15px',
 };
 
-const DynamicList = withList(InputRow);
+const groupTitle = { textDecoration: 'underline' };
 
 export default class SchemaForm extends React.Component {
   render() {
@@ -141,6 +141,18 @@ export default class SchemaForm extends React.Component {
               />
             </FormGroup>
             <FormGroup>
+              <Label for="keywords">Categories</Label>
+              <Typeahead
+                menuId="categories"
+                allowNew
+                multiple
+                clearButton
+                newSelectionPrefix="Add category: "
+                emptyLabel=""
+                options={[]}
+              />
+            </FormGroup>
+            <FormGroup>
               <Label for="product-states">Product States</Label>
               <Tooltip id="product-states" text={hints.productStates} />
               <Typeahead
@@ -152,13 +164,40 @@ export default class SchemaForm extends React.Component {
                 options={['ISPO', 'CS', 'TPS', 'DIGITAL', 'CUZ', 'ATCP']}
               />
             </FormGroup>
-            <FormGroup check>
-              <Label check>
-                <Input type="checkbox" />{' '}
-                Is Imprint?
-              </Label>
-              <Tooltip id="is-imprint" text={hints.imprint} />
+            <FormGroup>
+              <FormGroup check>
+                <Label check>
+                  <Input type="checkbox" />{' '}
+                  Is Imprint?
+                </Label>
+                <Tooltip id="is-imprint" text={hints.imprint} />
+              </FormGroup>
             </FormGroup>
+            <CustomInput
+              id="primary-img-url"
+              label="Primary Image URL"
+              required
+            />
+            <Row form>
+              <Col md={6}>
+                <CustomInput
+                  id="rating-count"
+                  type="number"
+                  min={0}
+                  label="Number of Ratings"
+                />
+              </Col>
+              <Col md={6}>
+                <CustomInput
+                  id="rating-value"
+                  type="number"
+                  min={1}
+                  max={100}
+                  label="Rating Value"
+                  hint={hints.ratingValue}
+                />
+              </Col>
+            </Row>
           </TabPane>
           <TabPane tabId="2" className={css(contentPadding)}>
             <CustomInput
@@ -198,7 +237,10 @@ export default class SchemaForm extends React.Component {
             />
           </TabPane>
           <TabPane tabId="3" className={css(contentPadding)}>
-            <DynamicList />
+            <p className={css(groupTitle)}>Product Details</p>
+            <CustomFieldList />
+            <p className={css(groupTitle)}>Store Extra Info</p>
+            <CustomFieldList />
           </TabPane>
         </TabContent>
         <div id="control-buttons" className={css({ marginTop: '30px' })}>

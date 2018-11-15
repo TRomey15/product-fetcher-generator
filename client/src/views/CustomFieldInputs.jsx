@@ -1,10 +1,10 @@
 import React from 'react';
 import { Row, Col, Input, FormGroup, Label } from 'reactstrap';
 
-export default class InputRow extends React.PureComponent {
+export default class CustomFieldInputs extends React.PureComponent {
   render() {
     return (
-      <Row>
+      <Row form>
         <Col md={5}>
           <FormGroup>
             <Label>Key</Label>

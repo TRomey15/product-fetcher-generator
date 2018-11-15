@@ -57,7 +57,7 @@ class App extends React.PureComponent {
           <Col md={6}>
             <Card>
               <CardHeader>
-                <h4>Product Observation Schema</h4>
+                <h5>Product Observation Schema</h5>
               </CardHeader>
               <CardBody>
                 <Nav tabs>
@@ -93,7 +93,7 @@ class App extends React.PureComponent {
           <Col md={6}>
             <Card>
               <CardHeader>
-                <h4>Generated Code</h4>
+                <h5>Generated Code</h5>
               </CardHeader>
               <CardBody>
                 TODO
