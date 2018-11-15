@@ -19,6 +19,7 @@ import Tooltip from '../Tooltip';
 import RequiredIcon from '../RequiredIcon';
 import CustomInput from '../CustomInput';
 import CustomFieldList from '../CustomFieldList';
+import SecondaryImageUrlList from '../SecondaryImageUrlList';
 // import AdditionalProductList from '../AdditionalProductList';
 import hints from '../../hints';
 
@@ -35,6 +36,7 @@ export default class SchemaForm extends React.Component {
     return (
       <Form id="schema-form" noValidate>
         <TabContent activeTab={activeTab}>
+          {/* Persistent Fields */}
           <TabPane tabId="1" className={css(contentPadding)}>
             <Row form>
               <Col md={6}>
@@ -178,6 +180,7 @@ export default class SchemaForm extends React.Component {
               label="Primary Image URL"
               required
             />
+            <SecondaryImageUrlList />
             <Row form>
               <Col md={6}>
                 <CustomInput
@@ -199,6 +202,7 @@ export default class SchemaForm extends React.Component {
               </Col>
             </Row>
           </TabPane>
+          {/* Non-Persistent Fields */}
           <TabPane tabId="2" className={css(contentPadding)}>
             <CustomInput
               id="quantity-in-stock"
@@ -236,6 +240,7 @@ export default class SchemaForm extends React.Component {
               hint={hints.deals}
             />
           </TabPane>
+          {/* Custom Fields */}
           <TabPane tabId="3" className={css(contentPadding)}>
             <p className={css(groupTitle)}>Product Details</p>
             <CustomFieldList />

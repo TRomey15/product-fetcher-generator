@@ -25,7 +25,14 @@ const iconWrapper = {
   },
   cursor: 'pointer',
   paddingLeft: '10px',
+};
+
+const pushDown = {
   marginTop: '15px',
+};
+
+const pushUp = {
+  marginBottom: '15px',
 };
 
 const withDynamicList = maxRows => (WrappedComponent) => {
@@ -40,14 +47,15 @@ const withDynamicList = maxRows => (WrappedComponent) => {
         <div>
           {map(times(this.state.count), (index) => {
             const shouldDeduct = this.state.count && this.state.count !== index + 1;
+            const isFirst = index === 0;
 
             return (
               <div key={index} className={css(flexContainer)}>
                 <div className={css(flexItem)}>
-                  <WrappedComponent />
+                  <WrappedComponent isFirst={isFirst} />
                 </div>
                 <div
-                  className={css(iconWrapper, flexItemFixed)}
+                  className={css([iconWrapper, isFirst ? pushDown : pushUp, flexItemFixed])}
                   onClick={() => {
                     if (shouldDeduct) {
                       this.setState(prevState => ({

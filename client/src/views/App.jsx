@@ -11,6 +11,10 @@ import {
   CardBody,
 } from 'reactstrap';
 import { css } from 'emotion';
+import beautify from 'js-beautify';
+import AceEditor from 'react-ace';
+import 'brace/mode/javascript';
+import 'brace/theme/tomorrow';
 import StoreForm from './forms/StoreForm';
 import SchemaForm from './forms/SchemaForm';
 
@@ -96,7 +100,17 @@ class App extends React.PureComponent {
                 <h5>Generated Code</h5>
               </CardHeader>
               <CardBody>
-                TODO
+                <AceEditor
+                  readOnly
+                  name="product-observation-code"
+                  mode="javascript"
+                  theme="tomorrow"
+                  highlightActiveLine={false}
+                  maxLines={200}
+                  width="100%"
+                  value={beautify.js('function todo() { console.log("Not Implemeneted"); }')}
+                  editorProps={{ $blockScrolling: true }}
+                />
               </CardBody>
             </Card>
           </Col>
