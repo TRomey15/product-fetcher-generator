@@ -108,7 +108,7 @@ class App extends React.PureComponent {
                   highlightActiveLine={false}
                   maxLines={200}
                   width="100%"
-                  value={beautify.js('function todo() { console.log("Not Implemeneted"); }')}
+                  value={beautify.js('function todo() { console.log("Not Implemented"); }')}
                   editorProps={{ $blockScrolling: true }}
                 />
               </CardBody>
