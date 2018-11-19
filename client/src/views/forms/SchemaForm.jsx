@@ -23,6 +23,7 @@ import RequiredIcon from '../RequiredIcon';
 import CustomInput from '../CustomInput';
 import CustomFieldList from '../CustomFieldList';
 import SecondaryImageUrlList from '../SecondaryImageUrlList';
+import MetadataModal from '../modals/MetadataModal';
 import hints from '../../hints';
 import { fragments } from '../../store/resolvers';
 
@@ -522,10 +523,11 @@ export default class SchemaForm extends React.PureComponent {
                   </TabPane>
                 </TabContent>
                 <div id="control-buttons" className={css({ marginTop: '30px' })}>
-                  <Button type="button" color="success" className="float-right">
-                    Analyze
+                  <Button type="button" color="primary" className="float-right">
+                    Analyze PDP
                   </Button>
                 </div>
+                <MetadataModal />
               </Form>
             )}
           </Query>
