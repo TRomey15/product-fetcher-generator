@@ -5,11 +5,11 @@ import withCustomization from './hocs/withDynamicList';
 
 const MAX_ROWS = 10;
 
-const SecondaryImageUrl = ({ isFirst }) => {
+const SecondaryImageUrl = ({ isFirst, ...other }) => {
   return (
     <FormGroup>
       {isFirst && <Label>Secondary Image URLs</Label>}
-      <Input />
+      <Input tabIndex={0} {...other} />
     </FormGroup>
   );
 };

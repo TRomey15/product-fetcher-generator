@@ -54,7 +54,7 @@ class App extends React.PureComponent {
         </h1>
         <Row className="mb-md-3">
           <Col md={6}>
-            <StoreForm storeLabel="walmart" productPageUrl="" />
+            <StoreForm />
           </Col>
         </Row>
         <Row>

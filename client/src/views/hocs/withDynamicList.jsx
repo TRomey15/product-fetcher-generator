@@ -52,7 +52,7 @@ const withDynamicList = maxRows => (WrappedComponent) => {
             return (
               <div key={index} className={css(flexContainer)}>
                 <div className={css(flexItem)}>
-                  <WrappedComponent isFirst={isFirst} />
+                  <WrappedComponent isFirst={isFirst} {...this.props} />
                 </div>
                 <div
                   className={css([iconWrapper, isFirst ? pushDown : pushUp, flexItemFixed])}
