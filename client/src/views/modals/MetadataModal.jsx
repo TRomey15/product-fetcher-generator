@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   Alert,
   Modal,
@@ -11,7 +12,7 @@ import {
 import { css } from 'emotion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSignInAlt } from '@fortawesome/free-solid-svg-icons';
-// import RequestPane from './RequestPane';
+import RequestPane from './RequestPane';
 // import ScriptPane from './ScriptPane';
 // import HtmlPane from './HtmlPane';
 
@@ -21,17 +22,17 @@ const flexContainer = {
   marginBottom: '30px',
 };
 
-const MetadataModal = () => {
+const MetadataModal = (props) => {
   return (
     <Modal
-      isOpen={false}
+      isOpen={props.isOpen}
       centered
       keyboard
       fade={false}
       size="lg"
       toggle={() => console.log('Toggle me')}
     >
-      <ModalHeader toggle={console.log('Toggle me')}>
+      <ModalHeader toggle={() => console.log('Toggle me')}>
         Title{' '}
         <FontAwesomeIcon icon={faSignInAlt} className="text-muted" />
       </ModalHeader>
@@ -46,27 +47,31 @@ const MetadataModal = () => {
             <Button>HTML</Button>
           </ButtonGroup>
         </div>
-        {/* <RequestPane /> */}
+        <RequestPane />
         {/* <ScriptPane /> */}
         {/* <HtmlPane /> */}
       </ModalBody>
       <ModalFooter>
         <Button
           color="primary"
-          onClick={console.log('Toggle me')}
+          onClick={() => console.log('Toggle me')}
         >
           Save
         </Button
         >{' '}
         <Button
           color="secondary"
-          onClick={console.log('Toggle me')}
+          onClick={() => console.log('Toggle me')}
         >
           Cancel
         </Button>
       </ModalFooter>
     </Modal>
   );
+};
+
+MetadataModal.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
 };
 
 export default MetadataModal;

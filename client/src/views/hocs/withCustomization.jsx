@@ -1,10 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FormGroup, Label, FormFeedback, Button, InputGroup, InputGroupAddon } from 'reactstrap';
-import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FormGroup, Label, FormFeedback } from 'reactstrap';
 import Tooltip from '../Tooltip';
 import RequiredIcon from '../RequiredIcon';
+import ModalButton from '../modals/ModalButton';
 
 
 const withCustomization = (InputComponent) => {
@@ -17,19 +16,9 @@ const withCustomization = (InputComponent) => {
           <Label for={id}>{label}</Label>
           {required && <RequiredIcon />}
           {hint && <Tooltip id={`${id}-tooltip`} text={hint} />}
-          <InputGroup>
+          <ModalButton show>
             <InputComponent {...Object.assign({ id }, other)} />
-            <InputGroupAddon addonType="append">
-              <Button
-                type="button"
-                size="sm"
-                outline
-                color="success"
-              >
-                <FontAwesomeIcon icon={faCheckCircle} />
-              </Button>
-            </InputGroupAddon>
-          </InputGroup>
+          </ModalButton>
           <FormFeedback>{`${label} is required`}</FormFeedback>
         </FormGroup>
       );
