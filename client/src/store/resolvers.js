@@ -40,6 +40,13 @@ export const defaults = {
     inStock: false,
     imprint: '',
   },
+  metadata: {
+    __typename: 'Metadata',
+  },
+  ui: {
+    __typename: 'UI',
+    schemaField: 'title',
+  },
 };
 
 export const fragments = {
@@ -77,7 +84,32 @@ export const fragments = {
 };
 
 export const resolvers = {
+  Query: {
+    metadata: (_, { schemaField }) => {
+      console.log('CALLED GET_METADATA', schemaField);
+      return { __typename: 'Metadata', xhr: 'Hello World' };
+    },
+  },
   Mutation: {
+    closeModal: (_, variables, { cache }) => {
+      const query = gql`
+          query GetSchemaField {
+              ui @client {
+                  schemaField
+              }
+          }
+      `;
+
+      const { ui: prevUi } = cache.readQuery({ query });
+      const ui = { ...prevUi, schemaField: '' };
+
+      cache.writeQuery({
+        query,
+        data: { ui },
+      });
+
+      return ui;
+    },
     updateStore: (_, { data }, { cache }) => {
       const query = gql`
           query GetStore {
