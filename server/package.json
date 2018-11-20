@@ -12,6 +12,7 @@
     "lint": "npx honey-eslint --ext .js ./src; exit 0"
   },
   "dependencies": {
+    "@honeyscience/product-har-analyzer": "^0.1.1",
     "graphql-yoga": "^1.16.7",
     "mysql": "^2.16.0",
     "prettier": "^1.14.3",
