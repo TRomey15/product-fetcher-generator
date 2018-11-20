@@ -1,6 +1,10 @@
 const { GraphQLServer } = require('graphql-yoga');
 const { Prisma } = require('prisma-binding');
 const { typeDefs } = require('./generated/prisma-client/prisma-schema');
+const { getAllPaths } = require('./templates/partials/getAllPaths');
+const { formatPaths } = require('./templates/partials/formatPaths.js');
+const loafers = require('./test/target.har.loafers.json');
+const testOutput = require('./output/testOutput.json');
 
 const resolvers = {
   Query: {
@@ -16,9 +20,14 @@ const resolvers = {
     },
   },
   Mutation: {
-    analyze(root, { store }) {
+    analyze(root, { store, productObservation }) {
+      // Analyzer handler goes here
       console.log('Store', store);
-      return { hello: `${store.storeId}-server!!!` };
+      console.log('ProductObservation', productObservation);
+
+      getAllPaths(productObservation, loafers, 'src/output/output.json');
+
+      return { result: JSON.stringify(formatPaths('brand', testOutput) || '') };
     },
     createProductObservation(root, args, context, info) {
       return context.db.mutation.createProductObservation(args, info);

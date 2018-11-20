@@ -1,39 +1,46 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { kebabCase } from 'lodash-es';
 import { FormGroup, Label, FormFeedback } from 'reactstrap';
 import Tooltip from '../Tooltip';
 import RequiredIcon from '../RequiredIcon';
-import ModalButton from '../modals/ModalButton';
-
+import ModalTrigger from '../modals/ModalTrigger';
 
 const withCustomization = (InputComponent) => {
   class DecoratedInput extends React.PureComponent {
     render() {
-      const { id, required, label, hint, ...other } = this.props;
+      const { id, required, modalEnabled, label, hint, errorMessage, onModalClick, ...other } = this.props;
+      const componentId = id || kebabCase(label);
 
       return (
         <FormGroup>
-          <Label for={id}>{label}</Label>
+          <Label for={componentId}>{label}</Label>
           {required && <RequiredIcon />}
-          {hint && <Tooltip id={`${id}-tooltip`} text={hint} />}
-          <ModalButton show>
+          {hint && <Tooltip id={`${componentId}-tooltip`} text={hint} />}
+          <ModalTrigger
+            visible={modalEnabled}
+            onClick={onModalClick}
+          >
             <InputComponent {...Object.assign({ id }, other)} />
-          </ModalButton>
-          <FormFeedback>{`${label} is required`}</FormFeedback>
+          </ModalTrigger>
+          <FormFeedback>{errorMessage}</FormFeedback>
         </FormGroup>
       );
     }
   }
 
   DecoratedInput.propTypes = {
-    id: PropTypes.string.isRequired,
+    id: PropTypes.string,
     required: PropTypes.bool,
+    modalEnabled: PropTypes.bool,
     label: PropTypes.string.isRequired,
     hint: PropTypes.string,
   };
 
   DecoratedInput.defaultProps = {
+    id: '',
     required: false,
+    modalEnabled: false,
     hint: '',
   };
 

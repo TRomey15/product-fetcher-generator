@@ -35,6 +35,7 @@ export default class Tooltip extends React.Component {
     return text && [
       <Button
         id={`${id}-icon`}
+        tabIndex="-1"
         className={css(buttonWithoutStyling, icon)}
         key={1}
         color="link"

@@ -12,7 +12,7 @@ export default Object.freeze({
     '<b>TPS</b> (third party seller), <b>DIGITAL</b> (digital download), <b>CUZ</b> (customizable product), <b>ATCP</b> ' +
     '(add to cart see final price)',
   imprint: 'If the user was looking at this product, then it is considered an imprint',
-  quantityAllowed: 'No more products than the specified quantity may be purchased',
+  quantityAllowed: 'Only the specified quantity may be purchased',
   quantityIncrement: 'The product can only be purchased in multiples of the specified number',
   deals: 'Any deals (discounts/special offers) that are associated with this product, e.g. Buy 2, get 1 FREE!',
   ratingValue: 'Range 1 to 100',
