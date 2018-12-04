@@ -41,7 +41,7 @@ const applyTransformations = (value, functionNames) => {
   return flow(funcs)(value);
 };
 
-export default class ScriptPane extends React.Component {
+export default class ModalPane extends React.Component {
   componentDidMount() {
     const { fieldMetadata } = this.props;
     const metadata = get(fieldMetadata, `results[${fieldMetadata.selectedRequest || DEFAULT_REQUEST}]`, {});
@@ -49,7 +49,7 @@ export default class ScriptPane extends React.Component {
   }
 
   render() {
-    const { fieldMetadata } = this.props;
+    const { paneType, fieldMetadata } = this.props;
     const metadata = get(fieldMetadata, `results[${fieldMetadata.selectedRequest || DEFAULT_REQUEST}]`, {});
     const path = get(metadata, `paths[${DEFAULT_PATH}]`, '');
     const valueAtPath = get(metadata.fullJson, path, '');
@@ -75,6 +75,34 @@ export default class ScriptPane extends React.Component {
                 ))}
               </Input>
             </FormGroup>
+            {paneType === 'script' && (
+              <FormGroup>
+                <Label for="js-enclosing-script">
+                  Enclosing Script
+                </Label>
+                <Input
+                  id="js-enclosing-script"
+                  value={metadata.enclosingScript || ''}
+                  onChange={(e) => {
+                    metadata.set({ enclosingScript: e.target.value }).now();
+                  }}
+                />
+              </FormGroup>
+            )}
+            {paneType === 'html' && (
+              <FormGroup>
+                <Label for="js-enclosing-variable">
+                  Enclosing Variable
+                </Label>
+                <Input
+                  id="js-enclosing-variable"
+                  value={metadata.enclosingVariable || ''}
+                  onChange={(e) => {
+                    metadata.set({ enclosingVariable: e.target.value }).now();
+                  }}
+                />
+              </FormGroup>
+            )}
             <FormGroup>
               <Label for="js-property-path">Property Path</Label>
               <Input
@@ -143,6 +171,7 @@ export default class ScriptPane extends React.Component {
   }
 }
 
-ScriptPane.propTypes = {
+ModalPane.propTypes = {
+  paneType: PropTypes.oneOf(['xhr', 'script', 'html']).isRequired,
   fieldMetadata: PropTypes.object.isRequired,
 };

@@ -11,9 +11,7 @@ import {
   Button,
 } from 'reactstrap';
 import { css } from 'emotion';
-import RequestPane from './RequestPane';
-import ScriptPane from './ScriptPane';
-import HtmlPane from './HtmlPane';
+import ModalPane from './ModalPane';
 
 const flexContainer = {
   display: 'flex',
@@ -82,16 +80,23 @@ export default class MetadataModal extends React.Component {
               </Button>
             </ButtonGroup>
           </div>
-          {ui.activePane === 'xhr' && !isEmpty(ui.schemaField) && (
-            <RequestPane schemaField={ui.schemaField} metadata={metadata} />
+          {ui.activePane === 'xhr' && !isEmpty(ui.schemaField) && has(metadata[ui.schemaField], 'xhr') && (
+            <ModalPane
+              paneType={ui.activePane}
+              fieldMetadata={metadata[ui.schemaField].xhr}
+            />
           )}
           {ui.activePane === 'script' && !isEmpty(ui.schemaField) && has(metadata[ui.schemaField], 'script') && (
-            <ScriptPane
+            <ModalPane
+              paneType={ui.activePane}
               fieldMetadata={metadata[ui.schemaField].script}
             />
           )}
-          {ui.activePane === 'html' && !isEmpty(ui.schemaField) && (
-            <HtmlPane schemaField={ui.schemaField} metadata={metadata} />
+          {ui.activePane === 'html' && !isEmpty(ui.schemaField) && has(metadata[ui.schemaField], 'html') && (
+            <ModalPane
+              paneType={ui.activePane}
+              fieldMetadata={metadata[ui.schemaField].html}
+            />
           )}
         </ModalBody>
         <ModalFooter>

@@ -1,5 +1,16 @@
-import { reduce, filter, has, assign, isEmpty, map, keys, concat, flow, omit } from 'lodash-es';
-import humps from 'humps';
+import {
+  reduce,
+  filter,
+  has,
+  assign,
+  isEmpty,
+  map,
+  keys,
+  concat,
+  flow,
+  omit,
+  camelCase,
+} from 'lodash-es';
 
 export const removeFalsy = (obj) => {
   const newObj = {};
@@ -11,42 +22,42 @@ export const removeFalsy = (obj) => {
   return newObj;
 };
 
-function xhrReducer(acc, req) {
-  const xhr = filter(req.jsonPath, obj => !(has(obj, 'enclosingVariable') || has(obj, 'enclosingScript')));
+const reducer = predicate => (acc, req) => {
+  const filteredResponses = filter(req.jsonPath, predicate);
 
-  if (!isEmpty(xhr)) {
-    const paths = map(xhr, obj => map(obj.path, p => p.join('.')));
-
-    return assign({ results: concat(acc.results, { url: req.request, paths }) });
-  }
-
-  return acc;
-}
-
-function scriptReducer(acc, req) {
-  const script = filter(req.jsonPath, obj => has(obj, 'enclosingScript'));
-
-  if (!isEmpty(script)) {
-    const mappedScripts = map(script, (obj) => {
+  if (!isEmpty(filteredResponses)) {
+    const mappedResponse = map(filteredResponses, (obj) => {
       return assign({}, { ...omit(obj, 'path') }, { paths: map(obj.path, p => p.join('.')) });
     });
 
-    const data = map(mappedScripts, s => ({ url: req.request, ...s }));
-
-    return assign({ results: concat(acc.results, data) });
+    return assign({ results: concat(acc.results, assign({ url: req.request }, ...mappedResponse)) });
   }
 
   return acc;
-}
+};
 
 function transformAnalyzerResult(jsonObject) {
   return reduce(keys(jsonObject), (acc, key) => {
-    const xhr = reduce(jsonObject[key], xhrReducer, { results: [] });
-    const script = reduce(jsonObject[key], scriptReducer, { results: [] });
-    // const html = ...
+    const xhr = reduce(
+      jsonObject[key],
+      reducer(obj => !(has(obj, 'enclosingVariable') || has(obj, 'enclosingScript'))),
+      { results: [] }
+    );
 
-    return assign({}, acc, { [key]: { xhr, script } });
+    const script = reduce(
+      jsonObject[key],
+      reducer(obj => has(obj, 'enclosingScript')),
+      { results: [] }
+    );
+
+    const html = reduce(
+      jsonObject[key],
+      reducer(obj => has(obj, 'enclosingVariable')),
+      { results: [] }
+    );
+
+    return assign({}, acc, { [camelCase(key)]: { xhr, script, html } });
   }, {});
 }
 
-export const transformMetadata = flow([humps.camelizeKeys, transformAnalyzerResult]);
+export const transformMetadata = flow([transformAnalyzerResult]);
